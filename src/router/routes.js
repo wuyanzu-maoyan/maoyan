@@ -2,7 +2,9 @@
 //引入路由并注册 例如
 //import Info from '@/pages/Shop/Info/Info'
 import Cinema from '../pages/Cinema/Cinema';
-// import Home from '../pages/Home/Home;
+import Home from '../pages/Home/Home';
+import Now from '../pages/Home/Now/Now'
+import Will from '../pages/Home/Will/Will'
 // import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
 // import CineDetail from '../pages/CineDetail/CineDetail';
@@ -13,12 +15,25 @@ export default [
   //路由放在数组中
   {
     path:"/cinema",
-    component: Cinema
+    component: Cinema,
+    
   },
-  // {
-  //   path:"/home",
-  //   //component: Home
-  // },
+    {
+     path:"/home",
+     component: Home,
+     children: [
+      {
+        path: '/home/Now',
+        component: Now
+      },
+      {
+        path: '/home/Will',
+        component: Will
+      }
+      
+    ]
+     
+   },
   // {
   //   path:"/personal",
   //  //component: Personal
@@ -35,4 +50,5 @@ export default [
   //   path:"/login",
   //   //component: Login
   // }
+  
 ]
