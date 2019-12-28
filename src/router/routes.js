@@ -1,18 +1,25 @@
 
 //引入路由并注册 例如
-//import Info from '@/pages/Shop/Info/Info'
 import Cinema from '../pages/Cinema/Cinema';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'
+// import Home from '../pages/Home/Home';
 // import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
-// import CineDetail from '../pages/CineDetail/CineDetail';
-// import Login from '../pages/CineDetail/CineDetail';
+// import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
+import Login from '../pages/Login/Login.vue';
+// import Now from '../pages/Home/Now/Now';
+// import Will from '../pages/Home/Will/Will';
 
 
 export default [
   //路由放在数组中
+  {
+    path:'/login',
+    component:Login,
+  },
+  
   {
     path:"/cinema",
     component: Cinema,
@@ -35,20 +42,46 @@ export default [
      
    },
   // {
+  //   path:"/home",
+  //   component: Home
+  // },
+  // {
   //   path:"/personal",
-  //  //component: Personal
+  //   component: Personal
   // },
   // {
   //   path:"/city",
-  //   //component: City
+  //   component: City
   // },
   // {
   //   path:"/cinemadetail",
-  //   //component: CinemaDetail
+  //   component: CinemaDetail
   // },
   // {
-  //   path:"/login",
-  //   //component: Login
+  //   path:"/home",
+  //   component: Home,
+  //   children:[
+  //     {
+  //       path:'/home/now',
+  //       component: Now
+  //     },
+  //     {
+  //       path:'/home/Will',
+  //       component: Will
+  //     }
+  //   ]
+  // },
+  // {
+  //   path:"/city",
+  //   component: City
+  // },
+  // {
+  //   path:"/cinemadetail",
+  //   component: CinemaDetail
+  // },
+  // {
+  //   path:'/',
+  //   redirect:'/home'
   // }
   
 ]
