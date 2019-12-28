@@ -1,5 +1,4 @@
 <template>
-  <footer>
     <div class="kjcFooterContainer">
       <span class="kjcFooterItem" @click="$router.push('/home')">
           <i class="iconfont icon-dianying"></i>
@@ -14,7 +13,6 @@
           <p>我的</p>
       </span>
     </div>
-  </footer>
 </template>
 
 <script type="text/ecmascript-6">
