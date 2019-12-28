@@ -1,6 +1,9 @@
 
 //引入路由并注册 例如
 import Cinema from '../pages/Cinema/Cinema';
+import Home from '../pages/Home/Home';
+import Now from '../pages/Home/Now/Now'
+import Will from '../pages/Home/Will/Will'
 // import Home from '../pages/Home/Home';
 import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
@@ -19,8 +22,25 @@ export default [
   
   {
     path:"/cinema",
-    component: Cinema
+    component: Cinema,
+    
   },
+    {
+     path:"/home",
+     component: Home,
+     children: [
+      {
+        path: '/home/Now',
+        component: Now
+      },
+      {
+        path: '/home/Will',
+        component: Will
+      }
+      
+    ]
+     
+   },
   // {
   //   path:"/home",
   //   component: Home
@@ -63,4 +83,5 @@ export default [
   //   path:'/',
   //   redirect:'/home'
   // }
+  
 ]
