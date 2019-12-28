@@ -7,7 +7,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import FooterNav from '@/components/FooterNav/FooterNav'
+  import FooterNav from './components/FooterNav/FooterNav'
   export default {
     components:{
       FooterNav
