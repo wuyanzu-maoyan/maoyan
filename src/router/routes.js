@@ -7,10 +7,14 @@ import Cinema from '../pages/Cinema/Cinema';
 // import City from '../pages/City/City';
 // import CineDetail from '../pages/CineDetail/CineDetail';
 import Login from '../pages/Login/Login';
-
+import Register from '../pages/Register/Register'
 
 export default [
   //路由放在数组中
+  {
+    path:'/register',
+    component:Register,
+  },
   {
     path:'/login',
     component:Login,
