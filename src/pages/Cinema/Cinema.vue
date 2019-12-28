@@ -1,13 +1,10 @@
 <template>
   <div class="kjcCinemaContainer">
-    <div>
-      <Header title="影院"></Header>
-    </div>
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-
   export default {
     
   }

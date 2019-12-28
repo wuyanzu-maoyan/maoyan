@@ -9,3 +9,6 @@ let router = new vueRouter({
   mode:"history",
   routes
 })
+
+
+export default router
