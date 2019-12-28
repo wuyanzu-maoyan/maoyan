@@ -7,6 +7,8 @@ import Cinema from '../pages/Cinema/Cinema';
 // import City from '../pages/City/City';
 // import CineDetail from '../pages/CineDetail/CineDetail';
 // import Login from '../pages/CineDetail/CineDetail';
+//  import Now from '../pages/Home/Now/Now;
+//  import Will from '../pages/Home/Will/Will;
 
 
 export default [
@@ -17,7 +19,17 @@ export default [
   },
   // {
   //   path:"/home",
-  //   //component: Home
+  //   component: Home,
+  //   children:[
+  //     {
+  //       path:'/home/now',
+  //       component: Now
+  //     },
+  //     {
+  //       path:'/home/Will',
+  //       component: Will
+  //     }
+  //   ]
   // },
   // {
   //   path:"/personal",
@@ -34,5 +46,5 @@ export default [
   // {
   //   path:"/login",
   //   //component: Login
-  // }
+  // },
 ]
