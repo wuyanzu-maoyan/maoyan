@@ -2,22 +2,22 @@
   <footer>
     <div class="kjcFooterContainer">
       <span class="kjcFooterItem">
-        <router-link>
+        <!-- <router-link> -->
           <i class="iconfont icon-dianying"></i>
           <span>电影</span>
-        </router-link>
+        <!-- </router-link> -->
       </span>
       <span class="kjcFooterItem">
-        <router-link>
+        <!-- <router-link> -->
           <i class="iconfont icon-yingyuan"></i>
           <span>影院</span>
-        </router-link>
+        <!-- </router-link> -->
       </span>
       <span class="kjcFooterItem">
-        <router-link>
+        <!-- <router-link> -->
           <i class="iconfont icon-wode"></i>
           <span>我的</span>
-        </router-link>
+        <!-- </router-link> -->
       </span>
     </div>
   </footer>

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from '@/vuex/store.js'
-import router from './router/index';
 import Header from '@/components/Header/Header.vue'
 import 'lib-flexible' // flexible会自动根据设备情况动态设置rem的值的大小
 import router from '@/router'
