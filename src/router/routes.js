@@ -52,10 +52,6 @@ export default [
   //   ]
   // },
   // {
-  //   path:"/personal",
-  //  component: Personal
-  // },
-  // {
   //   path:"/city",
   //   component: City
   // },

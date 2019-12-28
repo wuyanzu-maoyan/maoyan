@@ -1,7 +1,7 @@
 <template>
   
   <div class="zssLoginContainer">
-    <Header title="猫眼电影"></Header>
+    <!-- <Header title="猫眼电影"></Header> -->
 
     <!-- 登录内容 -->
     <div class="zssLoginInner">

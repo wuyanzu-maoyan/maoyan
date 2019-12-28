@@ -1,6 +1,7 @@
 <template>
   <div class="kjcHeaderContainer">
     <header class="kjcHeader">
+      <i class="iconfont icon-zuojiantou back"></i>
       <h1 class="kjcTitle">{{title}}</h1>
     </header>
   </div>
@@ -26,6 +27,14 @@
       z-index 10
       top 0
       left 0
+      .back
+        width 50px
+        height 50px
+        font-size 30px
+        color white
+        position absolute 
+        top 10px
+        left 10px
       .kjcTitle
         width 100%
         height 100%
