@@ -16,8 +16,12 @@
         </div>
       </div>
       <div class="wjCardCoupon">
-        <div class="wjDiscountCoupon">优惠券</div>
-        <div class="wjDiscountCard">折扣卡</div>
+        <div class="wjDiscountCoupon">优惠券
+          <i class="iconfont icon-arrow-right-copy-copy"></i>
+        </div>
+        <div class="wjDiscountCard">折扣卡
+          <i class="iconfont icon-arrow-right-copy-copy"></i>
+        </div>
 
       </div>
     </div>
@@ -31,6 +35,7 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';
+@import 'http://at.alicdn.com/t/font_1587941_396js4qoafq.css';
   .wjCenterContainer
     width 100%
     background-color #F3F3F3
@@ -96,14 +101,20 @@
       .wjDiscountCoupon
         width 100%
         height 50%
-        padding 0 15px
+        padding-right 15px
+        margin-left 15px
         box-sizing border-box
+        font-size 15px
+        line-height 50px
         bottom-border-1px(rgb(204,204,204))
       .wjDiscountCard
         width 100%
         height 50%
-        padding 0 15px
+        margin-left 15px
+        padding-right 15px
         box-sizing border-box
+        font-size 15px
+        line-height 50px
           
       
 
