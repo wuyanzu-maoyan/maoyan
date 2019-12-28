@@ -51,7 +51,7 @@
       <!-- 登录的footer -->
       <div class="zssLoginFooter">
         <div>
-          <span class='zssRegister'>立即注册</span>
+          <span class='zssRegister' @click="$router.push('/register')">立即注册</span>
           <span class='zssFindPwd'>找回密码</span>
         </div>
         <div class='zssHotLine'>© 猫眼电影 客服电话：<a href="" >400-670-5335</a></div>
