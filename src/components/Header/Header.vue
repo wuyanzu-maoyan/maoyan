@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="kjcHeaderContainer">
     <header class="kjcHeader">
       <h1 class="kjcTitle">{{title}}</h1>
     </header>
@@ -19,7 +19,7 @@
     border-bottom 1px solid #e54847
     color white
     width 100%
-    position fixed
+    position relative
     top 0
     left 0
     .kjcTitle
