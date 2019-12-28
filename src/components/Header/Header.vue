@@ -17,10 +17,6 @@
   .kjcHeaderContainer
     height 50px
     width 100%
-    position relative
-    top 0
-    left 0
-    .kjcTitle
     .kjcHeader
       height 50px
       background-color #e54847
