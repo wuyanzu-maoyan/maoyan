@@ -19,6 +19,9 @@
     border-bottom 1px solid #e54847
     color white
     width 100%
+    position fixed
+    top 0
+    left 0
     .kjcTitle
       width 100%
       height 100%
