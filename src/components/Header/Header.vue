@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="kjcHeaderContainer">
     <header class="kjcHeader">
       <h1 class="kjcTitle">{{title}}</h1>
     </header>
@@ -13,13 +13,16 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .kjcHeaderContainer
+    height 50px
+    width  100%
   .kjcHeader
     height 50px
     background-color #e54847
     border-bottom 1px solid #e54847
     color white
     width 100%
-    position fixed
+    position relative
     top 0
     left 0
     .kjcTitle
