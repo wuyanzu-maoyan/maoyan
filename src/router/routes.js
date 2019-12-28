@@ -5,7 +5,7 @@ import Cinema from '../pages/Cinema/Cinema';
 // import Home from '../pages/Home/Home;
 // import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
-// import CineDetail from '../pages/CineDetail/CineDetail';
+import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 // import Login from '../pages/CineDetail/CineDetail';
 
 
@@ -27,10 +27,10 @@ export default [
   //   path:"/city",
   //   //component: City
   // },
-  // {
-  //   path:"/cinemadetail",
-  //   //component: CinemaDetail
-  // },
+  {
+    path:"/cinemadetail",
+    component: CinemaDetail
+  },
   // {
   //   path:"/login",
   //   //component: Login
