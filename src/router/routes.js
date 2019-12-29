@@ -5,7 +5,7 @@ import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'
 // import Home from '../pages/Home/Home';
-// import Personal from '../pages/Personal/Personal';
+import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
 // import CineDetail from '../pages/CineDetail/CineDetail';
 import Login from '../pages/Login/Login';
@@ -65,10 +65,10 @@ export default [
   //   path:"/home",
   //   component: Home
   // },
-  // {
-  //   path:"/personal",
-  //   component: Personal
-  // },
+  {
+    path:"/personal",
+    component: Personal
+  },
   // {
   //   path:"/city",
   //   component: City
