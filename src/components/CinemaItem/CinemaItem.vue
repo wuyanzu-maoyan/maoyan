@@ -97,8 +97,14 @@
       font-size 13px
       line-height 1.5
       display flex
+      span 
+        width 290px 
+        white-space nowrap 
+        overflow hidden
+        text-overflow ellipsis
       .kjcKl
-        margin-left 85px
+        width 40px
+        font-size 13px
     .kjcIconCard
       height 17px
       line-height 17px
