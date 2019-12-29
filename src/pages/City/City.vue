@@ -52,13 +52,12 @@
 <script type="text/ecmascript-6">
  import BScroll from 'better-scroll'
  import {reqCityList} from '../../api'
-import { log } from 'util'
   export default {
     data(){
       return{
-        recentlyCity:[],
-        cityList: [],
-        tops:[],
+        recentlyCity:[], // 最近访问城市
+        cityList: [], //a-z所有城市列表
+        tops:[], 
         // hotCitys:['上海','北京','广州','深圳','武汉','天津','西安','南京','杭州','成都','重庆'],
         hotCitys:[
           {
@@ -128,10 +127,11 @@ import { log } from 'util'
             "label": "Chongqing023"
           },
 
-        ]
+        ] //热门城市
       }
     },
     async mounted(){
+      //请求a-z所有城市列表
       const result = await reqCityList()
       // console.log(result)
       if(result){
@@ -139,11 +139,13 @@ import { log } from 'util'
       }
       // console.log(this.cityList[0].list);
 
+      //读取localStorage中存储的最近访问城市
       const recentlyCity = JSON.parse(localStorage.getItem('recentlyCity')) || []
-      console.log(recentlyCity);
+      // console.log(recentlyCity);
       this.recentlyCity = recentlyCity
     },
     methods:{
+      //初始化tops
       initTops(){
         const tops = []
         let top = 0
@@ -158,34 +160,34 @@ import { log } from 'util'
         this.tops = tops
         // console.log('tops', tops)
       },
+      //点击右侧导航,使城市列表滑动到对应位置
       changeCity(index){
-        console.log(index);
+        // console.log(index);
         const top = this.tops[index+3]
         this.scrollY = top
         this.scroll.scrollTo(0, -top, 300)
       },
+      //点击城市,添加到最近访问
       checkedCity(item){
-        // console.log(item);
-        // if(typeof item === String){
-        // }
         const code = item.code
         const name = item.name
         const city = {code,name} 
         this.recentlyCity.unshift(city)
 
         if(this.recentlyCity.length>3){
-          console.log('1111');
+          // console.log('1111');
           
         this.recentlyCity.splice(this.recentlyCity.length-1)
       }
+        //保存到localStorage中
         localStorage.setItem('recentlyCity', JSON.stringify(this.recentlyCity))
       }
     },
-    watch:{
+    watch:{ // 使用BScroll添加滑动
       cityList(){
-        this.$nextTick(()=>{
+        this.$nextTick(()=>{ 
           this.scroll = new BScroll(this.$refs.zxScroll, {
-            click: true, // 分发自定义的click事件
+            click: true,
           })
           this.initTops()
         })

@@ -67,10 +67,10 @@ export default [
   //   path:"/cinemadetail",
   //   component: CinemaDetail
   // },
-  // {
-  //   path:"/city",
-  //   component: City
-  // },
+  {
+    path:"/city",
+    component: City
+  },
   // {
   //   path:'/',
   //   redirect:'/home'
