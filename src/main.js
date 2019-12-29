@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { Button } from 'mint-ui';
 
 import App from './App.vue'
+import 'lib-flexible'
 import store from '@/vuex/store.js'
 
 import Header from '@/components/Header/Header.vue'
