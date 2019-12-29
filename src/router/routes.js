@@ -6,7 +6,8 @@ import Cinema from '../pages/Cinema/Cinema';
 // import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
 import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
-// import Login from '../pages/CineDetail/CineDetail';
+import Detail from '../pages/Detail/Detail.vue'
+import Login from '../pages/Login/Login';
 
 
 export default [
@@ -34,7 +35,11 @@ export default [
   },
   {
     path:"/cinemadetail",
-    //component: CinemaDetail
+    component: CinemaDetail
+  },
+  {
+    path:"/detail",
+    component: Detail
   },
   // {
   //   path:"/home",
@@ -48,10 +53,10 @@ export default [
   //   path:"/city",
   //   //component: City
   // },
-  {
-    path:"/cinemadetail",
-    component: CinemaDetail
-  },
+  // {
+  //   path:"/cinemadetail",
+  //   component: CinemaDetail
+  // },
   // {
   //   path:"/login",
   //   //component: Login
