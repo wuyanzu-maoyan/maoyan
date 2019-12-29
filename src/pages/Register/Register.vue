@@ -34,6 +34,13 @@
     background-color #eee
     width 100vw
     height 100vh
+    .zssTip
+      width 100%
+      height 38px
+      line-height 38px
+      text-align center
+      background-color #FFF6E0
+      color #D78900
     .zssRegisterHeader
       width 100vw
       height 42px
@@ -78,6 +85,7 @@
         color  #eee
         margin-right 8px
         vertical-align middle
+        font-weight bold
         &:checked
           background-color #e54847
         &:after
