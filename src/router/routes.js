@@ -7,7 +7,6 @@ import Will from '../pages/Home/Will/Will'
 // import Home from '../pages/Home/Home';
 import Personal from '../pages/Personal/Personal';
 // import City from '../pages/City/City';
-// import CineDetail from '../pages/CineDetail/CineDetail';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
