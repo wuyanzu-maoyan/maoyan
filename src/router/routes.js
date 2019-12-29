@@ -11,7 +11,6 @@ import Will from '../pages/Home/Will/Will'
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register'
 // import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
-import Login from '../pages/Login/Login.vue';
 // import Now from '../pages/Home/Now/Now';
 // import Will from '../pages/Home/Will/Will';
 
