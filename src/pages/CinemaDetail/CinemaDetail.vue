@@ -7,7 +7,7 @@
         <!-- 头部影院信息 -->
         <div class="cinemaInfo">
           <div class="cinameData">
-            <p class="cinemaName">中影星美国际影城（温都水城店）</p>
+            <p class="cinemaName">中影</p>
             <p class="cinemaAddress">昌平区北七家镇温都水城广场4-5层</p>
           </div>
           <div class="cinameLocation">
@@ -138,7 +138,6 @@
       MovieShowTime
     },
     mounted(){
-      
       this.$store.dispatch('getCinemaDetail')
 
       //竖向滑屏

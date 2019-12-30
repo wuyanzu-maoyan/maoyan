@@ -9,7 +9,6 @@ export default {
   mutations:{
     [RECEIVE_CINEMA_DETAIL] (state, cinemaDetail){
       state.cinemaDetail = cinemaDetail
-      console.log(state.cinemaDetail);
     }
   },
   actions:{

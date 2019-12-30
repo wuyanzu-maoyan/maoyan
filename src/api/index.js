@@ -10,7 +10,7 @@ export const reqFilterCinemas = ()=>ajax.get('/getFilterCinemas');
 export const reqCityList = ()=>ajax.get('/getCity') 
 
 //请求影院详情信息
-export const reqCinemaDetail = ()=>ajax.get('/cinemadetail')
+export const reqCinemaDetail = ()=>ajax.get('/getCinemaDetail')
 
 //获取验证码
 export const reqPhoneCode = (phone) => ajax.get('/sendcode',{params:{phone}})
