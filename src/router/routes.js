@@ -3,6 +3,7 @@
 import Cinema from '../pages/Cinema/Cinema';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
+import Movie from '../pages/Movie/Movie'
 import Will from '../pages/Home/Will/Will'
 // import Home from '../pages/Home/Home';
 // import Personal from '../pages/Personal/Personal';
@@ -31,7 +32,7 @@ export default [
      children: [
       {
         path: '/home/Now',
-        component: Now
+        component: Now,
       },
       {
         path: '/home/Will',
@@ -41,6 +42,11 @@ export default [
     ]
      
    },
+   {
+    path:"/Movie",
+    component: Movie,
+    
+  },
   // {
   //   path:"/home",
   //   component: Home

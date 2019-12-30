@@ -2,79 +2,114 @@
   <div>
      <div class="lyhBanner">
        <span class="lyhLabel">近期最受期待</span>
-       <div class="lyhHopeful">
-          <img src="../img/2.jpg">
-          <h3 class="lyhTitle">唐人街探案</h3>
-          <p class="lyhTime">2020年1月25日</p>
+       <div class="lyhHopefulContainer">
+         <div class="lyhHopeful" v-for="(item,index) in items" :key="index">
+            <div class="lyhBox">
+              <img src="../img/2.jpg">
+              <h3 class="lyhTitle">唐人街探案</h3>
+              <p class="lyhTime">2020年1月25日</p>
+            </div>
+          </div>
        </div>
-   
   </div>
      <div class="lyh">
-       <span>12月31日 周二</span>
+       <span class="lyhDate">12月31日 周二</span>
       <div class="lyhContent">
        <img src="../img/1.jpg" alt="">
         <div class="content">
           <h2>叶问4: 完结篇</h2>
-          <h3>观众评</h3>
-          <h4>9.5</h4>
+          <h3>17633</h3></h3>
+          <h4>人想看</h4>
           <span>主演:甄子丹,吴越,吴建豪</span>
-          <p>今日在224家影院放映2217场</p>
+          <p>2019-12-31上映</p>
       </div>
       <div class="lyhButton">
         <div class="btn normal">
-          <span class="fix">购票</span>
+          <span class="fix">预售</span>
         </div>
       </div>
     </div>
-   </div>
+   
+
+      <div class="lyhContent">
+       <img src="../img/1.jpg" alt="">
+        <div class="content">
+          <h2>叶问4: 完结篇</h2>
+          <h3>17633</h3></h3>
+          <h4>人想看</h4>
+          <span>主演:甄子丹,吴越,吴建豪</span>
+          <p>2019-12-31上映</p>
+      </div>
+      <div class="lyhButton2">
+        <div class="btn normal2">
+          <span class="fix">想看</span>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+//import BScroll from 'better-scroll'
   export default {
+    data(){
+      return {
+        items:5
+      }
+    }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .lyhBanner{
-    width 95%
-    height 200px
+  .lyhBanner
+    width 100%
+    height 185px
     position relative
-    display flex
-    flex-direction column
     border-bottom 10px solid #F5F5F5
-  }
-    .lyhLabel{
+    margin-bottom 12px
+    overflow hidden
+    .lyhLabel
       font-size 14px
       color #333
       position absolute
       top 10px
-      left 15px
-    }
-    .lyhHopeful
-      margin-left 15px
-      img 
-        width: 85px;
-        height: 115px;
-        position absolute
-        top 30px
-      .lyhTitle
-        font-size 13px
-        color #222
-        position absolute
-        top 155px
-      .lyhTime
-        font-size 12px
-        color #999
-        position absolute
-        top 175px
+      margin-left  10px
+    .lyhHopefulContainer
+      margin 30px 10px 0
+      display flex
+      height 250px
+      overflow-y hidden
+      overflow-x scroll
+      .lyhHopeful
+        display flex
+        
+        .lyhBox
+          width 100px
+          height 115px
+          img
+            width 85px
+            height 115px 
+          .lyhTitle
+            width 150px
+            font-size 13px
+            color #222
+            margin-top 4px
+          .lyhTime
+            font-size 12px
+            color #999
+            margin-top 8px
+  .lyhDate
+    padding: 12px 15px 12px;
+    font-size: 14px;
+    color: #333;
   .lyhContent{
        width: 95%;
        position: relative;
        display: flex;
        height: 110px;
        border-bottom: 1px solid #e6e6e6;
-     }
+  }
     .lyhContent img{
       position: absolute;
       top: 13px;
@@ -96,15 +131,14 @@
       
     }
     .lyhContent .content h3{
-      font-size: 13px;
-      color: #666;
+      font-size: 15px;
+      color: #faaf00;
       margin-bottom: 6px;
-      
+      font-weight: 700;
     }
     .lyhContent .content h4{
       position: absolute;
-      font-weight: 700;
-      color: #faaf00;
+      color: #666;
       font-size: 15px;
       left: 53px;
       top: 21px;
@@ -133,7 +167,7 @@
       line-height: 28px;
       text-align: center;
       box-sizing: border-box;
-      background-color: #f03d37;
+      background-color: #faaf00;
       color: #fff;
       border-radius: 4px;
       white-space: nowrap;
@@ -142,5 +176,25 @@
       position:absolute;
       top: 40px;
       }
- 
+     .lyhContent .lyhButton2{
+      position: absolute;
+      right: 50px;
+      height: 100%;
+      line-height: 90px;
+     }
+     .lyhContent .lyhButton2 .btn{
+      width: 47px;
+      height: 27px;
+      line-height: 28px;
+      text-align: center;
+      box-sizing: border-box;
+      background-color: #3c9fe6;
+      color: #fff;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 12px;
+      cursor: pointer;
+      position:absolute;
+      top: 40px;
+      }
 </style>

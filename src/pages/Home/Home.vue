@@ -65,7 +65,7 @@
        height: 30px;
        background: #ef4238;
        color: #fff;
-       font-size: 13px;
+       font-size: 12px;
        border-radius: 8px;
        border: 0px;
        position: absolute;
@@ -139,8 +139,7 @@
        position: absolute;
        right: 180px;
        font-weight: 700;
-       border-bottom: 1px solid red;
-       color: red;
+       
      }
      .lyhNav .lyhRb:hover{
        border-bottom: 1px solid red;

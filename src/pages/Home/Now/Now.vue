@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <div class="lyhContent">
+    <div class="lyhContent" @click="$router.push('/home/Now/Movie')">
       <img src="../img/1.jpg" alt="">
       <div class="content">
         <h2>叶问4: 完结篇</h2>
