@@ -7,7 +7,7 @@
       <div class="wjOrder">
         <div class="wjTitle">我的订单</div>
         <div class="wjOutline"></div>
-        <div class="wjOrderMovie">
+        <div class="wjOrderMovie" @click="$router.push('/Order')">
           <p>电影</p>
         </div>
         <div class="wjOrderShop">
