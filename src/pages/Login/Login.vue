@@ -88,9 +88,21 @@
 
 <script type="text/ecmascript-6">
   import { Toast } from 'mint-ui';
-  import {reqPhoneCode,reqLogin,reqLoginByPhone} from '../../api/index';
-   
+  import {reqPhoneCode,reqLoginByPhone,reqAutoLogin} from '../../api/index';
+  import {mapState} from 'vuex';
   export default {
+    async mounted() {
+      //发送自动登录请求
+      if(this.token){
+        const result = await reqAutoLogin()
+        console.log(result);
+        if(result.code===0){
+          //已经登录过则直接跳转个人中心
+          this.$router.replace('/personal');
+        }
+      }
+      
+    },
     
     data() {
       return {
@@ -107,7 +119,11 @@
     computed: {
       isRightPhoneZss(){
         return /^1\d{10}$/.test(this.phoneZss)
-      }
+      },
+      ...mapState({
+        token:state => state.user.token
+      }),
+      
     },
     methods: {
       async successHandler () {
@@ -180,11 +196,8 @@
           this.zssErrorTip = '账号或密码错误，是否';
         }else{
           //发登录的请求
-          const result = await reqLoginByPhone({phone:phoneZss,code:codeZss});
-          const {code,data,msg} = result;
-          if(code===0){
-            this.$router.replace('/personal');
-          }
+          this.$store.dispatch('getTokenZss',{phone:phoneZss,code:codeZss})
+          
          
         }
       },

@@ -16,6 +16,7 @@ Vue.use(VeeValidate)
 //滑块验证
 Vue.component('VerifySlider',VerifySlider)
 Vue.component('mint-button', Button);
+
 Vue.component('Header',Header)
 Vue.config.productionTip = false
 

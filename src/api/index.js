@@ -18,3 +18,6 @@ export const reqLoginByUsername = (data) =>ajax.post('/login_maoyan',data)
 
 //手机号验证码登录
 export const reqLoginByPhone = (data) => ajax.post('/login_sms',data)
+
+//自动登录
+export const reqAutoLogin = () => ajax.get('/auto_login')
