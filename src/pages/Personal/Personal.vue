@@ -13,16 +13,14 @@
         <div class="wjOrderShop">
           <p>商城</p>
         </div>
-        </div>
       </div>
       <div class="wjCardCoupon">
         <div class="wjDiscountCoupon">优惠券
-          <i class="iconfont icon-arrow-right-copy-copy"></i>
+          <i class="iconfont icon-arrow-right-ico"></i>
         </div>
         <div class="wjDiscountCard">折扣卡
-          <i class="iconfont icon-arrow-right-copy-copy"></i>
+          <i class="iconfont icon-arrow-right-ico"></i>
         </div>
-
       </div>
     </div>
   </div>
@@ -35,7 +33,6 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';
-@import 'http://at.alicdn.com/t/font_1587941_396js4qoafq.css';
   .wjCenterContainer
     width 100%
     background-color #F3F3F3
@@ -52,7 +49,10 @@
         border-radius 60px
         display inline-block
     .wjContent
+      width 100%
+      height 407px
       .wjOrder
+        position relative
         width 100%
         height 149px
         margin-top 10px
@@ -61,20 +61,29 @@
         text-align center
         box-sizing border-box
         .wjTitle
+          position absolute
           width 80px
           height 21px
-          margin 13px auto 0
+          padding-top 13px
+          top 0
+          bottom 0
+          left 0
+          right 0
+          margin 0 auto 
           font-size 15px
           text-align center
           line-height 21px
-          display inline-block
           background-color white
+          z-index 9
         .wjOutline
+          position absolute
           width 160px
-          height 1px
-          background-image url('../../static/images/wjOutline.png')
+          height 0.5px
+          background-color #EBEBEB
           text-align center
-          margin -10px auto 0
+          top 23px
+          left 50%
+          margin-left -80px
         .wjOrderMovie
         .wjOrderShop
           width 50%
@@ -83,7 +92,7 @@
           background-size 42px
           background-position-x 50%
           background-position-y 80%
-          margin 0 auto
+          margin 20px auto 0
           p
             margin-top 55%
             font-size 15px
@@ -93,30 +102,25 @@
         .wjOrderShop
           float right 
           background-image url('../../static/images/wjShop.png')
-    .wjCardCoupon
-      width 100%
-      height 88px
-      margin-top 10px
-      background-color white
-      .wjDiscountCoupon
+      .wjCardCoupon
         width 100%
-        height 50%
-        padding-right 15px
-        margin-left 15px
-        box-sizing border-box
-        font-size 15px
-        line-height 50px
-        bottom-border-1px(rgb(204,204,204))
-      .wjDiscountCard
-        width 100%
-        height 50%
-        margin-left 15px
-        padding-right 15px
-        box-sizing border-box
-        font-size 15px
-        line-height 50px
-          
-      
-
-        
+        height 88px
+        margin-top 10px
+        background-color white
+        .wjDiscountCoupon
+        .wjDiscountCard
+          width 100%
+          height 50%
+          padding-right 15px
+          margin-left 15px
+          box-sizing border-box
+          font-size 15px
+          line-height 44px
+          .icon-arrow-right-ico
+            color #e1e1e1
+            font-size 13px
+            float right
+            margin-right 10px
+        .wjDiscountCoupon
+          bottom-border-1px(rgb(204,204,204))   
 </style>
