@@ -82,7 +82,7 @@ export default [
   },
   {
     path:"/city",
-    //component: City
+    component: City
   },
   {
     path:"/cinemadetail",
