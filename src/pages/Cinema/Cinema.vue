@@ -60,7 +60,6 @@
     data(){
       return{
         isShowType:-1, //0全城 1品牌 2特色
-        isShowSearchType:true, //是否展示搜索类型
         
       }
     },
@@ -105,6 +104,9 @@
       if(this.cinemaList.length){
         this.initScroll()
       }
+      this.$globalEventBus.$on('changeIsShowType',(value)=>{
+          this.isShowType = value
+      })
     },
     watch:{
       //监视电影院列表的值

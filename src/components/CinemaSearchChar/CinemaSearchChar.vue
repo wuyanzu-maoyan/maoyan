@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="kjcBtn">
-    <span class="kjcReset">重置</span>
-    <span class="kjcOK">确认</span>
+    <span class="kjcReset" @click="kjcReset">重置</span>
+    <span class="kjcOK" @click="kjcConfirm">确认</span>
   </div>
   </div>
 </template>
@@ -25,8 +25,8 @@ import BScroll from "better-scroll";
   export default {
     data(){
       return{
-        currentIndexF:'', //正在点击的index feature特色
-        currentIndexS:'' //正在点击的index special特殊
+        currentIndexF:0, //正在点击的index feature特色
+        currentIndexS:0 //正在点击的index special特殊
       }
     },
     computed:{
@@ -54,6 +54,13 @@ import BScroll from "better-scroll";
       },
       checkS(index){
         this.currentIndexS = index
+      },
+      kjcConfirm(){
+        this.$globalEventBus.$emit('changeIsShowType',-1);
+      },
+      kjcReset(){
+        this.currentIndexF = 0, //正在点击的index feature特色
+        this.currentIndexS = 0 //正在点击的index special特殊
       }
     },
     async mounted(){
