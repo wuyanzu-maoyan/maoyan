@@ -18,7 +18,6 @@
 
 
 <style lang="stylus" rel="stylesheet/stylus">
-  body
-    background-color #f3f3f3
+
  
 </style>

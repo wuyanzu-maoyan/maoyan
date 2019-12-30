@@ -10,14 +10,15 @@
         <div class="wjOrderMovie" @click="$router.push('/Order')">
           <p>电影</p>
         </div>
-        <div class="wjOrderShop">
+        <div class="wjOrderShop" @click="$router.push('/Store')">
           <p>商城</p>
         </div>
       </div>
       <div class="wjCardCoupon">
-        <div class="wjDiscountCoupon">优惠券
+        <div class="wjDiscountCoupon" @click="$router.push('/Cou')">优惠券
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
+        
         <div class="wjDiscountCard">折扣卡
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
@@ -81,7 +82,7 @@
         .wjOutline
           position absolute
           width 160px
-          height 0.5px
+          height 1px
           background-color #EBEBEB
           text-align center
           top 23px
