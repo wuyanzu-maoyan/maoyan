@@ -9,7 +9,6 @@ import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
 import City from '../pages/City/City';
-import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
 
