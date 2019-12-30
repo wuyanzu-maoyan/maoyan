@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MessageBox} from 'mint-ui';
+import { MessageBox } from 'mint-ui';
 import qs from 'query-string';
 import store from '../vuex/store';
 let instance = axios.create({
