@@ -12,8 +12,8 @@
       </div>
       <div class="kjcContentRight" v-if="isSubway">
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index) in getSubItems"  :class="{active:currentIndexRight1 == index}" @click="checkRightSubItem(index,1)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight1 == index}"></span>
+          <li v-for="(item,index1) in getSubItems"  :class="{active:currentIndexRight1 == index1}" @click="checkRightSubItem(index1,1)" :key="item.id">
+            <span class="kjcTrue" :class="{show:currentIndexRight1 == index1}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
@@ -21,8 +21,8 @@
       </div>
       <div class="kjcContentRight" v-else>
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index) in getSubItems"  :class="{active:currentIndexRight2 == index}" @click="checkRightSubItem(index,2)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight2 == index}"></span>
+          <li v-for="(item,index2) in getSubItems"  :class="{active:currentIndexRight2 == index2}" @click="checkRightSubItem(index2,2)" :key="item.id">
+            <span class="kjcTrue" :class="{show:currentIndexRight2 == index2}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
