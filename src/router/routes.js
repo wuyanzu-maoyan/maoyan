@@ -3,7 +3,6 @@
 import Cinema from '../pages/Cinema/Cinema';
 import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 import Detail from '../pages/Detail/Detail'
-import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'

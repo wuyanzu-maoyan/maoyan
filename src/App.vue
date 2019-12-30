@@ -1,8 +1,8 @@
 <template>
   <div class="app">
-    <Header title="猫眼电影"></Header>
+    <Header title="猫眼电影" style="display:none"></Header>
     <router-view></router-view>
-    <FooterNav></FooterNav>
+    <FooterNav style="display:none"></FooterNav>
   </div>
 </template>
 

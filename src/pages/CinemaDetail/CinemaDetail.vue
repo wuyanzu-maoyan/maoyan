@@ -1,69 +1,164 @@
 <template>
   <div id="cinemaDetailContainer">
-    <Header :title="'中影星美国际影城（温都水城店）'"/>
-    <!-- 头部影院信息 -->
-    <div class="cinemaInfo">
-      <div class="cinameData">
-        <p class="cinemaName">中影星美国际影城（温都水城店）</p>
-        <p class="cinemaAddress">昌平区北七家镇温都水城广场4-5层</p>
-      </div>
-      <div class="cinameLocation">
-        <i class="iconfont address">addr</i>
-      </div>
-    </div>
-    <!-- 电影轮播图 -->
-    <div class="moviesSwiper">
-      <div class="swiperContainer">
-        <div class="swiperWrapper">
-          <div class="swiperSlide">
-            <img src="./images/yewen.jpg" alt="">
+    <div ref="cinema" style="height: 667px">
+      <div class="cinemaScroll">
+        <Header :title="'中影星美国际影城（温都水城店）'"/>
+        <OpenApp/>
+        <!-- 头部影院信息 -->
+        <div class="cinemaInfo">
+          <div class="cinameData">
+            <p class="cinemaName">中影星美国际影城（温都水城店）</p>
+            <p class="cinemaAddress">昌平区北七家镇温都水城广场4-5层</p>
           </div>
-          <div class="swiperSlide selectImg">
-            <img src="./images/yewen.jpg" alt="">
+          <div class="cinameLocation">
+            <i class="iconfont address">addr</i>
           </div>
-          <div class="swiperSlide">
-            <img src="./images/yewen.jpg" alt="">
+        </div>
+        <!-- 电影轮播图 -->
+        <div class="moviesSwiper">
+          <div class="swiperContainer" ref="movies" style="width:355px">
+            <div class="swiperWrapper">
+              <div class="swiperSlide">
+                <img src="./images/yewen.jpg" alt="">
+              </div>
+              <div class="swiperSlide">
+                <img src="./images/yewen.jpg" alt="">
+              </div>
+              <div class="swiperSlide selectImg">
+                <img src="./images/yewen.jpg" alt="">
+              </div>
+              <div class="swiperSlide">
+                <img src="./images/yewen.jpg" alt="">
+              </div>
+              <div class="swiperSlide">
+                <img src="./images/yewen.jpg" alt="">
+              </div>
+            </div>
           </div>
-          <div class="swiperSlide">
-            <img src="./images/yewen.jpg" alt="">
+          <div class="movieInfo">
+            <div class="movieTitle">
+              <span class="title">叶问4：完结篇 </span>
+              <span class="grade">
+                <span>9.5<span class="small">分</span></span>
+              </span>
+            </div>
+            <div class="movieDesc">107分钟 | 动作 | 甄子丹,吴樾,吴建豪</div>
           </div>
-          <div class="swiperSlide">
-            <img src="./images/yewen.jpg" alt="">
+        </div>
+        <!-- 电影播出时间导航 -->
+        <div class="movieDateNav">
+          <div class="movieDateNavItem active">
+            今天12月28日
+          </div>
+          <div class="movieDateNavItem">
+            明天12月29日
+          </div>
+          <div class="movieDateNavItem">
+            后天12月30日
+          </div>
+        </div>
+        <!-- 电影播出具体时间场次信息 -->
+        <MovieShowTime/>
+        <div class="gap"></div>
+        <!-- 影院套餐 -->
+        <div class="taocanList">
+          <div class="title">影院超值套餐</div>
+          <div class="taocanItem">
+            <img src="./images/taocan.png" alt="">
+            <div class="taocanInfo">
+              <div class="top">
+                <div class="tag">双人</div>
+                <span class="content">410ml百香果汁/冰杨梅2杯（2选2）+46oz爆米花/酷薯(2选1)</span>
+              </div>
+              <div class="sellNum">已售487</div>
+              <div class="bottom">
+                <div class="sellPrice">￥44 </div>
+                <div class="btn">去购买</div>
+              </div>
+            </div>
+          </div>
+          <div class="taocanItem">
+            <img src="./images/taocan.png" alt="">
+            <div class="taocanInfo">
+              <div class="top">
+                <div class="tag">双人</div>
+                <span class="content">410ml百香果汁/冰杨梅2杯（2选2）+46oz爆米花/酷薯(2选1)</span>
+              </div>
+              <div class="sellNum">已售487</div>
+              <div class="bottom">
+                <div class="sellPrice">￥44 </div>
+                <div class="btn">去购买</div>
+              </div>
+            </div>
+          </div>
+          <div class="taocanItem">
+            <img src="./images/taocan.png" alt="">
+            <div class="taocanInfo">
+              <div class="top">
+                <div class="tag">双人</div>
+                <span class="content">410ml百香果汁/冰杨梅2杯（2选2）+46oz爆米花/酷薯(2选1)</span>
+              </div>
+              <div class="sellNum">已售487</div>
+              <div class="bottom">
+                <div class="sellPrice">￥44 </div>
+                <div class="btn">去购买</div>
+              </div>
+            </div>
+          </div>
+          <div class="taocanItem">
+            <img src="./images/taocan.png" alt="">
+            <div class="taocanInfo">
+              <div class="top">
+                <div class="tag">双人</div>
+                <span class="content">410ml百香果汁/冰杨梅2杯（2选2）+46oz爆米花/酷薯(2选1)</span>
+              </div>
+              <div class="sellNum">已售487</div>
+              <div class="bottom">
+                <div class="sellPrice">￥44 </div>
+                <div class="btn">去购买</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="movieInfo">
-        <div class="movieTitle">
-          <span class="title">叶问4：完结篇 </span>
-          <span class="grade">
-            <span>9.5<span class="small">分</span></span>
-          </span>
-        </div>
-        <div class="movieDesc">107分钟 | 动作 | 甄子丹,吴樾,吴建豪</div>
-      </div>
     </div>
-    <!-- 电影播出时间导航 -->
-    <div class="movieDateNav">
-      <div class="movieDateNavItem active">
-        今天12月28日
-      </div>
-      <div class="movieDateNavItem">
-        明天12月29日
-      </div>
-      <div class="movieDateNavItem">
-        后天12月30日
-      </div>
-    </div>
-    <!-- 电影播出具体时间场次信息 -->
-    <MovieShowTime/>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
+  import OpenApp from '../../components/OpenApp/OpenApp'
   import MovieShowTime from '@/components/MovieShowTime/MovieShowTime'
+  import {mapState} from 'vuex'
+  import {reqCinemaDetail} from '@/api'
+  
   export default {
     components:{
+      OpenApp,
       MovieShowTime
+    },
+    mounted(){
+      
+      this.$store.dispatch('getCinemaDetail')
+
+      //竖向滑屏
+      if (!this.scroll) {
+        this.scroll = new BScroll(this.$refs.cinema, {
+          click:true,
+          bounce:false,
+          scrollX: true,
+        })
+      }
+      //电影的横向滑屏
+      this.moviesScroll = new BScroll(this.$refs.movies, {
+          click:true,
+          scrollX: true,
+        })
+    },
+    computed:{
+      ...mapState({
+        cinemaDetail: state => state.cinemaDetail.cinemaDetail || []
+      })
     }
   }
 </script>
@@ -71,6 +166,10 @@
 <style lang="stylus" rel="stylesheet/stylus">
 
 #cinemaDetailContainer
+  .gap
+    width 100%
+    height 10px
+    background #f0f0f0
   .cinemaInfo
     width 100%
     height 74px
@@ -78,7 +177,7 @@
     border-top 1px solid #ddd
     box-sizing border-box
     display flex
-    margin-top 64px
+    // margin-top 64px
     .cinameData
       width 300px
       height 42px
@@ -112,16 +211,20 @@
       box-sizing border-box
       overflow hidden
       .swiperWrapper
-        position absolute
+        position relative
         width 600%
         height 95px
         .swiperSlide
+          position relative
           width 65px
           height 95px
           margin-left 15px
           float left
           &.selectImg
-            transform scale(1.2)
+            position absolute
+            left 0
+            top 0
+            transform translateX(-50%) scale(1.2)
             border 2px solid #fff
             position relative
             &:after
@@ -183,6 +286,80 @@
       &.active
         border-bottom 2px solid #f03d37
         color #f03d37
+
+  
+  .taocanList
+    width 100%
+    height 753px
+    margin-left 15px
+    .title 
+      height 45px
+      line-height 45px
+      font-size 15px
+      color #666
+    .taocanItem
+      display flex
+      justify-content flex-start
+      height 92px
+      padding 13px 0
+      border-top 1px solid #eee
+      img 
+        width 92px
+        height 92px
+      .taocanInfo
+        display flex
+        flex-direction column
+        justify-content space-between
+        width 243px
+        height 92px
+        margin 0 15px
+        .top 
+          font-size 14px
+          color #333
+          line-height 18px
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          .tag
+            display inline-block
+            width 20px
+            height 15px
+            padding 0 4px
+            margin-right 7px
+            border-radius 2px
+            line-height 15px
+            text-align center
+            font-size 10px
+            color #fff
+            background #f90
+        .sellNum
+          display flex
+          justify-content flex-end
+          height 16px
+          line-height 16px
+          font-size 12px
+          color #999
+        .bottom 
+          display flex 
+          justify-content space-between
+          align-items center
+          .sellPrice
+            font-size 16px
+            color #f03d37
+          .btn 
+            width 52px
+            height 27px
+            background #f03d37
+            padding 0 8px
+            border-radius 3px
+            line-height 27px
+            font-size 12px
+            color #fff
+
+        
+      
+
 
   
 </style>
