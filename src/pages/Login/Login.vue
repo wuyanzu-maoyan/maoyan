@@ -76,18 +76,21 @@
         
 
       </div>
-      <SliderBlock></SliderBlock>
+
+      <!-- 滑块 -->
+      <div class="verifySliderZss" v-if="isShowSilderZss">
+        <VerifySlider @success="successHandler" class='sliderBlockZss' />
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { Toast } from 'mint-ui';
-  import SliderBlock from '../../components/SliderBlock/SliderBlock';
+  
   export default {
-    components:{
-      SliderBlock
-    },
+    
     data() {
       return {
         isPhoneLoginZss:false,
@@ -96,7 +99,8 @@
         phoneZss:'',
         codeZss:'',
         zssErrorTip:'',
-        // errorsZss:{},
+        isSuccessZss: false,//滑块验证是否成功
+        isShowSilderZss:false,//滑块是否显示
       }
     },
     computed: {
@@ -105,9 +109,19 @@
       }
     },
     methods: {
+      successHandler () {
+        
+        this.isSuccessZss = true;
+        setTimeout(() => {
+          this.isShowSilderZss = false;
+        }, 1000);
+        
+        
+      },
       async loginByUsernameZss(){
 
-        const {usernameZss,pwdZss,errorsZss} = this;
+        const {usernameZss,pwdZss,errorsZss,isSuccessZss} = this;
+        
         if(!usernameZss){
           Toast({
             message: '账号不能为空',
@@ -128,8 +142,11 @@
         console.log(success);
         if(!success){
           this.zssErrorTip = '账号或密码错误，是否';
-        }else{
-          //发登录的请求
+          return
+        }
+        this.isShowSilderZss = true;
+        if(isSuccessZss){
+          //发送登录请求
         }
       },
       async loginByPhone(){
@@ -168,6 +185,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixins.styl';
   .zssLoginContainer
+    
     width 100vw
     height 100vh
     background-color #eee
@@ -287,7 +305,20 @@
             float left 
           .zssFindPwd
             float right
-           
+      .verifySliderZss
+        position fixed
+        background-color rgba(0,0,0,.7)
+        width 100vw
+        height 100vh
+        z-index 9
+        top 0
+        left 0
+        .sliderBlockZss
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%,-50%)
+
 
 
         
