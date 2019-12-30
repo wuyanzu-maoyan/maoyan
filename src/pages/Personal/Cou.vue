@@ -13,7 +13,9 @@
             <div class="wjVoucher">代金券</div>
           </div>
         </div> 
-        <div class="wjCouItemRight"></div>
+        <div class="wjCouItemRight">
+          <div class="wjtitle">【电影】-新客专享券</div>
+        </div>
       </div>
     </div>
   </div>

@@ -18,6 +18,7 @@
         <div class="wjDiscountCoupon" @click="$router.push('/Cou')">优惠券
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
+        
         <div class="wjDiscountCard">折扣卡
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
