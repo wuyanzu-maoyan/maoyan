@@ -11,6 +11,7 @@ import Order from '../pages/Personal/Order'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
+import Login from '../pages/Login/Login';
 
 
 export default [
@@ -42,10 +43,10 @@ export default [
     component: Cinema,
     
   },
-    {
-     path:"/home",
-     component: Home,
-     children: [
+  {
+    path:"/home",
+    component: Home,
+    children: [
       {
         path: '/home/Now',
         component: Now

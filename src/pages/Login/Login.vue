@@ -181,7 +181,7 @@
         }else{
           //发登录的请求
           const result = await reqLoginByPhone({phone:phoneZss,code:codeZss});
-          const {code,data,code} = result;
+          const {code,data} = result;
           if(code===0){
             this.$router.replace('/personal');
           }
