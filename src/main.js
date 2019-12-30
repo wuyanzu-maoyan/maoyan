@@ -16,11 +16,15 @@ Vue.use(VeeValidate)
 //滑块验证
 Vue.component('VerifySlider',VerifySlider)
 Vue.component('mint-button', Button);
+
 Vue.component('Header',Header)
 Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
   store,
-  router
+  router,
+  beforeCreate(){
+    Vue.prototype.$globalEventBus = this
+  }
 }).$mount('#app')

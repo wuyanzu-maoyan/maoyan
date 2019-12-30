@@ -19,6 +19,7 @@
     "path": "^0.12.7",
     "postcss-px2rem": "^0.3.0",
     "px2rem-loader": "^0.1.9",
+    "query-string": "^6.9.0",
     "serve": "^11.2.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",

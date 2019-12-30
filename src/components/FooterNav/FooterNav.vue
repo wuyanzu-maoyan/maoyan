@@ -1,14 +1,14 @@
 <template>
     <div class="kjcFooterContainer">
-      <span class="kjcFooterItem" @click="$router.push('/home')">
+      <span class="kjcFooterItem" @click="$router.replace('/home')">
           <i class="iconfont icon-dianying"></i>
           <p>电影</p>
       </span>
-      <span class="kjcFooterItem" @click="$router.push('/cinema')">
+      <span class="kjcFooterItem" @click="$router.replace('/cinema')">
           <i class="iconfont icon-yingyuan"></i>
           <p>影院</p>
       </span>
-      <span class="kjcFooterItem" @click="$router.push('/personal')">
+      <span class="kjcFooterItem" @click="$router.replace('/personal')">
           <i class="iconfont icon-wode"></i>
           <p>我的</p>
       </span>

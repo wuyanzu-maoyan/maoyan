@@ -10,31 +10,33 @@
         <span>搜影院</span>
       </div>
      </div>
-    <div class="kjcHeaderLine" v-show="isShowAllCity || isShowBrand || isShowChar"></div>
+    <div class="kjcHeaderLine" v-show="isShowType === 0 || isShowType === 1 || isShowType === 2"></div>
     <div class="kjcSearchType">
       <div class="kjcAllCity" @click="toggleShow(0)"> 
-        <span :class="{kjcRed:isShowAllCity}">全城</span>
-        <i :class="{kjcRed:isShowAllCity}"></i>
+        <span :class="{kjcRed:isShowType == 0}">全城</span>
+        <i :class="{kjcRed:isShowType == 0}"></i>
       </div>
       <div class="kjcBrand" @click="toggleShow(1)">
-        <span :class="{kjcRed:isShowBrand}">品牌</span>
-        <i :class="{kjcRed:isShowBrand}"></i>
+        <span :class="{kjcRed:isShowType == 1}">品牌</span>
+        <i :class="{kjcRed:isShowType == 1}"></i>
       </div>
       <div class="kjcChar" @click="toggleShow(2)" >
-        <span :class="{kjcRed:isShowChar}">特色</span>
-        <i :class="{kjcRed:isShowChar}"></i>
+        <span :class="{kjcRed:isShowType == 2}">特色</span>
+        <i :class="{kjcRed:isShowType == 2}"></i>
       </div>
     </div>
-    <div class="kjcSearchTypeDetail" v-if="isShowSearchType">
-      <div class="kjcAllCityWrap">
+    <div class="kjcSearchTypeDetail">
+      <div class="kjcAllCityWrap" v-if="isShowType === 0">
         <div class="kjcAllCityContentHeader">
-          <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="isSubway = false">商区</span>
-          <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="isSubway = true">地铁站</span>
+          <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="checkSubway(false)">商区</span>
+          <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="checkSubway(true)">地铁站</span>
         </div>
-        <CinemaSearchType></CinemaSearchType>
+        <CinemaSearchType ></CinemaSearchType>
       </div>
+      <CinemaSearchBrand v-if="isShowType === 1"></CinemaSearchBrand>
+      <CinemaSearchChar v-if="isShowType === 2"></CinemaSearchChar>
     </div>
-    <div class="kjcMask"></div>
+    <div class="kjcMask" v-if="isShowType !== -1" @click="isShowType = -1"></div>
     <div class="kjcScrollContainer" ref="scrollContainer">
       <div class="kjcSrcollContent">
         <CinemaItem ref="cinemaItem" v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
@@ -47,6 +49,9 @@
 <script type="text/ecmascript-6">
   import CinemaItem from '../../components/CinemaItem/CinemaItem';
   import CinemaSearchType from '../../components/CinemaSearchType/CinemaSearchType'
+  import CinemaSearchBrand from '../../components/CinemaSearchBrand/CinemaSearchBrand'
+  import CinemaSearchChar from '../../components/CinemaSearchChar/CinemaSearchChar'
+  import {SET_ISSUBWAY} from '@/vuex/mutation-types.js'
   import BScroll from "better-scroll";
   import {mapState} from 'vuex'
   import {reqCinemaList,reqFilterCinemas} from '@/api';
@@ -54,20 +59,20 @@
   export default {
     data(){
       return{
-        isShowAllCity:false,  //是否选择全城
-        isShowBrand:false,  //是否选择品牌
-        isShowChar:false, //是否选择特色
-        isShowSearchType:true, //是否展示搜索类型
-        isSubway:false //是 按地铁查看/ 否 按商区查看
+        isShowType:-1, //0全城 1品牌 2特色
+        
       }
     },
     components:{
       CinemaItem,
-      CinemaSearchType
+      CinemaSearchType,
+      CinemaSearchBrand,
+      CinemaSearchChar
     },
     computed:{
       ...mapState({
         cinemaList: state => state.cinema.cinemaList || [],
+        isSubway: state => state.cinema.isSubway
       })
     },
     methods:{
@@ -82,22 +87,15 @@
       },
       toggleShow(type){
                   /* 0 全城 1品牌 2特色  */
-          let isShowAllCity = !this.isShowAllCity
-          let isShowBrand = !this.isShowBrand
-          let isShowChar = !this.isShowChar
-        if(type == 0){
-          this.isShowAllCity = isShowAllCity
-          this.isShowBrand = false;
-          this.isShowChar = false;
-        }else if(type == 1){
-          this.isShowAllCity = false
-          this.isShowBrand = isShowBrand;
-          this.isShowChar = false;
-        }else{
-          this.isShowAllCity = false
-          this.isShowBrand = false;
-          this.isShowChar = isShowChar;
-        }
+            let isShowType = this.isShowType
+            if(isShowType !== type){
+              this.isShowType = type
+            }else{
+              this.isShowType = -1
+            }
+      },
+      checkSubway(type){
+        this.$store.commit(SET_ISSUBWAY,type)
       }
     },
     mounted(){
@@ -106,13 +104,18 @@
       if(this.cinemaList.length){
         this.initScroll()
       }
+      this.$globalEventBus.$on('changeIsShowType',(value)=>{
+          this.isShowType = value
+      })
     },
     watch:{
       //监视电影院列表的值
       cinemaList(){
         //如果他的值有变化就调用 说明请求回来值
         //就初始化scroll
-        this.initScroll();
+        this.$nextTick(()=>{
+          this.initScroll();
+        })
       
       }
     }
@@ -134,7 +137,6 @@
       bottom -48px
       background-color rgba(0,0,0,0.3)
       z-index 20
-      display none
     .kjcHeaderLine
       position absolute
       height 2px
@@ -145,10 +147,9 @@
       z-index 21
     .kjcSearchTypeDetail
       width 100%
-      height 444px
       position absolute
       z-index 21
-      background-color white
+      background-color rgba(255,255,255,1)
       .kjcAllCityWrap
         width 100%
         height 100%
@@ -164,6 +165,7 @@
             font-size 15px
             color rgb(119,119,119)
             margin-right 10px
+            box-sizing border-box
             &.active
               border-bottom 2px solid #f03d37
           .kjcAllCityContentHeaderRight

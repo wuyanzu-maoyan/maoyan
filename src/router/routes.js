@@ -9,6 +9,10 @@ import Now from '../pages/Home/Now/Now'
 import Movie from '../pages/Movie/Movie'
 import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
+import Order from '../pages/Personal/Order'
+import Store from '../pages/Personal/Store'
+import Cou from '../pages/Personal/Cou.vue'
+import Card from '../pages/Personal/Card.vue'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
@@ -103,11 +107,27 @@ export default [
   // },
   {
     path:"/personal",
-   //component: Personal
+    component: Personal //个人中心
+  },
+  {
+    path:"/order",
+    component:Order //电影订单
+  },
+  {
+    path:"/store",
+    component:Store //商城订单
+  },
+  {
+    path:"/Cou",
+    component:Cou //优惠券
+  },
+  {
+    path:"/Card",
+    component:Card //折扣卡
   },
   {
     path:"/city",
-    //component: City
+    component: City
   },
   {
     path:"/cinemadetail",
@@ -117,7 +137,6 @@ export default [
     path:"/detail",
     component: Detail
   },
-  
   // {
   //   path:'/',
   //   redirect:'/home'
