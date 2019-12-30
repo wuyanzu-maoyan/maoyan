@@ -1,6 +1,9 @@
 
 //引入路由并注册 例如
 import Cinema from '../pages/Cinema/Cinema';
+import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
+import Detail from '../pages/Detail/Detail'
+import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'
@@ -9,9 +12,6 @@ import City from '../pages/City/City';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
-// import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
-// import Now from '../pages/Home/Now/Now';
-// import Will from '../pages/Home/Will/Will';
 
 
 export default [
@@ -55,22 +55,25 @@ export default [
         path: '/home/Will',
         component: Will
       }
-      
     ]
-     
-   },
+  },
   {
     path:"/personal",
-    component: Personal
+   //component: Personal
   },
-  // {
-  //   path:"/cinemadetail",
-  //   component: CinemaDetail
-  // },
   {
     path:"/city",
-    component: City
+    //component: City
   },
+  {
+    path:"/cinemadetail",
+    component: CinemaDetail
+  },
+  {
+    path:"/detail",
+    component: Detail
+  },
+  
   // {
   //   path:'/',
   //   redirect:'/home'
