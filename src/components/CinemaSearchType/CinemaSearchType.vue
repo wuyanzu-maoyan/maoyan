@@ -45,7 +45,7 @@
         currentIndexRight1:0,//右侧的li下标
         currentIndexRight2:0,//右侧的li下标
         subItems:[], //cinema中的subItems
-        //getSubItems:[] //获取每个行政区的具体subItem
+        getSubItems:[] //获取每个行政区的具体subItem
       }
     },
     computed:{
@@ -53,29 +53,25 @@
         isSubway:state => state.cinema.isSubway
       }),
       ...mapGetters(['cinemaKind']),
-    getSubItems(){ //获取每个行政区的具体subItem
-      if(this.subItems){
+    // getSubItems(){ //获取每个行政区的具体subItem
+    //   if(this.subItems){
         
-        let subItemId1 = this.subItemId1 
-        let subItemId2 = this.subItemId2 
+    //     let subItemId1 = this.subItemId1 
+    //     let subItemId2 = this.subItemId2 
   
-         console.log(subItemId1,subItemId2)
-          if(this.subItems.find((item,index)=>item.id == subItemId1)){
-              console.log(this.subItems.find((item,index)=>item.id == subItemId1))
-            return this.subItems.find((item,index)=>item.id == subItemId1).subItems 
-            }
-          if(this.subItems.find((item,index)=>item.id == subItemId2) ){
-              console.log(this.subItems.find((item,index)=>item.id == subItemId1))
-            return this.subItems.find((item,index)=>item.id == subItemId2).subItems
-          }
-          
-      
-        
-       
-    
-      }
+    //      console.log(subItemId1,subItemId2)
+    //       if(this.subItems.find((item,index)=>item.id == subItemId1)){
+    //           console.log(this.subItems.find((item,index)=>item.id == subItemId1))
+    //         return this.subItems.find((item,index)=>item.id == subItemId1).subItems 
+    //         }
+    //       if(this.subItems.find((item,index)=>item.id == subItemId2) ){
+    //           console.log(this.subItems.find((item,index)=>item.id == subItemId1))
+    //         return this.subItems.find((item,index)=>item.id == subItemId2).subItems
+    //       }
 
-    }
+    //   }
+
+    // }
     },
     watch:{
       isSubway(){
@@ -84,10 +80,16 @@
         })
       },
       cinemaKind(value){
-         
+        this.subItems = value.subItems
         this.$nextTick(()=>{
           this.initScroll()
-         this.subItems = value.subItems
+          let subItemId1 = this.subItemId1 
+          let subItemId2 = this.subItemId2 
+         if(!this.isSubway){
+          this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId1).subItems 
+         }else{
+           this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId2).subItems
+         }
           
         })
       },
