@@ -45,7 +45,7 @@
 
 <script type="text/ecmascript-6">
   import open from '../../components/Openapp/Openapp'
-  import Theatercomponent from './Theater component/Theater component.vue'
+  import Theatercomponent from './Theater component/Theater component'
   export default {
     data(){
       return {
@@ -132,11 +132,10 @@
   .lyhTime
     width: 100%;
     height: 45px;
-    overflow-x: scroll;
     background-color: #fff
-    overflow: scroll
+    overflow-y hidden
+    overflow-x auto
     ul
-      overflow-x: scroll;
       padding: 0;
       margin: 0;
       height: 45px;

@@ -5,12 +5,17 @@
 
     <!-- 登录内容 -->
     <div class="zssLoginInner">
+      <!-- 错误提示 -->
+      <div class='zssErrorTip' v-show="zssErrorTip">
+        <span >{{zssErrorTip}}<a href="" @click.prevent="$router.push('/findpassword')">找回密码</a>？
+        </span>
+      </div>
       <!-- 登录的头部：登录方式切换 -->
       <div class="zssLoginHeader">
-        <div class=' zssLoginMethod' :class="{zssActive:!isPhoneLoginzss}" @click="isPhoneLoginzss=false">
+        <div class=' zssLoginMethod' :class="{zssActive:!isPhoneLoginZss}" @click="isPhoneLoginZss=false">
           <a href="javascript:;" >美团账号登录</a>
         </div>
-        <div class='zssLoginMethod' :class="{zssActive:isPhoneLoginzss}" @click="isPhoneLoginzss=true">
+        <div class='zssLoginMethod' :class="{zssActive:isPhoneLoginZss}" @click="isPhoneLoginZss=true">
           <a href="javascript:;" >手机验证登录</a>
         </div>    
       </div>
@@ -19,56 +24,159 @@
 
       <!-- 登录内容区 -->
       <div class="zssLoginContent">
-        <form>
-          <!-- 用户名登录 -->
-          <div class='zssByUsernameContainer' v-if="!isPhoneLoginzss">
-            <div class='zssByUsername'>
-              <div class='zssUsername'>
-                <input  type="text" placeholder="账户名/手机号/Email">
-              </div>
-              <div class='zssPwd'>
-                <input  type="text" placeholder="请输入您的密码">
-              </div>
+        
+        <!-- 用户名登录 -->
+        <div class='zssByUsernameContainer' v-if="!isPhoneLoginZss">
+          <div class='zssByUsername'>
+            <div class='zssUsername'>
+              <input  type="text" 
+                placeholder="账户名/手机号/Email" 
+                v-model="usernameZss"
+                name="usernameZss" v-validate="{required: true,regex:/^1\d{10}$/}"
+              >
+              
             </div>
-            <mint-button class='zssLoginButton' >登录</mint-button>
-          </div>
-          <!-- 手机号登录 -->
-          <div class='zssByPhoneContainer' v-if="isPhoneLoginzss">
-            <div class='zssByPhone'>
-              <div class='zssPhone'>
-                <input  type="text" placeholder="请输入手机号">
-                <button class="zssGetCode zssAbled" >获取验证码</button>
-              </div>
-              <div class='zssPhoneCode'>
-                <input  type="text" placeholder="请输入短信验证码">
-              </div>
+            <div class='zssPwd'>
+              <input  type="password" placeholder="请输入您的密码" 
+                v-model="pwdZss"
+                name="pwdZss" v-validate="{required: true,regex:/^[a-z0-9]+$/i}"
+              >
+              
             </div>
-            <mint-button class='zssLoginButton enabled' >登录</mint-button>
           </div>
-        </form>
+          <mint-button class='zssLoginButton' @click.prevent="loginByUsernameZss">登录</mint-button>
+        </div>
+        <!-- 手机号登录 -->
+        <div class='zssByPhoneContainer' v-if="isPhoneLoginZss">
+          <div class='zssByPhone'>
+            <div class='zssPhone'>
+              <input  type="text" placeholder="请输入手机号" v-model="phoneZss"
+                name="phoneZss" v-validate="{required: true,regex:/^1\d{10}$/}"
+              >
+              <button class="zssGetCode" :class="{zssAbled:isRightPhoneZss}" @click.prevent="sendCodeZss">发送验证码</button>
+            </div>
+            <div class='zssPhoneCode'>
+              <input  type="text" placeholder="请输入短信验证码" v-model="codeZss"
+                name="codeZss" v-validate="'required|email'"
+              >
+            </div>
+          </div>
+          <mint-button class='zssLoginButton enabled' @click.prevent="loginByPhone">登录</mint-button>
+        </div>
+        
       </div>
 
       <!-- 登录的footer -->
       <div class="zssLoginFooter">
         <div>
-          <span class='zssRegister'>立即注册</span>
-          <span class='zssFindPwd'>找回密码</span>
+          <span class='zssRegister' @click="$router.push('/register')">立即注册</span>
+          <span class='zssFindPwd' @click="$router.push('/findpassword')">找回密码</span>
         </div>
         <div class='zssHotLine'>© 猫眼电影 客服电话：<a href="" >400-670-5335</a></div>
         
 
       </div>
 
+      <!-- 滑块 -->
+      <div class="verifySliderZss" v-if="isShowSilderZss">
+        <VerifySlider @success="successHandler" class='sliderBlockZss' />
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import { Toast } from 'mint-ui';
   
   export default {
+    
     data() {
       return {
-        isPhoneLoginzss:false,
+        isPhoneLoginZss:false,
+        usernameZss:'',
+        pwdZss:'',//登录密码为数字和英文组成
+        phoneZss:'',
+        codeZss:'',
+        zssErrorTip:'',
+        isSuccessZss: false,//滑块验证是否成功
+        isShowSilderZss:false,//滑块是否显示
+      }
+    },
+    computed: {
+      isRightPhoneZss(){
+        return /^1\d{10}$/.test(this.phoneZss)
+      }
+    },
+    methods: {
+      successHandler () {
+        
+        this.isSuccessZss = true;
+        setTimeout(() => {
+          this.isShowSilderZss = false;
+        }, 1000);
+        
+        
+      },
+      async loginByUsernameZss(){
+
+        const {usernameZss,pwdZss,errorsZss,isSuccessZss} = this;
+        
+        if(!usernameZss){
+          Toast({
+            message: '账号不能为空',
+            position: 'top',
+            duration: 1000
+          });
+          return 
+        }
+        if(!pwdZss){
+          Toast({
+            message: '密码不能为空',
+            position: 'top',
+            duration: 1000
+          });
+          return
+        }
+        const success = await this.$validator.validateAll(['usernameZss','pwdZss']);
+        console.log(success);
+        if(!success){
+          this.zssErrorTip = '账号或密码错误，是否';
+          return
+        }
+        this.isShowSilderZss = true;
+        if(isSuccessZss){
+          //发送登录请求
+        }
+      },
+      async loginByPhone(){
+        const {phoneZss,codeZss,errorsZss} = this;
+        if(!usernameZss){
+          Toast({
+            message: '账号不能为空',
+            position: 'top',
+            duration: 1000
+          });
+          return 
+        }
+        if(!pwdZss){
+          Toast({
+            message: '密码不能为空',
+            position: 'top',
+            duration: 1000
+          });
+          return
+        }
+        const success = await this.$validator.validateAll(['usernameZss','pwdZss']);
+        console.log(success);
+        if(!success){
+          this.zssErrorTip = '账号或密码错误，是否';
+        }else{
+          //发登录的请求
+        }
+      },
+      sendCodeZss(){
+
       }
     },
   }
@@ -77,10 +185,21 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixins.styl';
   .zssLoginContainer
+    
     width 100vw
     height 100vh
     background-color #eee
     .zssLoginInner
+      .zssErrorTip
+        width 100vw
+        height 38px
+        background-color #FFF6E0
+        text-align center
+        line-height 38px
+        color #FE8C00
+        font-size 12px
+        a 
+          color #222
       .zssLoginHeader
         width 92vw
         padding 0 4vw
@@ -186,7 +305,20 @@
             float left 
           .zssFindPwd
             float right
-           
+      .verifySliderZss
+        position fixed
+        background-color rgba(0,0,0,.7)
+        width 100vw
+        height 100vh
+        z-index 9
+        top 0
+        left 0
+        .sliderBlockZss
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%,-50%)
+
 
 
         

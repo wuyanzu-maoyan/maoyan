@@ -1,6 +1,6 @@
 <template>
   <div class="kjcCinemaContainer">
-    <div class="kcjTopbar">
+      <div class="kjcTopbar">
       <div class="kjcLocation">
         <span>北京</span>
         <i></i>
@@ -9,41 +9,66 @@
         <i class="iconfont icon-search"></i>
         <span>搜影院</span>
       </div>
+     </div>
+    <div class="kjcHeaderLine" v-show="isShowAllCity || isShowBrand || isShowChar"></div>
+    <div class="kjcSearchType">
+      <div class="kjcAllCity" @click="toggleShow(0)"> 
+        <span :class="{kjcRed:isShowAllCity}">全城</span>
+        <i :class="{kjcRed:isShowAllCity}"></i>
+      </div>
+      <div class="kjcBrand" @click="toggleShow(1)">
+        <span :class="{kjcRed:isShowBrand}">品牌</span>
+        <i :class="{kjcRed:isShowBrand}"></i>
+      </div>
+      <div class="kjcChar" @click="toggleShow(2)" >
+        <span :class="{kjcRed:isShowChar}">特色</span>
+        <i :class="{kjcRed:isShowChar}"></i>
+      </div>
     </div>
-     <div class="kjcSearchType">
-        <div class="kjcAllCity">
-          <span>全城</span>
-          <i></i>
+    <div class="kjcSearchTypeDetail" v-if="isShowSearchType">
+      <div class="kjcAllCityWrap">
+        <div class="kjcAllCityContentHeader">
+          <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="isSubway = false">商区</span>
+          <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="isSubway = true">地铁站</span>
         </div>
-        <div class="kjcBrand">
-          <span>品牌</span>
-          <i></i>
-        </div>
-        <div class="kjcChar">
-          <span>特色</span>
-          <i></i>
-        </div>
+        <CinemaSearchType></CinemaSearchType>
       </div>
-      <div class="kjcScrollContainer" ref="scrollContainer">
-       <div class="kjcSrcollContent">
-          <CinemaItem ref="cinemaItem" v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
-       </div>
+    </div>
+    <div class="kjcMask"></div>
+    <div class="kjcScrollContainer" ref="scrollContainer">
+      <div class="kjcSrcollContent">
+        <CinemaItem ref="cinemaItem" v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
       </div>
+    </div>
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import CinemaItem from '../../components/CinemaItem/CinemaItem';
+  import CinemaSearchType from '../../components/CinemaSearchType/CinemaSearchType'
   import BScroll from "better-scroll";
-  import {reqCinemaList} from '@/api'
+  import {mapState} from 'vuex'
+  import {reqCinemaList,reqFilterCinemas} from '@/api';
+  
   export default {
     data(){
       return{
-        cinemaList:[]
+        isShowAllCity:false,  //是否选择全城
+        isShowBrand:false,  //是否选择品牌
+        isShowChar:false, //是否选择特色
+        isShowSearchType:true, //是否展示搜索类型
+        isSubway:false //是 按地铁查看/ 否 按商区查看
       }
     },
     components:{
-      CinemaItem
+      CinemaItem,
+      CinemaSearchType
+    },
+    computed:{
+      ...mapState({
+        cinemaList: state => state.cinema.cinemaList || [],
+      })
     },
     methods:{
       initScroll(){
@@ -54,16 +79,29 @@
         }else{
          this.cinemaScroll.refresh()
        }
+      },
+      toggleShow(type){
+                  /* 0 全城 1品牌 2特色  */
+          let isShowAllCity = !this.isShowAllCity
+          let isShowBrand = !this.isShowBrand
+          let isShowChar = !this.isShowChar
+        if(type == 0){
+          this.isShowAllCity = isShowAllCity
+          this.isShowBrand = false;
+          this.isShowChar = false;
+        }else if(type == 1){
+          this.isShowAllCity = false
+          this.isShowBrand = isShowBrand;
+          this.isShowChar = false;
+        }else{
+          this.isShowAllCity = false
+          this.isShowBrand = false;
+          this.isShowChar = isShowChar;
+        }
       }
     },
-    async mounted(){
-    
-      let result = await reqCinemaList()
-      const {code,data} = result;
-      if(code === 0){
-        console.log(data)
-        this.cinemaList = data.cinemas
-      }
+    mounted(){
+      this.$store.dispatch('getCinemaList');
       //在挂载时判断如果有值 相当于缓存(切换到其他路由 没有销毁 就重新初始化scroll
       if(this.cinemaList.length){
         this.initScroll()
@@ -87,7 +125,52 @@
   .kjcCinemaContainer
     width 100%
     height 100%
-    .kcjTopbar
+    position relative
+    .kjcMask
+      position absolute 
+      top -50px
+      left 0
+      right 0
+      bottom -48px
+      background-color rgba(0,0,0,0.3)
+      z-index 20
+      display none
+    .kjcHeaderLine
+      position absolute
+      height 2px
+      width 100%
+      background-color #777
+      top 48px
+      left 0px
+      z-index 21
+    .kjcSearchTypeDetail
+      width 100%
+      height 444px
+      position absolute
+      z-index 21
+      background-color white
+      .kjcAllCityWrap
+        width 100%
+        height 100%
+        .kjcAllCityContentHeader
+          width 95%
+          height 44px
+          display flex
+          span
+            width 50%
+            height 100%
+            text-align center
+            line-height 44px
+            font-size 15px
+            color rgb(119,119,119)
+            margin-right 10px
+            &.active
+              border-bottom 2px solid #f03d37
+          .kjcAllCityContentHeaderRight
+            font-size 15px
+          .kjcAllCityContentHeaderLeft
+            font-size 15px
+    .kjcTopbar
       position relative
       z-index 10
       width 100%
@@ -95,6 +178,7 @@
       display flex
       align-items center
       background-color #f5f5f5
+      z-index 21
       .kjcLocation
         padding-left 15px
         height 20px
@@ -102,7 +186,6 @@
           font-size 15px
           color #666
           line-height 20px
-          
         i 
           display inline-block
           border 4px solid #b0b0b0
@@ -133,7 +216,7 @@
           font-weight bold
     .kjcSearchType
       position relative
-      z-index 11
+      z-index 21
       display flex
       div
         height 40px
@@ -150,10 +233,18 @@
           border-bottom-color transparent
           margin-bottom -4px
           margin-left 4px
+          &.kjcRed
+            border 4px solid #e54847
+            border-left-color transparent
+            border-right-color transparent
+            border-top-color transparent
+            margin-top -6px
         span 
           font-size 13px
           color #777
           margin-left  42px
+          &.kjcRed
+            color #e54847
       .kjcBrand:before
         content:''
         display block
