@@ -58,7 +58,7 @@ export default [
   },
   {
     path:"/personal",
-   //component: Personal
+    component: Personal
   },
   {
     path:"/city",
