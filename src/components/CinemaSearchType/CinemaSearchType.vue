@@ -12,8 +12,8 @@
       </div>
       <div class="kjcContentRight" v-if="isSubway">
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index) in getSubItems"  :class="{active:currentIndexRight1 == index}" @click="checkRightSubItem(index,1)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight1 == index}"></span>
+          <li v-for="(item,index1) in getSubItems"  :class="{active:currentIndexRight1 == index1}" @click="checkRightSubItem(index1,1)" :key="item.id">
+            <span class="kjcTrue" :class="{show:currentIndexRight1 == index1}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
@@ -21,8 +21,8 @@
       </div>
       <div class="kjcContentRight" v-else>
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index) in getSubItems"  :class="{active:currentIndexRight2 == index}" @click="checkRightSubItem(index,2)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight2 == index}"></span>
+          <li v-for="(item,index2) in getSubItems"  :class="{active:currentIndexRight2 == index2}" @click="checkRightSubItem(index2,2)" :key="item.id">
+            <span class="kjcTrue" :class="{show:currentIndexRight2 == index2}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
@@ -38,8 +38,8 @@
     data(){
       return{
         //1是行政区  2是地铁
-        subItemId1:'', //每个行政区下标id
-        subItemId2:'', //每个地铁下标id
+        subItemId1:-1, //每个行政区下标id
+        subItemId2:-1, //每个地铁下标id
         currentIndex1:0, //当前的左侧li下标
         currentIndex2:0, //当前的左侧li下标
         currentIndexRight1:0,//右侧的li下标
@@ -54,17 +54,19 @@
       }),
       ...mapGetters(['cinemaKind']),
     getSubItems(){ //获取每个行政区的具体subItem
-      if(this.subItems && (this.subItemId1 || this.subItemId2)){
+      if(this.subItems){
         
         let subItemId1 = this.subItemId1 
         let subItemId2 = this.subItemId2 
   
-         
-            if(this.subItems.find((item,index)=>item.id == subItemId1)){
-            return this.subItems.find((item,index)=>item.id == subItemId1).subItems || []
+         console.log(subItemId1,subItemId2)
+          if(this.subItems.find((item,index)=>item.id == subItemId1)){
+              console.log(this.subItems.find((item,index)=>item.id == subItemId1))
+            return this.subItems.find((item,index)=>item.id == subItemId1).subItems 
             }
-            if(this.subItems.find((item,index)=>item.id == subItemId2) ){
-            return this.subItems.find((item,index)=>item.id == subItemId2).subItems || []
+          if(this.subItems.find((item,index)=>item.id == subItemId2) ){
+              console.log(this.subItems.find((item,index)=>item.id == subItemId1))
+            return this.subItems.find((item,index)=>item.id == subItemId2).subItems
           }
           
       
@@ -119,10 +121,11 @@
       checkSubItem(id,index,num){
         if(num == 1){
           this.subItemId1 = id;
-        this.currentIndex1 = index
+        
+          this.currentIndex1 = index
         }else{
           this.subItemId2 = id;
-        this.currentIndex2 = index
+          this.currentIndex2 = index
         }
         
       },
