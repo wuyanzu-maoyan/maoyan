@@ -53,7 +53,7 @@
               <input  type="text" placeholder="请输入手机号" v-model="phoneZss"
                 name="phoneZss" v-validate="{required: true,regex:/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/}"
               >
-              <button class="zssGetCode" :class="{zssAbled:isRightPhoneZss}" @click.prevent="sendCodeZss">{{time>0?time:'发送验证码'}}</button>
+              <button class="zssGetCode" :class="{zssAbled:isRightPhoneZss}" @click.prevent="sendCodeZss">{{time>0?time+'s':'发送验证码'}}</button>
             </div>
             <div class='zssPhoneCode'>
               <input  type="text" placeholder="请输入短信验证码" v-model="codeZss"
