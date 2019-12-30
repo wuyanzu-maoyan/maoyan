@@ -181,13 +181,14 @@
         }else{
           //发登录的请求
           const result = await reqLoginByPhone({phone:phoneZss,code:codeZss});
-          const {code,data,code} = result;
+          const {code,data,msg} = result;
           if(code===0){
             this.$router.replace('/personal');
           }
          
         }
       },
+      //发送验证码
       async sendCodeZss(){
         const result = await reqPhoneCode(this.phoneZss);
         const {code,msg} = result;
