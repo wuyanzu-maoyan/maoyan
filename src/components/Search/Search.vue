@@ -10,7 +10,7 @@
       <div class="zxCancel" @click="cancel">取消</div>
     </div>
     <div class="zxSearchHistory">
-      <div class="zxSearchIco"><i class="iconfont icon-search"></i></div>
+      <div class="zxSearchIco"><i class="iconfont icon-shijianzhongbiao"></i></div>
       <span class="zxSearchContent">111</span>
       <div class="zxSearchIco"><i class="iconfont icon-guanbi"></i></div>
     </div>
