@@ -10,7 +10,7 @@
   import FooterNav from './components/FooterNav/FooterNav'
   export default {
     components:{
-      FooterNav
+      FooterNav,
     }
   }
 </script>
