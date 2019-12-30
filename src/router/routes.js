@@ -8,6 +8,7 @@ import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
+import Order from '../pages/Personal/Order'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
@@ -58,7 +59,7 @@ export default [
   },
   {
     path:"/personal",
-   //component: Personal
+    component: Personal
   },
   {
     path:"/city",
@@ -72,7 +73,6 @@ export default [
     path:"/detail",
     component: Detail
   },
-  
   // {
   //   path:'/',
   //   redirect:'/home'

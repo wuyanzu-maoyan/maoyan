@@ -57,11 +57,11 @@
             </div>
             <div class='zssPhoneCode'>
               <input  type="text" placeholder="请输入短信验证码" v-model="codeZss"
-                name="codeZss" v-validate="'required|email'"
+                name="codeZss" v-validate="'required'"
               >
             </div>
           </div>
-          <mint-button class='zssLoginButton enabled' @click.prevent="loginByPhone">登录</mint-button>
+          <mint-button class='zssLoginButton ' @click.prevent="loginByPhone" :class="{enabled:!isRightPhoneZss}">登录</mint-button>
         </div>
         
       </div>
@@ -76,18 +76,22 @@
         
 
       </div>
-      <SliderBlock></SliderBlock>
+
+      <!-- 滑块 -->
+      <div class="verifySliderZss" v-if="isShowSilderZss">
+        <VerifySlider @success="successHandler" class='sliderBlockZss' />
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { Toast } from 'mint-ui';
-  import SliderBlock from '../../components/SliderBlock/SliderBlock';
+  import {reqPhoneCode,reqLogin,reqLoginByPhone} from '../../api/index';
+   
   export default {
-    components:{
-      SliderBlock
-    },
+    
     data() {
       return {
         isPhoneLoginZss:false,
@@ -96,7 +100,8 @@
         phoneZss:'',
         codeZss:'',
         zssErrorTip:'',
-        // errorsZss:{},
+        
+        isShowSilderZss:false,//控制滑块的消失隐藏
       }
     },
     computed: {
@@ -105,9 +110,29 @@
       }
     },
     methods: {
+      async successHandler () {
+        setTimeout(() => {
+          
+          this.isShowSilderZss = false;
+        }, 1000);  
+        //发送登录请求
+        const {usernameZss,pwdZss} = this;
+        const result = await reqLogin({phone:usernameZss,password:pwdZss});
+        console.log(result);
+        const {code,msg,data} = result;
+        
+        if(code===0 ){
+          //登录成功，跳转个人中心
+          console.log('123');
+          this.$router.replace('/personal');
+          
+        }
+      },
+      //用户名密码登录
       async loginByUsernameZss(){
 
         const {usernameZss,pwdZss,errorsZss} = this;
+        
         if(!usernameZss){
           Toast({
             message: '账号不能为空',
@@ -125,41 +150,55 @@
           return
         }
         const success = await this.$validator.validateAll(['usernameZss','pwdZss']);
-        console.log(success);
+        
         if(!success){
           this.zssErrorTip = '账号或密码错误，是否';
-        }else{
-          //发登录的请求
-        }
-      },
-      async loginByPhone(){
-        const {phoneZss,codeZss,errorsZss} = this;
-        if(!usernameZss){
-          Toast({
-            message: '账号不能为空',
-            position: 'top',
-            duration: 1000
-          });
-          return 
-        }
-        if(!pwdZss){
-          Toast({
-            message: '密码不能为空',
-            position: 'top',
-            duration: 1000
-          });
           return
         }
-        const success = await this.$validator.validateAll(['usernameZss','pwdZss']);
-        console.log(success);
-        if(!success){
-          this.zssErrorTip = '账号或密码错误，是否';
-        }else{
-          //发登录的请求
-        }
+        this.isShowSilderZss = true;
+        
+        
+        
+          
+        
       },
-      sendCodeZss(){
 
+      //手机号登录
+      async loginByPhone(){
+        const {phoneZss,codeZss} = this;
+        if(!codeZss){
+          Toast({
+            message: '验证码不能为空',
+            position: 'top',
+            duration: 1000
+          });
+          return
+        }
+        const success = await this.$validator.validateAll(['phoneZss','codeZss']);
+        
+        if(!success){
+          this.zssErrorTip = '账号或密码错误，是否';
+        }else{
+          //发登录的请求
+          const result = await reqLoginByPhone({phone:phoneZss,code:codeZss});
+          const {code,data,msg} = result;
+          if(code===0){
+            this.$router.replace('/personal');
+          }
+         
+        }
+      },
+      //发送验证码
+      async sendCodeZss(){
+        const result = await reqPhoneCode(this.phoneZss);
+        const {code,msg} = result;
+        console.log(result);
+        if(code===0){
+          //发送验证码成功
+          console.log('验证码发送成功');
+        }else{
+          console.log('验证码发送失败');
+        }
       }
     },
   }
@@ -168,6 +207,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/mixins.styl';
   .zssLoginContainer
+    
     width 100vw
     height 100vh
     background-color #eee
@@ -287,7 +327,20 @@
             float left 
           .zssFindPwd
             float right
-           
+      .verifySliderZss
+        position fixed
+        background-color rgba(0,0,0,.7)
+        width 100vw
+        height 100vh
+        z-index 9
+        top 0
+        left 0
+        .sliderBlockZss
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%,-50%)
+
 
 
         
