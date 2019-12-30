@@ -104,6 +104,7 @@
             height 80px
             margin-left 12px
             display flex
+            font-size 12px
             flex-direction column
             justify-content center
             div
