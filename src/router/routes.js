@@ -6,6 +6,7 @@ import Detail from '../pages/Detail/Detail'
 import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
+import Movie from '../pages/Movie/Movie'
 import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
 import Order from '../pages/Personal/Order'
@@ -52,14 +53,58 @@ export default [
      children: [
       {
         path: '/home/Now',
-        component: Now
+        component: Now,
       },
       {
         path: '/home/Will',
         component: Will
       }
     ]
+     
+   },
+   {
+    path:"/Movie",
+    component: Movie,
+    
   },
+  // {
+  //   path:"/home",
+  //   component: Home
+  // },
+  // {
+  //   path:"/personal",
+  //   component: Personal
+  // },
+  // {
+  //   path:"/city",
+  //   component: City
+  // },
+  // {
+  //   path:"/cinemadetail",
+  //   component: CinemaDetail
+  // },
+  // {
+  //   path:"/home",
+  //   component: Home,
+  //   children:[
+  //     {
+  //       path:'/home/now',
+  //       component: Now
+  //     },
+  //     {
+  //       path:'/home/Will',
+  //       component: Will
+  //     }
+  //   ]
+  // },
+  // {
+  //   path:"/city",
+  //   component: City
+  // },
+  // {
+  //   path:"/cinemadetail",
+  //   component: CinemaDetail
+  // },
   {
     path:"/personal",
     component: Personal //个人中心
