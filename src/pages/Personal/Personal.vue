@@ -7,19 +7,19 @@
       <div class="wjOrder">
         <div class="wjTitle">我的订单</div>
         <div class="wjOutline"></div>
-        <div class="wjOrderMovie" @click="$router.push('/Order')">
+        <div class="wjOrderMovie" @click="$router.push('/order')">
           <p>电影</p>
         </div>
-        <div class="wjOrderShop" @click="$router.push('/Store')">
+        <div class="wjOrderShop" @click="$router.push('/store')">
           <p>商城</p>
         </div>
       </div>
       <div class="wjCardCoupon">
-        <div class="wjDiscountCoupon" @click="$router.push('/Cou')">优惠券
+        <div class="wjDiscountCoupon" @click="$router.push('/cou')">优惠券
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
         
-        <div class="wjDiscountCard">折扣卡
+        <div class="wjDiscountCard" @click="$router.push('/card')">折扣卡
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
       </div>
@@ -28,36 +28,36 @@
 </template>
 
 // <script type="text/ecmascript-6">
-//   import {reqAutoLogin} from '../../api/index';
-//   import {mapState} from 'vuex';
-//   import { Toast,MessageBox } from 'mint-ui';
-//   export default {
-//     async mounted() {
-//       //发送自动登录请求
-//       if(this.token){
-//         const result = await reqAutoLogin()
-//         console.log(result);
-//         if(result.code===1){
-//           console.log(result.msg);
-//           MessageBox('提示','请求失败请重新登录');
-//           this.$router.replace('/login');
+  import {reqAutoLogin} from '../../api/index';
+  import {mapState} from 'vuex';
+  import { Toast,MessageBox } from 'mint-ui';
+  export default {
+    async mounted() {
+      //发送自动登录请求
+      if(this.token){
+        const result = await reqAutoLogin()
+        console.log(result);
+        if(result.code===1){
+          console.log(result.msg);
+          MessageBox('提示','请求失败请重新登录');
+          this.$router.replace('/login');
           
-//         }
-//       }else{
-//         MessageBox('提示','没有token请重新登录');
-//         this.$router.replace('/login');
-//       }
+        }
+      }else{
+        MessageBox('提示','没有token请重新登录');
+        this.$router.replace('/login');
+      }
 
       
-//     },
-//     computed: {
-//       ...mapState({
-//         token:state => state.user.token
-//       }),
+    },
+    computed: {
+      ...mapState({
+        token:state => state.user.token
+      }),
       
-//     },
-//   }
-// </script>
+    },
+  }
+</script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';
