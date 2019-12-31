@@ -45,11 +45,18 @@ export default [
   {
     path:"/cinema",
     component: Cinema,
+    meta:{
+      isFooter:true,
+      title:'影院'
+    }
     
   },
     {
      path:"/home",
      component: Home,
+     meta:{
+       isFooter:true //需要footer
+     },
      children: [
       {
         path: '/home/Now',
@@ -67,47 +74,13 @@ export default [
     component: Movie,
     
   },
-  // {
-  //   path:"/home",
-  //   component: Home
-  // },
-  // {
-  //   path:"/personal",
-  //   component: Personal
-  // },
-  // {
-  //   path:"/city",
-  //   component: City
-  // },
-  // {
-  //   path:"/cinemadetail",
-  //   component: CinemaDetail
-  // },
-  // {
-  //   path:"/home",
-  //   component: Home,
-  //   children:[
-  //     {
-  //       path:'/home/now',
-  //       component: Now
-  //     },
-  //     {
-  //       path:'/home/Will',
-  //       component: Will
-  //     }
-  //   ]
-  // },
-  // {
-  //   path:"/city",
-  //   component: City
-  // },
-  // {
-  //   path:"/cinemadetail",
-  //   component: CinemaDetail
-  // },
   {
     path:"/personal",
-    component: Personal //个人中心
+    component: Personal, //个人中心
+    meta:{
+      isFooter:true,
+      isBack:true
+    }
   },
   {
     path:"/order",
@@ -137,9 +110,9 @@ export default [
     path:"/detail",
     component: Detail
   },
-  // {
-  //   path:'/',
-  //   redirect:'/home'
-  // }
+  {
+    path:'/',
+    redirect:'/home'
+  }
   
 ]

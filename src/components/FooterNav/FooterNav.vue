@@ -1,14 +1,14 @@
 <template>
-    <div class="kjcFooterContainer">
-      <span class="kjcFooterItem" @click="$router.replace('/home')">
+    <div class="kjcFooterContainer" v-show="$route.meta.isFooter">
+      <span class="kjcFooterItem" @click="goto('/home')">
           <i class="iconfont icon-dianying"></i>
           <p>电影</p>
       </span>
-      <span class="kjcFooterItem" @click="$router.replace('/cinema')">
+      <span class="kjcFooterItem" @click="goto('/cinema')">
           <i class="iconfont icon-yingyuan"></i>
           <p>影院</p>
       </span>
-      <span class="kjcFooterItem" @click="$router.replace('/personal')">
+      <span class="kjcFooterItem" @click="goto('/personal')">
           <i class="iconfont icon-wode"></i>
           <p>我的</p>
       </span>
@@ -17,7 +17,13 @@
 
 <script type="text/ecmascript-6">
   export default {
-
+    methods:{
+      goto(path){
+        if(this.$route.path !== path){
+          this.$router.push(path)
+        }
+      }
+    }
   }
 </script>
 
