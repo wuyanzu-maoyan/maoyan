@@ -1,6 +1,6 @@
 
 import {reqCinemaDetail} from '@/api'
-import {RECEIVE_CINEMA_DETAIL} from '../mutations'
+import {RECEIVE_CINEMA_DETAIL} from '../mutation-types'
 
 export default {
   state:{
