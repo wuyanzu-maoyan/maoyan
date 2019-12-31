@@ -27,7 +27,7 @@
   </div>
 </template>
 
-// <script type="text/ecmascript-6">
+<script type="text/ecmascript-6">
   import {reqAutoLogin} from '../../api/index';
   import {mapState} from 'vuex';
   import { Toast,MessageBox } from 'mint-ui';
