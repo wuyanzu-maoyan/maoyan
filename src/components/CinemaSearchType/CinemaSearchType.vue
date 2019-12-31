@@ -99,7 +99,7 @@
       district(value){
         if(value.name){
           this.$nextTick(()=>{
-          console.log(123)
+
           this.initScroll()
         })
         }
@@ -110,7 +110,7 @@
       subway(value){
         if(value.name){
           this.$nextTick(()=>{
-          console.log(123)
+
           this.initScroll()
         })
         }
@@ -120,9 +120,9 @@
       
       subItemId1(value){
         let subItemId1 = value 
-        console.log(value,'id1')
+
         if(this.district){
-          console.log(this.district.subItems.find((item,index)=>item.id == subItemId1))
+
           this.getSubItems1 = this.district.subItems.find((item,index)=>item.id == subItemId1).subItems
 
           this.$nextTick(()=>{
@@ -191,7 +191,9 @@
           this.itemId2 = item.id
           this.currentIndexRight2 = index;
         }
-        
+
+        this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:item.name})
+
       
       }
     },
