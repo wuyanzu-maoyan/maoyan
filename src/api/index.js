@@ -8,6 +8,10 @@ export const reqFilterCinemas = ()=>ajax.get('/getFilterCinemas');
 
 //请求城市信息
 export const reqCityList = ()=>ajax.get('/getCity') 
+//请求获取即将上映的电影信息
+export const reqComingList = ()=>ajax.get('/getComingList')
+//请求获取正在上映的电影信息 
+export const reqMovieonList = ()=>ajax.get('/getMovieOn') 
 
 //请求影院详情信息
 export const reqCinemaDetail = ()=>ajax.get('/getCinemaDetail')
@@ -20,3 +24,6 @@ export const reqLoginByUsername = (data) =>ajax.post('/login_maoyan',data)
 
 //手机号验证码登录
 export const reqLoginByPhone = (data) => ajax.post('/login_sms',data)
+
+//自动登录
+export const reqAutoLogin = () => ajax.get('/auto_login')

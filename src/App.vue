@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Header title="猫眼电影" style="display:none"></Header>
+    <Header :title="$route.meta.title || '猫眼电影'"></Header>
     <router-view></router-view>
     <FooterNav style="display:none"></FooterNav>
   </div>
@@ -17,7 +17,7 @@
 
 
 
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus">
 
  
 </style>

@@ -1,12 +1,13 @@
 //影院模块 
-import {SET_CINEMA_LIST,SET_FILTER_CINEMAS,SET_ISSUBWAY} from '@/vuex/mutation-types.js'
+import {SET_CINEMA_LIST,SET_FILTER_CINEMAS,SET_ISSUBWAY,SAVE_TYPE_OBJ} from '@/vuex/mutation-types.js'
 import {reqCinemaList,reqFilterCinemas} from '@/api'
 
 export default {
   state:{
     cinemaList:[],//北京电影院列表(简要)
     filterCinemas:[], //影院过滤信息
-    isSubway:false //是否是使用地铁类型检索
+    isSubway:0, //是否是使用地铁类型检索
+    typeObj:{} // 用于放检索条件的对象
   },
   mutations:{
     [SET_CINEMA_LIST](state,cinemaList){ //设置北京电影院列表(简要)
@@ -17,6 +18,9 @@ export default {
     },
     [SET_ISSUBWAY](state,isSubway){
       state.isSubway = isSubway
+    },
+    [SAVE_TYPE_OBJ](state,{key,value}){
+      state.typeObj[key] = value
     }
   },
   actions:{
@@ -34,15 +38,17 @@ export default {
       commit(SET_FILTER_CINEMAS,data);
     }
     }
+   
   },
   getters:{
-    cinemaKind(state){ //放置具体依靠搜索类型决定的搜索项 地铁/行政区
-      if(state.isSubway){
+    subway(state){ //地铁
+
         return state.filterCinemas.subway
-      }else{
-        return state.filterCinemas.district
-      }
-     
+  
+    },
+    district(state){ //行政区
+      return state.filterCinemas.district
     }
+    
   }
 }

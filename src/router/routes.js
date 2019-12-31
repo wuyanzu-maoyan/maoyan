@@ -5,9 +5,14 @@ import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 import Detail from '../pages/Detail/Detail'
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
+import Movie from '../pages/Movie/Movie'
 import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
 import Order from '../pages/Personal/Order'
+import Store from '../pages/Personal/Store'
+import Cou from '../pages/Personal/Cou'
+import Card from '../pages/Personal/Card'
+import VipCard from '../pages/Personal/VipCard'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
@@ -41,29 +46,66 @@ export default [
   {
     path:"/cinema",
     component: Cinema,
+    meta:{
+      isFooter:true,
+      title:'影院'
+    }
     
   },
   {
     path:"/home",
     component: Home,
+    meta:{
+      isFooter:true //需要footer
+    },
     children: [
       {
         path: '/home/Now',
-        component: Now
+        component: Now,
       },
       {
         path: '/home/Will',
         component: Will
       }
     ]
+     
+   },
+   {
+    path:"/Movie",
+    component: Movie,
+    
   },
   {
     path:"/personal",
-    component: Personal
+    component: Personal, //个人中心
+    meta:{
+      isFooter:true,
+      isBack:true
+    }
+  },
+  {
+    path:"/order",
+    component:Order //电影订单
+  },
+  {
+    path:"/store",
+    component:Store //商城订单
+  },
+  {
+    path:"/cou",
+    component:Cou //优惠券
+  },
+  {
+    path:"/card",
+    component:Card //折扣卡
+  },
+  {
+    path:"/vipcard",
+    component:VipCard //会员卡大全
   },
   {
     path:"/city",
-    //component: City
+    component: City
   },
   {
     path:"/cinemadetail",
@@ -73,9 +115,9 @@ export default [
     path:"/detail",
     component: Detail
   },
-  // {
-  //   path:'/',
-  //   redirect:'/home'
-  // }
+  {
+    path:'/',
+    redirect:'/home'
+  }
   
 ]

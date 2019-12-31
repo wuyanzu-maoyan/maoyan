@@ -133,9 +133,9 @@
     async mounted(){
       //请求a-z所有城市列表
       const result = await reqCityList()
-      // console.log(result)
-      if(result){
-        this.cityList = result.city
+      //  console.log(result)
+      if(result.code===0){
+        this.cityList = result.data.city
       }
       // console.log(this.cityList[0].list);
 
