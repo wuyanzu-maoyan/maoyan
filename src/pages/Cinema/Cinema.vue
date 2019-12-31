@@ -26,17 +26,17 @@
       </div>
     </div>
     <div class="kjcSearchTypeDetail">
-      <div class="kjcAllCityWrap" v-if="isShowType === 0">
+      <div class="kjcAllCityWrap" v-show="isShowType === 0">
         <div class="kjcAllCityContentHeader">
           <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="checkSubway(false)">商区</span>
           <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="checkSubway(true)">地铁站</span>
         </div>
-        <CinemaSearchType ></CinemaSearchType>
+        <CinemaSearchType v-show="isShowType === 0" :district="district" :subway="subway"></CinemaSearchType>
       </div>
-      <CinemaSearchBrand v-if="isShowType === 1"></CinemaSearchBrand>
-      <CinemaSearchChar v-if="isShowType === 2"></CinemaSearchChar>
+      <CinemaSearchBrand v-show="isShowType === 1"></CinemaSearchBrand>
+      <CinemaSearchChar v-show="isShowType === 2"></CinemaSearchChar>
     </div>
-    <div class="kjcMask" v-if="isShowType !== -1" @click="isShowType = -1"></div>
+    <div class="kjcMask" v-show="isShowType !== -1" @click="isShowType = -1"></div>
     <div class="kjcScrollContainer" ref="scrollContainer">
       <div class="kjcSrcollContent">
         <CinemaItem ref="cinemaItem" v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
@@ -72,8 +72,11 @@
     computed:{
       ...mapState({
         cinemaList: state => state.cinema.cinemaList || [],
-        isSubway: state => state.cinema.isSubway
+        isSubway: state => state.cinema.isSubway,
+        district: state => state.cinema.filterCinemas.district || {},
+        subway: state => state.cinema.filterCinemas.subway || {},
       })
+
     },
     methods:{
       initScroll(){
@@ -93,6 +96,10 @@
             }else{
               this.isShowType = -1
             }
+              if(isShowType == 0){
+                this.$store.commit(SET_ISSUBWAY,false)
+              }
+             
       },
       checkSubway(type){
         this.$store.commit(SET_ISSUBWAY,type)
@@ -107,6 +114,7 @@
       this.$globalEventBus.$on('changeIsShowType',(value)=>{
           this.isShowType = value
       })
+      this.$store.dispatch('getFilterCinemas')
     },
     watch:{
       //监视电影院列表的值

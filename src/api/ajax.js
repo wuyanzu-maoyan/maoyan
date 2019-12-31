@@ -4,8 +4,9 @@ import qs from 'query-string';
 import store from '../vuex/store';
 let instance = axios.create({
   baseURL:'/api',
+  // baseURL:'http://kangjiachang.utools.club',
   timeout:20000
-})
+}) 
 
 
 //请求拦截器
