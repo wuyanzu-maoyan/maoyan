@@ -11,8 +11,9 @@ import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
 import Order from '../pages/Personal/Order'
 import Store from '../pages/Personal/Store'
-import Cou from '../pages/Personal/Cou.vue'
-import Card from '../pages/Personal/Card.vue'
+import Cou from '../pages/Personal/Cou'
+import Card from '../pages/Personal/Card'
+import VipCard from '../pages/Personal/VipCard'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
@@ -91,12 +92,16 @@ export default [
     component:Store //商城订单
   },
   {
-    path:"/Cou",
+    path:"/cou",
     component:Cou //优惠券
   },
   {
-    path:"/Card",
+    path:"/card",
     component:Card //折扣卡
+  },
+  {
+    path:"/vipcard",
+    component:VipCard //会员卡大全
   },
   {
     path:"/city",
