@@ -2,19 +2,22 @@
   <div id="zxSearchContainer">
     <Header :title="'猫眼电影'"></Header>
     <div class="zxSearchHeader">
+      <!-- 搜索框 -->
       <div class="zxInputWrapper"> 
         <div class="zxIco"><i class="iconfont icon-search"></i></div>
-        <input type="text" placeholder="搜影院" v-model="zxInput">
+        <input type="text" placeholder="搜影院" v-model="zxInput" @blur="saveInput">
         <div class="zxIco"><i class="iconfont icon-guanbi" v-show="zxInput" @click="clear"></i></div>
       </div>
       <div class="zxCancel" @click="cancel">取消</div>
     </div>
-    <div class="zxSearchHistory">
+    <!-- 搜索历史 -->
+    <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="index">
       <div class="zxSearchIco"><i class="iconfont icon-shijianzhongbiao"></i></div>
-      <span class="zxSearchContent">111</span>
-      <div class="zxSearchIco"><i class="iconfont icon-guanbi"></i></div>
+      <span class="zxSearchContent">{{input}}</span>
+      <div class="zxSearchIco" @click="deleteInput(index)"><i class="iconfont icon-guanbi"></i></div>
     </div>
     <div class="zxSearchResult">
+      <!-- 搜索电影 -->
       <div class="zxResultWrapper">
         <div class="zxResult">
           <h3>电影/电视剧/综艺</h3>
@@ -58,15 +61,19 @@
         </div>
         
       </div>
+      <!-- 搜索影院 -->
+      
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import {reqCinemaList} from '../../api'
   export default {
     data(){
       return {
-        zxInput:''
+        zxInput:'', //输入内容
+        inputList: [] //输入历史
       }
     },
     methods:{
@@ -77,8 +84,41 @@
       //取消,返回
       cancel(){
 
+      },
+      //失去焦点保存输入
+      saveInput(){
+        const input = this.zxInput
+        if(input.trim()) {
+          this.inputList.unshift(input)
+          if(this.inputList.length>3){
+            this.inputList.splice(this.inputList.length-1)
+          }
+        }
+      },
+      //点击输入历史列表的X,删除信息
+      deleteInput(index){
+        this.inputList.shift(this.inputList[index])
+        
+      }
+    },
+    watch:{
+      async zxInput(){
+        //请求得到影院信息
+        const result = await reqCinemaList()
+        if(result.code === 0){
+          console.log(result.data.cinemas);
+          this.cinemasList = result.data.cinemas.filter((item,index)=> item.nm.includes(this.zxInput))
+        }else{
+          console.log('111111');
+          
+        }
+
+        //请求得到电影信息
+        
+
       }
     }
+
   }
 </script>
 
