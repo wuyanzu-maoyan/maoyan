@@ -25,16 +25,19 @@ instance.interceptors.response.use(
   },
   (error)=>{
     //统一处理异常 返回panding状态的promise 中断promise链
-    const status = error.response.status;
-    console.log(status,error.response);
-    if(status === 401){
-      MessageBox('提示',error.response.message);
-      console.log(error.response.message);
-    }else if(status=== 404){
-      MessageBox('提示','请求资源不存在');
+    if(error.response){
+      const status = error.response.status;
+      console.log(status,error.response);
+      if(status === 401){
+        MessageBox('提示',error.response.message);
+        console.log(error.response.message);
+      }else if(status=== 404){
+        MessageBox('提示','请求资源不存在');
+      }
     }else{
       MessageBox('提示','请求失败');
     }
+    
     
     return new Promise(()=>{})
   }

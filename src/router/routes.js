@@ -16,6 +16,7 @@ import Card from '../pages/Personal/Card.vue'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
+import Seats from '../pages/Seats/Seats';
 
 
 export default [
@@ -41,70 +42,41 @@ export default [
     path:'/findpassword',
     component:FindPassword,
   },
+  {
+    path:'/seats',
+    component:Seats,
+    meta:{
+      title:'中影星美国际影城（温都水城店）',//传给header组件的title
+      isBack:true//需要返回按钮
+
+    }
+  },
   
   {
     path:"/cinema",
     component: Cinema,
     
   },
+  {
+    path:"/home",
+    component: Home,
+    children: [
     {
-     path:"/home",
-     component: Home,
-     children: [
-      {
-        path: '/home/Now',
-        component: Now,
-      },
-      {
-        path: '/home/Will',
-        component: Will
-      }
-    ]
-     
-   },
-   {
+      path: '/home/Now',
+      component: Now,
+    },
+    {
+      path: '/home/Will',
+      component: Will
+    }
+  ]
+    
+  },
+  {
     path:"/Movie",
     component: Movie,
     
   },
-  // {
-  //   path:"/home",
-  //   component: Home
-  // },
-  // {
-  //   path:"/personal",
-  //   component: Personal
-  // },
-  // {
-  //   path:"/city",
-  //   component: City
-  // },
-  // {
-  //   path:"/cinemadetail",
-  //   component: CinemaDetail
-  // },
-  // {
-  //   path:"/home",
-  //   component: Home,
-  //   children:[
-  //     {
-  //       path:'/home/now',
-  //       component: Now
-  //     },
-  //     {
-  //       path:'/home/Will',
-  //       component: Will
-  //     }
-  //   ]
-  // },
-  // {
-  //   path:"/city",
-  //   component: City
-  // },
-  // {
-  //   path:"/cinemadetail",
-  //   component: CinemaDetail
-  // },
   {
     path:"/personal",
     component: Personal //个人中心
