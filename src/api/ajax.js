@@ -4,8 +4,9 @@ import qs from 'query-string';
 import store from '../vuex/store';
 let instance = axios.create({
   baseURL:'/api',
+  // baseURL:'http://kangjiachang.utools.club',
   timeout:20000
-})
+}) 
 
 
 //请求拦截器
@@ -25,6 +26,8 @@ instance.interceptors.response.use(
   },
   (error)=>{
     //统一处理异常 返回panding状态的promise 中断promise链
+
+    //发了请求的错误
     if(error.response){
       const status = error.response.status;
       console.log(status,error.response);

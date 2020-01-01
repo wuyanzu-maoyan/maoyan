@@ -7,19 +7,19 @@
       <div class="wjOrder">
         <div class="wjTitle">我的订单</div>
         <div class="wjOutline"></div>
-        <div class="wjOrderMovie" @click="$router.push('/Order')">
+        <div class="wjOrderMovie" @click="$router.push('/order')">
           <p>电影</p>
         </div>
-        <div class="wjOrderShop" @click="$router.push('/Store')">
+        <div class="wjOrderShop" @click="$router.push('/store')">
           <p>商城</p>
         </div>
       </div>
       <div class="wjCardCoupon">
-        <div class="wjDiscountCoupon" @click="$router.push('/Cou')">优惠券
+        <div class="wjDiscountCoupon" @click="$router.push('/cou')">优惠券
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
         
-        <div class="wjDiscountCard">折扣卡
+        <div class="wjDiscountCard" @click="$router.push('/card')">折扣卡
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
       </div>

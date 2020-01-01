@@ -13,16 +13,16 @@
     <div class="kjcHeaderLine" v-show="isShowType === 0 || isShowType === 1 || isShowType === 2"></div>
     <div class="kjcSearchType">
       <div class="kjcAllCity" @click="toggleShow(0)"> 
-        <span :class="{kjcRed:isShowType == 0}">全城</span>
-        <i :class="{kjcRed:isShowType == 0}"></i>
+        <span :class="{kjcRed:isShowType == 0 || (allCityName && isShowType === 0)}">{{allCityName || '全城'}}</span>
+        <i :class="{kjcRed:isShowType == 0 || (allCityName && isShowType === 0)}"></i>
       </div>
       <div class="kjcBrand" @click="toggleShow(1)">
-        <span :class="{kjcRed:isShowType == 1}">品牌</span>
-        <i :class="{kjcRed:isShowType == 1}"></i>
+        <span :class="{kjcRed:isShowType == 1 || (brandName && isShowType === 1)}">{{brandName || '品牌'}}</span>
+        <i :class="{kjcRed:isShowType == 1 || (brandName && isShowType === 1)}"></i>
       </div>
       <div class="kjcChar" @click="toggleShow(2)" >
-        <span :class="{kjcRed:isShowType == 2}">特色</span>
-        <i :class="{kjcRed:isShowType == 2}"></i>
+        <span :class="{kjcRed:isRed}">特色</span>
+        <i :class="{kjcRed:isRed}"></i>
       </div>
     </div>
     <div class="kjcSearchTypeDetail">
@@ -31,15 +31,18 @@
           <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="checkSubway(false)">商区</span>
           <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="checkSubway(true)">地铁站</span>
         </div>
-        <CinemaSearchType ></CinemaSearchType>
+        <CinemaSearchType v-if="isShowType === 0" :district="district" :subway="subway"></CinemaSearchType>
       </div>
       <CinemaSearchBrand v-if="isShowType === 1"></CinemaSearchBrand>
       <CinemaSearchChar v-if="isShowType === 2"></CinemaSearchChar>
     </div>
-    <div class="kjcMask" v-if="isShowType !== -1" @click="isShowType = -1"></div>
+    <div class="kjcMask" v-if="isShowType !== -1" @click="closeMask()"></div>
     <div class="kjcScrollContainer" ref="scrollContainer">
-      <div class="kjcSrcollContent">
-        <CinemaItem ref="cinemaItem" v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
+      <div class="kjcSrcollContent" v-if="isFirst">
+        <CinemaItem   v-for="(cinema,index) in cinemaListOrigin" :key="cinema.id" :cinema="cinema"></CinemaItem>
+      </div>
+      <div class="kjcSrcollContent" v-else-if="cinemaList.length || !isFirst">
+      <CinemaItem   v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
       </div>
     </div>
 
@@ -51,16 +54,18 @@
   import CinemaSearchType from '../../components/CinemaSearchType/CinemaSearchType'
   import CinemaSearchBrand from '../../components/CinemaSearchBrand/CinemaSearchBrand'
   import CinemaSearchChar from '../../components/CinemaSearchChar/CinemaSearchChar'
-  import {SET_ISSUBWAY} from '@/vuex/mutation-types.js'
+  import {SET_ISSUBWAY,SAVE_TYPE_OBJ} from '@/vuex/mutation-types.js'
   import BScroll from "better-scroll";
   import {mapState} from 'vuex'
-  import {reqCinemaList,reqFilterCinemas} from '@/api';
   
   export default {
     data(){
       return{
         isShowType:-1, //0全城 1品牌 2特色
-        
+        allCityName:'', //搜索全城的条件名字
+        brandName:'',//搜索品牌的条件名字
+        tagName: '', //搜索标签 可改签/可退票的条件名字
+        hallTypeName:'', //搜索特殊厅的条件名字
       }
     },
     components:{
@@ -71,9 +76,25 @@
     },
     computed:{
       ...mapState({
+        cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
         cinemaList: state => state.cinema.cinemaList || [],
-        isSubway: state => state.cinema.isSubway
-      })
+        isSubway: state => state.cinema.isSubway,
+        district: state => state.cinema.filterCinemas.district || {},
+        subway: state => state.cinema.filterCinemas.subway || {},
+        isFirst: state => state.cinema.isFirst
+      }),
+      isRed(){
+        //计算特色什么时候是红色
+        if((this.tagName && this.isShowType == -1)||( this.hallTypeName && this.isShowType == -1)){
+          return true
+        }else if(this.isShowType == 2){
+          return true
+        }else{
+          return false
+        }
+      
+      }
+
     },
     methods:{
       initScroll(){
@@ -90,33 +111,67 @@
             let isShowType = this.isShowType
             if(isShowType !== type){
               this.isShowType = type
+
             }else{
               this.isShowType = -1
             }
+              if(isShowType == 0){
+                this.$store.commit(SET_ISSUBWAY,false)
+              }
+             
       },
       checkSubway(type){
         this.$store.commit(SET_ISSUBWAY,type)
+      },
+      closeMask(){
+        this.isShowType = -1
+       
       }
     },
     mounted(){
-      this.$store.dispatch('getCinemaList');
+      this.$globalEventBus.$on('getSearchCondition',(obj)=>{
+
+            if(this.isShowType !== 2){
+              this.isShowType = -1
+            }
+            if(obj.key === 'addr'){
+              this.allCityName = obj.value
+            }else if(obj.key === 'brand'){
+              this.brandName = obj.value
+            }else if(obj.key === 'tag'){
+              this.tagName = obj.value
+            }else if(obj.key === 'hallType'){
+              this.hallTypeName = obj.value
+            }
+             this.$store.commit(SAVE_TYPE_OBJ,obj)
+             this.$store.dispatch('getSearchContent')
+           
+      })
+      this.$store.dispatch('getCinemaListOrigin');
+
       //在挂载时判断如果有值 相当于缓存(切换到其他路由 没有销毁 就重新初始化scroll
-      if(this.cinemaList.length){
+      if(this.cinemaListOrigin.length){
         this.initScroll()
       }
       this.$globalEventBus.$on('changeIsShowType',(value)=>{
           this.isShowType = value
       })
+      this.$store.dispatch('getFilterCinemas')
     },
     watch:{
       //监视电影院列表的值
-      cinemaList(){
+      cinemaListOrigin(){
         //如果他的值有变化就调用 说明请求回来值
         //就初始化scroll
         this.$nextTick(()=>{
           this.initScroll();
         })
       
+      },
+      cinemaList(){
+        this.$nextTick(()=>{
+          this.initScroll();
+        })
       }
     }
     
@@ -235,6 +290,7 @@
           border-bottom-color transparent
           margin-bottom -4px
           margin-left 4px
+          margin-right 5px
           &.kjcRed
             border 4px solid #e54847
             border-left-color transparent
@@ -245,6 +301,9 @@
           font-size 13px
           color #777
           margin-left  42px
+          white-space nowrap
+          overflow hidden 
+          text-overflow ellipsis 
           &.kjcRed
             color #e54847
       .kjcBrand:before

@@ -11,7 +11,7 @@
     <div class="kjcIconCard">
       <div v-for="(value2,key2) in cinemaTag" class="endorse"  >{{value2}}</div>
       <div v-for="(value1,key1) in cineTag" class="snack"  >{{value1}}</div>
-       <div class="endorse" v-if="cinema.tag.hallType.length" v-for="(item,index) in cinema.tag.hallType">{{item}}</div>
+      <div class="endorse" v-if="cinema.tag.hallType.length" v-for="(item,index) in cinema.tag.hallType">{{item}}</div>
     </div>
     <div class="kjcDisCount">
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAeCAYAAABNChwpAAAAAXNSR0IArs4c6QAAAgFJREFUSA3Nlz1LA0EQhmf3kouFEQwi+FEYQ+xEsImFoCDoL/CLaKd/QbC0sbCzFVuxsRS1jEVAsUqrIILRQAhaBGKMuawzwpGAm83mNhddCHfZnd3n3Z2ZuxsG2JI3YtQpVw6AiTkhYJj6/GqMwSsIdm312DsnMyzLCF79rGRAiIhfUOm6jL0FQvZU4Gfn0GU4KcINE5vjsc9LFXajE9kcfT7UDZaMQWwuG9Dpi/YyiIWZjqnSxrOAtWgANsYDysV1Bj0L0Flcx8ZoC1F0wf50UMo5fqjCY1FIxxo7jQSUHWgK+ag2YprfGwnIlQTQTk3a/46B2UEOIUu+v0gIIMgZLLTIZHJTOl+TL4K9ShckMc36Q+pc356QB6FLLJQFCqi4f39d2WoKLTy03ckg2OjAvcyXh9n1KX8eA0YC4n0MtuLoJru+o3bvjAS8o2vpfXCYsGEzZkFYHQ5SbcoglM5o6KQAoxhIDHBYiVqYERZcZB04f3aghNGv04wEuIDbQg3u8Lc4YsHymAVLeD17cuDypbWKjgggIZTpVwhM5x1YxzdlpaaXXB0T4J5GEbPy6F7/8WwUhC7U5OpZgIPfU5qnrNTn+UmoXLWNQc8n0AZDacqxUskpLXwcJDbHMinlI0O9NLI51WiAZZLa0odRZBKbU4FINRoDdtoNdxCDWMQk9jePWpE8hVOLbwAAAABJRU5ErkJggg==" alt="">
@@ -21,9 +21,12 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { mapState } from 'vuex';
   export default {
     props:['cinema'],
     computed:{
+     
+      
       cineTag(){
         let obj = {};
         let tag = this.cinema.tag;

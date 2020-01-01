@@ -3,7 +3,7 @@
 import Cinema from '../pages/Cinema/Cinema';
 import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 import Detail from '../pages/Detail/Detail'
-import Login from '../pages/Login/Login';
+import App from '../pages/App/App'
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Movie from '../pages/Movie/Movie'
@@ -11,12 +11,14 @@ import Will from '../pages/Home/Will/Will'
 import Personal from '../pages/Personal/Personal';
 import Order from '../pages/Personal/Order'
 import Store from '../pages/Personal/Store'
-import Cou from '../pages/Personal/Cou.vue'
-import Card from '../pages/Personal/Card.vue'
+import Cou from '../pages/Personal/Cou'
+import Card from '../pages/Personal/Card'
+import VipCard from '../pages/Personal/VipCard'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
 import Seats from '../pages/Seats/Seats';
+import Login from '../pages/Login/Login';
 
 
 export default [
@@ -55,6 +57,10 @@ export default [
   {
     path:"/cinema",
     component: Cinema,
+    meta:{
+      isFooter:true,
+      title:'影院'
+    }
     
   },
   {
@@ -73,29 +79,80 @@ export default [
     
   },
   {
+    meta:{
+      isFooter:true //需要footer
+    },
+    children: [
+      {
+        path: '/home/Now',
+        component: Now,
+        meta:{
+          isFooter:true //需要footer
+        },
+      },
+      {
+        path: '/home/Will',
+        component: Will,
+        meta:{
+          isFooter:true //需要footer
+        },
+      }
+    ]
+     
+   },
+   {
     path:"/Movie",
     component: Movie,
     
   },
   {
     path:"/personal",
-    component: Personal //个人中心
+    component: Personal, //个人中心
+    meta:{
+      isFooter:true,
+      isBack:true,
+      title:'我的'
+    }
   },
   {
     path:"/order",
-    component:Order //电影订单
+    component:Order, //电影订单
+    meta:{
+      isBack:true,
+      title:'我的电影订单'
+    }
   },
   {
     path:"/store",
-    component:Store //商城订单
+    component:Store, //商城订单
+    meta:{
+      isBack:true,
+      title:'我的周边商品'
+    }
   },
   {
-    path:"/Cou",
-    component:Cou //优惠券
+    path:"/cou",
+    component:Cou, //优惠券
+    meta:{
+      isBack:true,
+      title:'我的优惠券'
+    }
   },
   {
-    path:"/Card",
-    component:Card //折扣卡
+    path:"/card",
+    component:Card, //折扣卡
+    meta:{
+      isBack:true,
+      title:'我的折扣卡'
+    }
+  },
+  {
+    path:"/vipcard",
+    component:VipCard, //影院会员卡
+    meta:{
+      isBack:true,
+      title:'影院会员卡'
+    }
   },
   {
     path:"/city",
@@ -103,15 +160,22 @@ export default [
   },
   {
     path:"/cinemadetail",
-    component: CinemaDetail
+    component: CinemaDetail,
+    meta:{
+      isBack:true
+    }
   },
   {
     path:"/detail",
     component: Detail
   },
-  // {
-  //   path:'/',
-  //   redirect:'/home'
-  // }
+  {
+    path:"/app",
+    component: App
+  },
+  {
+    path:'/',
+    redirect:'/home',
+  }
   
 ]

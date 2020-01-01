@@ -1,19 +1,19 @@
 <template>
     <div class="kjcContent">
-      <div class="kjcContentLeft" v-if="isSubway">
+      <div class="kjcContentLeft" v-if="!isSubway">
         <ul class="kjcContentLeftWrap">
-          <li :class="{active:currentIndex1 == index}"  v-for="(subItem,index) in subItems" @click="checkSubItem(subItem.id,index,1)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
+          <li :class="{active:currentIndex1 == index}" v-if="district.subItems" v-for="(subItem,index) in district.subItems" @click="checkSubItem(subItem.id,index,1)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
         </ul>
       </div>
       <div class="kjcContentLeft" v-else>
         <ul class="kjcContentLeftWrap">
-          <li :class="{active:currentIndex2 == index}"  v-for="(subItem,index) in subItems" @click="checkSubItem(subItem.id,index,2)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
+          <li :class="{active:currentIndex2 == index}" v-if="subway.subItems"  v-for="(subItem,index) in subway.subItems" @click="checkSubItem(subItem.id,index,2)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
         </ul>
       </div>
-      <div class="kjcContentRight" v-if="isSubway">
+      <div class="kjcContentRight" v-if="!isSubway">
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index1) in getSubItems"  :class="{active:currentIndexRight1 == index1}" @click="checkRightSubItem(index1,1)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight1 == index1}"></span>
+          <li v-for="(item,index1) in getSubItems1"  :class="{active:(currentIndexRight1 == index1) && (itemId1 == item.id)}" @click="checkRightSubItem(index1,1,item,getSubItems1)" :key="item.id">
+            <span class="kjcTrue" :class="{show:(currentIndexRight1 == index1) && (itemId1 == item.id)}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
@@ -21,8 +21,8 @@
       </div>
       <div class="kjcContentRight" v-else>
         <ul class="kjcContentRightWrap">
-          <li v-for="(item,index2) in getSubItems"  :class="{active:currentIndexRight2 == index2}" @click="checkRightSubItem(index2,2)" :key="item.id">
-            <span class="kjcTrue" :class="{show:currentIndexRight2 == index2}"></span>
+          <li v-for="(item,index2) in getSubItems2"  :class="{active:(currentIndexRight2 == index2)&&(itemId2 == item.id) }" @click="checkRightSubItem(index2,2,item,getSubItems2)" :key="item.id">
+            <span class="kjcTrue" :class="{show:(currentIndexRight2 == index2)&&(itemId2 == item.id)}"></span>
             <span class="kjcItemName">{{item.name}}</span>
             <span class="kjcItemCount">{{item.count}}</span>
           </li>
@@ -35,6 +35,14 @@
   import BScroll from 'better-scroll';
   import {mapState, mapGetters} from 'vuex'
   export default {
+    props:{
+      district:{
+        default:[]
+      },
+      subway:{
+        default:[]
+      }
+    },
     data(){
       return{
         //1是行政区  2是地铁
@@ -44,43 +52,74 @@
         currentIndex2:0, //当前的左侧li下标
         currentIndexRight1:0,//右侧的li下标
         currentIndexRight2:0,//右侧的li下标
-        subItems:[], //cinema中的subItems
-        getSubItems:[] //获取每个行政区的具体subItem
+        getSubItems1:[], //获取每个行政区的具体subItem
+        getSubItems2:[], //获取每个地铁的具体subItem
+        itemId1:'', //每个subitem的id  行政区
+        itemId2:'', //每个subitem的id 地铁站
+        
       }
     },
     computed:{
       ...mapState({
         isSubway:state => state.cinema.isSubway
       }),
-      ...mapGetters(['cinemaKind']),
     },
     watch:{
-      isSubway(){
-        this.$nextTick(()=>{
+      isSubway(value){
+          if(value === false){this.initScroll() }
+            if(value === true){this.initScroll() }
+
+      },
+      district(value){
+        if(value.name){
+          this.$nextTick(()=>{
+
           this.initScroll()
         })
+        }
+
+        
+
       },
-      cinemaKind(value){
-        this.subItems = value.subItems
-        this.$nextTick(()=>{
+      subway(value){
+        if(value.name){
+          this.$nextTick(()=>{
+
           this.initScroll()
-          let subItemId1 = this.subItemId1 
-          let subItemId2 = this.subItemId2 
-         if(!this.isSubway){
-          this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId1).subItems 
-         }else{
-           this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId2).subItems
-         }
+        })
+        }
+
+      },
+        
+      
+      subItemId1(value){
+        let subItemId1 = value 
+        this.$nextTick(()=>{
+        if(this.district){
+
+          this.getSubItems1 = this.district.subItems.find((item,index)=>item.id == subItemId1).subItems
+
+         
+            this.initScroll()
+        
+        }
+          })
+
+        
+      },
+      subItemId2(value){
+        let subItemId2 = value
+        this.$nextTick(()=>{
+        if(this.subway){
+ 
+          this.getSubItems2 = this.subway.subItems.find((item,index)=>item.id == subItemId2).subItems
+   
           
-        })
-      },
-      subItemId1(){
-        let subItemId1 = this.subItemId1 
-        this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId1).subItems 
-      },
-      subItemId2(){
-        let subItemId2 = this.subItemId2 
-        this.getSubItems = this.subItems.find((item,index)=>item.id == subItemId2).subItems
+            this.initScroll()
+         
+
+        }
+         })
       }
     },
     methods:{
@@ -110,32 +149,52 @@
        }
       },
       checkSubItem(id,index,num){
+        console.log(index)
         if(num == 1){
           this.subItemId1 = id;
         
           this.currentIndex1 = index
+          sessionStorage.setItem('currentIndex1',index)
         }else{
           this.subItemId2 = id;
           this.currentIndex2 = index
+          sessionStorage.setItem('currentIndex2',index)
         }
-        
+        if(index === 0){
+          console.log(index)
+          this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:'全部'});
+
+        }
       },
-      checkRightSubItem(index,num){
+      checkRightSubItem(index,num,item,getSubItems){
         if(num == 1){
+          this.itemId1 = item.id
           this.currentIndexRight1 = index;
+          sessionStorage.setItem('currentIndexRight1',index)
         }else{
+          this.itemId2 = item.id
           this.currentIndexRight2 = index;
+          sessionStorage.setItem('currentIndexRight2',index)
         }
+
+        this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:item.name})
+
       
       }
     },
-    mounted(){
-      this.$store.dispatch('getFilterCinemas');
-      if(this.cinemaKind){
-        this.initScroll();
-      }
+   updated(){
+     this.initScroll()
+   },
+   mounted(){
+    //  this.currentIndexRight1 = sessionStorage.getItem('currentIndexRight1')*1 || 0
+    //  this.currentIndexRight2 = sessionStorage.getItem('currentIndexRight2')*1 || 0
+    //  this.currentIndex1 = sessionStorage.getItem('currentIndex1')*1 || 0
+    //  this.currentIndex2 = sessionStorage.getItem('currentIndex2')*1 || 0
+    //  if(this.district.length || this.subway.length){
+    //    this.initScroll()
+    //  }
+   }
 
-    },
   }
 </script>
 
