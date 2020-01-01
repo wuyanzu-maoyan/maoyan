@@ -63,10 +63,16 @@ export default [
       {
         path: '/home/Now',
         component: Now,
+        meta:{
+          isFooter:true //需要footer
+        },
       },
       {
         path: '/home/Will',
-        component: Will
+        component: Will,
+        meta:{
+          isFooter:true //需要footer
+        },
       }
     ]
      
@@ -146,7 +152,7 @@ export default [
   },
   {
     path:'/',
-    redirect:'/home'
+    redirect:'/home',
   }
   
 ]
