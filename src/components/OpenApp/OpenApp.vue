@@ -10,12 +10,12 @@
           <h2>猫眼</h2>
           <span>在线选座,热门影讯,爱上看电影</span>
         </div>
-        <button>立即打开</button>
+        <button @click="$router.push('/app')">立即打开</button>
       </div>
     </div>
     <!-- 右下方图标按钮 -->
     <!-- <div class="open" :style="{display: zyhIsShow ? 'block' : 'none'}"> -->
-    <div class="open">
+    <div class="open" @click="$router.push('/app')">
       <div class="openBg">
         <img src="./images/logo.png" alt="">
       </div>

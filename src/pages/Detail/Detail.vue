@@ -5,6 +5,8 @@
         <OpenApp/>
         <!-- 电影基本信息 -->
         <div class="movieInfo">
+          <!-- 返回按钮 -->
+          <div class="back" @click="$router.go(-1)"></div>
           <!-- 头部电影详细信息 -->
           <div class="movieInfoTop">
             <div class="movieImg" @click="toVideo">
@@ -74,7 +76,7 @@
             </div>
           </div>
           <!-- 活动 -->
-          <div class="activity">
+          <div class="activity" @click="$router.push('/app')">
             <div class="left">
               <img src="./images/redBag.png" alt="">
               <span>必得 90 元电影券，猛戳 👉</span>
@@ -170,7 +172,7 @@
               </div>
             </div>
           </div>
-          <footer>
+          <footer @click="$router.push('/app')">
             打开App，90748人正在讨论
           </footer>
         </div>
@@ -256,6 +258,15 @@
 
 #detailContainer
   background rgb(39, 40, 64)
+  .back
+    position absolute
+    left 8px
+    top 70px
+    width 10px
+    height 10px
+    transform rotate(45deg)
+    border-left 2px solid #fff
+    border-bottom 2px solid #fff
   .movieInfo
     // margin-top 64px
     background rgb(39, 40, 64)

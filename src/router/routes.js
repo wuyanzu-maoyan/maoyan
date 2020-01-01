@@ -3,6 +3,7 @@
 import Cinema from '../pages/Cinema/Cinema';
 import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 import Detail from '../pages/Detail/Detail'
+import App from '../pages/App/App'
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Movie from '../pages/Movie/Movie'
@@ -138,6 +139,10 @@ export default [
   {
     path:"/detail",
     component: Detail
+  },
+  {
+    path:"/app",
+    component: App
   },
   {
     path:'/',
