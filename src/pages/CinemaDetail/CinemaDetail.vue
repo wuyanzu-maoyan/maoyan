@@ -140,7 +140,7 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-  import OpenApp from '../../components/OpenApp/OpenApp'
+  import OpenApp from '../../components/Openapp/OpenApp'
   // import MovieShowTime from '@/components/MovieShowTime/MovieShowTime'
   import {mapState} from 'vuex'
   import {reqCinemaDetail} from '@/api'

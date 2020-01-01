@@ -333,7 +333,7 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-  import OpenApp from '../../components/OpenApp/OpenApp'
+  import OpenApp from '../../components/Openapp/OpenApp'
   
   export default {
     components:{

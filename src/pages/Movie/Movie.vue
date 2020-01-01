@@ -44,7 +44,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import open from '../../components/Openapp/Openapp'
+  import open from '../../components/Openapp/OpenApp'
   import Theatercomponent from './Theater component/Theater component'
   export default {
     data(){

@@ -55,90 +55,82 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-#openAppContainer
-  height 64px
-  .lyhLogo_app
-    width: 100%;
-    height: 64px;
-    background #fff
-    position: relative;
-    display: flex;
-    border-bottom: 1px solid #e6e6e6;
-     
-    .lyhLogo
-      width: 44px;
-      height: 44px;
-      border-radius:50%; 
-      overflow: hidden
-     
-      img
-        position: absolute;
+  #openAppContainer 
+    height 64px
+    .lyhLogo_app
+      width: 100%;
+      height: 64px;
+      background #fff
+      position: relative;
+      display: flex;
+      border-bottom: 1px solid #e6e6e6;
+      .lyhLogo
         width: 44px;
         height: 44px;
-        border-radius:50%;
-        line-height: 64px;
-        top:11px;
-        left: 15px;
-     
-    button
-      width:68px;
-      height: 30px;
-      background: #ef4238;
-      color: #fff;
-      font-size: 12px;
-      border-radius: 8px;
-      border: 0px;
-      position: absolute;
-      right:15px ;
-      top: 18px;
-      text-align: center
-     
-    .lyhText
-       position: absolute;
-       height:40px;
-       top: 17px;
-       left: 63px;
-     
-       h2
-        font-size: 17px;
-        color: #222;
-        margin-bottom: 5px;
-     
-       span
+        border-radius:50%; 
+        overflow: hidden
+        img
+          position: absolute;
+          width: 44px;
+          height: 44px;
+          border-radius:50%;
+          line-height: 64px;
+          top:11px;
+          left: 15px;
+      button
+        width:68px;
+        height: 30px;
+        background: #ef4238;
+        color: #fff;
         font-size: 12px;
-        color: #999;
- 
-  
-  .open
-    position fixed
-    right 16px
-    bottom 100px
-    z-index 2
-    width 60px
-    height 95px
-    display flex
-    flex-direction column
-    justify-content center
-    align-items center
-    .openBg
-      width 55px
-      height 55px
-      background #fff
-      border-radius 15px
-      padding 5px
-      box-sizing border-box
-      img 
-        width 100%
-        height 100%
-    button
+        border-radius: 8px;
+        border: 0px;
+        position: absolute;
+        right:15px ;
+        top: 18px;
+        text-align: center
+      .lyhText
+        position: absolute;
+        height:40px;
+        top: 17px;
+        left: 63px;
+        h2
+          font-size: 17px;
+          color: #222;
+          margin-bottom: 5px;
+        span
+          font-size: 12px;
+          color: #999;
+    .open
+      position fixed
+      right 16px
+      bottom 100px
+      z-index 2
       width 60px
-      height 22px
-      background linear-gradient(-90deg,#FEC718,#FCA72A)
-      margin-top 8px
-      border none
-      border-radius 13px
-      font-size 10px
-      color #fff
+      height 95px
+      display flex
+      flex-direction column
+      justify-content center
+      align-items center
+      .openBg
+        width 55px
+        height 55px
+        background #fff
+        border-radius 15px
+        padding 5px
+        box-sizing border-box
+        img 
+          width 100%
+          height 100%
+      button
+        width 60px
+        height 22px
+        background linear-gradient(-90deg,#FEC718,#FCA72A)
+        margin-top 8px
+        border none
+        border-radius 13px
+        font-size 10px
+        color #fff
 
 
 
