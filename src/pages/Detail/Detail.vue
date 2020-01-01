@@ -7,21 +7,21 @@
         <div class="movieInfo">
           <!-- 头部电影详细信息 -->
           <div class="movieInfoTop">
-            <div class="movieImg">
-              <img class="movie" src="../CinemaDetail/images/yewen.jpg" alt="">
+            <div class="movieImg" @click="toVideo">
+              <img class="movie" :src="detail.albumImg" alt="">
               <img class="stop" src="./images/stop.png" alt="">
             </div>
             <div class="movieDesc">
               <div class="movieDescTop">
-                <p class="movieCnName">叶问4：完结篇</p>
-                <p class="movieEnName">葉問4</p>
+                <p class="movieCnName">{{detail.nm}}</p></p>
+                <p class="movieEnName">{{detail.enm}}</p>
                 <div class="movieOtherInfo">
                   <div class="movieType">
-                    <span>动作 / 剧情 / 传记</span>
-                    <img src="./images/movieTag.png" alt="">
+                    <span>{{detail.cat}}</span>
+                    <img :src="detail.movieTag" alt="">
                   </div>
-                  <div class="movieActors">甄子丹 / 吴樾 / 吴建豪</div>
-                  <div class="movieShowTime">2019-12-20大陆上映 / 107分钟 > </div>
+                  <div class="movieActors">{{detail.star}}</div>
+                  <div class="movieShowTime">{{detail.pubDesc}} / {{detail.episodeDur}}分钟 > </div>
                 </div>
               </div>
               <div class="btns">
@@ -42,17 +42,17 @@
                 <span>实时口碑</span>
               </div>
               <div class="tRight">
-                <span>296854人想看 </span>
-                <span> 295254人看过</span>
+                <span>{{detail.wish}}人想看 </span>
+                <span> {{detail.watched}}人看过</span>
               </div>
             </div>
             <div class="middle">
               <div class="mLeft">
-                <span class="score">9.5</span>
-                <span class="peopleGrade">156863人评</span>
+                <span class="score">{{detail.sc}}</span>
+                <span class="peopleGrade">{{detail.snum}}人评</span>
               </div>
-              <div class="mRight">
-                <div class="starsPercent">
+              <div class="mRight" v-if="detail.distributions">
+                <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
                   <div class="starts">
                     <img src="./images/star.png" alt="">
                     <img src="./images/star.png" alt="">
@@ -61,51 +61,11 @@
                     <img src="./images/star.png" alt="">
                   </div>
                   <div class="bar">
-                    <div class="percent" style="width: 87%"></div>
+                    <div class="percent" :style="`width: ${score.proportion}%`"></div>
                   </div>
-                  <div class="percentValue">87%</div>
-                </div>
-                <div class="starsPercent">
-                  <div class="starts">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
+                  <div class="percentValue">
+                    {{score.proportion}}%
                   </div>
-                  <div class="bar">
-                    <div class="percent" style="width: 9%"></div>
-                  </div>
-                  <div class="percentValue">9%</div>
-                </div>
-                <div class="starsPercent">
-                  <div class="starts">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                  </div>
-                  <div class="bar">
-                    <div class="percent" style="width: 2%"></div>
-                  </div>
-                  <div class="percentValue">2%</div>
-                </div>
-                <div class="starsPercent">
-                  <div class="starts">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                  </div>
-                  <div class="bar">
-                    <div class="percent" style="width: 0.5%"></div>
-                  </div>
-                  <div class="percentValue">0.5%</div>
-                </div>
-                <div class="starsPercent">
-                  <div class="starts">
-                    <img src="./images/star.png" alt="">
-                  </div>
-                  <div class="bar">
-                    <div class="percent" style="width: 1.5%"></div>
-                  </div>
-                  <div class="percentValue">1.5%</div>
                 </div>
               </div>
             </div>
@@ -133,7 +93,7 @@
               </div>
             </div>
             <div class="content">
-              <p :class="{lineClamp:zyhIsOpen}">因故来到美国唐人街的叶问（甄子丹 饰），意外卷入一场当地军方势力与华人武馆的纠纷，面对日益猖狂的民族歧视与压迫，叶问挺身而出，在美国海军陆战队军营拼死一战，以正宗咏春，向世界证明了中国功夫。</p>
+              <p :class="{lineClamp:zyhIsOpen}">{{detail.dra}}</p>
             </div>
           </div>
           <!-- 演职人员 -->
@@ -142,37 +102,12 @@
               <span class="left">演职人员</span>
               <span class="right">全部 > </span> 
             </div>
-            <div class="actorList">
-              <ul class="swiperWrapper">
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">导演</span>
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">饰 叶问</span>
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">饰 叶问</span>
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">饰 叶问</span>
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">饰 叶问</span>
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/actor.png" alt="">
-                  <span class="name">甄子丹</span>
-                  <span class="role">饰 叶问</span>
+            <div class="actorList" ref="actor" style="width: 375px">
+              <ul class="swiperWrapper" v-if="detail.actors">
+                <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
+                  <img :src="actor.img" alt="">
+                  <span class="name">{{actor.name}}</span>
+                  <span class="role">{{actor.role}}</span>
                 </li>
               </ul>
             </div>
@@ -183,25 +118,14 @@
               <span class="left">视频剧照</span>
               <span class="right">全部剧照 > </span> 
             </div>
-            <div class="videosList">
-              <ul class="swiperWrapper">
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
+            <div class="videosList" ref="video" style="width:375px">
+              <ul class="swiperWrapper" v-if="detail.photos">
+                <li class="swiperSlide" @click="toVideo">
+                  <img class="photo" :src="detail.videoImg" alt="">
+                  <img class="videoStop" src="./images/videoStop.png" alt="">
                 </li>
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
-                </li>
-                <li class="swiperSlide">
-                  <img src="./images/videoImg.png" alt="">
+                <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
+                  <img  class="photo" :src="photo" alt="">
                 </li>
               </ul>
             </div>
@@ -212,104 +136,34 @@
           <header>
             <span>讨论</span>
           </header>
-          <div class="comments">
-            <div class="comment">
+          <div class="comments" v-if="detail.comments">
+            <div class="comment" v-for="(comment,index) in detail.comments" :key="index">
               <div class="avatar">
-                <img src="./images/avatar.png" alt="">
+                <img :src="comment.avatar" alt="">
               </div>
               <div class="content">
                 <div class="top">
                   <div class="nameBox">
-                    <span class="name">中东西南北</span>
-                    <img src="./images/vipLevel.png" alt="">
+                    <span class="name">{{comment.name}}</span>
+                    <img :src="comment.vipUrl" alt="">
                   </div>
                   <div class="gradeScore">
-                    <span>给这部电影打了8分</span>
+                    <span>{{comment.score}}</span>
                   </div>
                 </div>
                 <div class="middle">
-                  <span>
-                    之前很担心这个系列烂尾，但看完觉得足够给观众交差了。单说武打呈现，绝对不辱没这个系列的水准。至于剧情，压根不去纠结，这个系列的情节都是编的，看点也不在这儿。所以无所谓，逻辑合理就行。8分的电影，多1分赠给这个团队十年的付出。
-                  </span>
+                  <span>{{comment.content}}</span>
                 </div>
                 <div class="bottom">
                   <div class="time">
-                    <span>12-20</span>
+                    <span>{{comment.time}}</span>
                   </div>
                   <div class="right">
                     <img src="./images/thumbUp.png" alt="">
-                    <span>9826</span>
+                    <span>{{comment.thumbUpNum}}</span>
                     <div class="goToComments">
                       <img src="./images/comment.png" alt="">
-                      <span>496</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="comment">
-              <div class="avatar">
-                <img src="./images/avatar.png" alt="">
-              </div>
-              <div class="content">
-                <div class="top">
-                  <div class="nameBox">
-                    <span class="name">中东西南北</span>
-                    <img src="./images/vipLevel.png" alt="">
-                  </div>
-                  <div class="gradeScore">
-                    <span>给这部电影打了8分</span>
-                  </div>
-                </div>
-                <div class="middle">
-                  <span>
-                    之前很担心这个系列烂尾，但看完觉得足够给观众交差了。单说武打呈现，绝对不辱没这个系列的水准。至于剧情，压根不去纠结，这个系列的情节都是编的，看点也不在这儿。所以无所谓，逻辑合理就行。8分的电影，多1分赠给这个团队十年的付出。
-                  </span>
-                </div>
-                <div class="bottom">
-                  <div class="time">
-                    <span>12-20</span>
-                  </div>
-                  <div class="right">
-                    <img src="./images/thumbUp.png" alt="">
-                    <span>9826</span>
-                    <div class="goToComments">
-                      <img src="./images/comment.png" alt="">
-                      <span>496</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="comment">
-              <div class="avatar">
-                <img src="./images/avatar.png" alt="">
-              </div>
-              <div class="content">
-                <div class="top">
-                  <div class="nameBox">
-                    <span class="name">中东西南北</span>
-                    <img src="./images/vipLevel.png" alt="">
-                  </div>
-                  <div class="gradeScore">
-                    <span>给这部电影打了8分</span>
-                  </div>
-                </div>
-                <div class="middle">
-                  <span>
-                    之前很担心这个系列烂尾，但看完觉得足够给观众交差了。单说武打呈现，绝对不辱没这个系列的水准。至于剧情，压根不去纠结，这个系列的情节都是编的，看点也不在这儿。所以无所谓，逻辑合理就行。8分的电影，多1分赠给这个团队十年的付出。
-                  </span>
-                </div>
-                <div class="bottom">
-                  <div class="time">
-                    <span>12-20</span>
-                  </div>
-                  <div class="right">
-                    <img src="./images/thumbUp.png" alt="">
-                    <span>9826</span>
-                    <div class="goToComments">
-                      <img src="./images/comment.png" alt="">
-                      <span>496</span>
+                      <span>{{comment.commentsNum}}</span>
                     </div>
                   </div>
                 </div>
@@ -333,7 +187,9 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-  import OpenApp from '../../components/OpenApp/OpenApp'
+  import OpenApp from '@/components/OpenApp/OpenApp'
+  import {mapState} from 'vuex'
+  import {reqDetail} from '@/api'
   
   export default {
     components:{
@@ -344,16 +200,52 @@
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
       }
     },
-    methods:{
-      zyhToggleOpenClose(){
-        this.zyhIsOpen = !this.zyhIsOpen
-      }
-    },
     mounted(){
+      this.$store.dispatch('getDetail')
+
+      //全屏竖向滑屏
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.movie, {
           click:true,
-          bounce:false
+          bounce:false  //取消弹簧效果
+        })
+      }
+    },
+    computed:{
+      ...mapState({
+        detail: state => state.detail.detail
+      })
+    },
+    methods:{
+      //切换简介内容展开收起状态的回调
+      zyhToggleOpenClose(){
+        this.zyhIsOpen = !this.zyhIsOpen
+      },
+      //跳转到视频播放的链接
+      toVideo(){
+        // console.log('跳转到视频');
+        location.href=`${this.detail.videourl}`
+      }
+    },
+    watch:{
+      detail(){
+        this.$nextTick(()=>{
+          //演员的横向滑动
+          if (!this.actorScroll) {
+            this.actorScroll = new BScroll(this.$refs.actor, {
+              click:true,
+              bounce:false,  //取消弹簧效果
+              scrollX:true,  //允许横向滑屏
+            })
+          }
+          //视频剧照的横向滑屏
+          if (!this.videoScroll) {
+            this.videoScroll = new BScroll(this.$refs.video, {
+              click:true,
+              bounce:false,  //取消弹簧效果
+              scrollX:true,  //允许横向滑屏
+            })
+          }
         })
       }
     }
@@ -514,17 +406,6 @@
               color #fff
               opacity .4
 
-
-
-
-
-
-
-
-
-
-
-
       .bottom
         display flex
         justify-content flex-start
@@ -596,6 +477,8 @@
             -webkit-line-clamp 3
 
     .actors
+      width 100%
+      height 180px
       margin 18px 0 15px
       .title
         display flex
@@ -609,18 +492,22 @@
           color #fff
           opacity 0.6
       .actorList
+        width 100%
+        height 147px
         margin-top 11px
         overflow hidden
         .swiperWrapper
+          width 2220px
+          height 147px
           display flex
           justify-content flex-start
           align-items flex-start
-          overflow-x scroll
+          // overflow-x scroll
           .swiperSlide
             display flex
             flex-shrink 0
             flex-flow column
-            justify-content center
+            justify-content space-between
             align-items center
             width 82px
             height 147px
@@ -633,8 +520,12 @@
               color #fff
               text-align center
               overflow hidden
-              text-overflow ellipsis
-              white-space nowrap
+              display -webkit-box
+              -webkit-box-orient vertical
+              -webkit-line-clamp 1
+              // overflow hidden
+              // text-overflow ellipsis
+              // white-space nowrap
             .role
               opacity 0.4
 
@@ -652,14 +543,19 @@
           color #fff
           opacity 0.6
       .videosList
+        width 100%
+        height 132px
         margin-top 11px
         overflow hidden
         .swiperWrapper
+          width 3130px
+          height 98px
           display flex
           justify-content flex-start
           align-items flex-start
-          overflow-x scroll
+          // overflow-x scroll
           .swiperSlide
+            position relative
             display flex
             flex-shrink 0
             flex-flow column
@@ -668,11 +564,17 @@
             width 140px
             height 93px
             margin-right 8px
-            img 
+            .photo 
               width 100%
               height 100%
+            .videoStop
+              position absolute
+              left 50%
+              top 50%
+              margin -16px 0 0 -16px
+              width 32px
+              height 32px
 
-  
   .discussion
     width 100%
     height 700px

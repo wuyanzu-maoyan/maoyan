@@ -25,7 +25,7 @@ instance.interceptors.response.use(
     return response.data
   },
   (error)=>{
-    //统一处理异常 返回panding状态的promise 中断promise链
+    //统一处理异常 返回pending状态的promise 中断promise链
     if(error.response){
       const status = error.response.status;
     

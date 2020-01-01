@@ -130,7 +130,10 @@ export default [
   },
   {
     path:"/cinemadetail",
-    component: CinemaDetail
+    component: CinemaDetail,
+    meta:{
+      isBack:true
+    }
   },
   {
     path:"/detail",
