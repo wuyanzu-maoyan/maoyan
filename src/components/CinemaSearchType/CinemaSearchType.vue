@@ -52,7 +52,6 @@
         currentIndex2:0, //当前的左侧li下标
         currentIndexRight1:0,//右侧的li下标
         currentIndexRight2:0,//右侧的li下标
-        //subItems:, //cinema中的subItems
         getSubItems1:[], //获取每个行政区的具体subItem
         getSubItems2:[], //获取每个地铁的具体subItem
         itemId1:'', //每个subitem的id  行政区
@@ -64,31 +63,6 @@
       ...mapState({
         isSubway:state => state.cinema.isSubway
       }),
-      //...mapGetters(['district','subway']),
-      //subItems:{
-      //   get(){
-      //     if(!this.isSubway){
-      //     if(this.district){
-      //     return this.district.subItems
-      //     }
-      //   }else{
-      //     if(this.subway){
-      //       return this.subway.subItems
-      //     }
-      //   }
-      //   },
-      //   set(value){
-      //      if(!this.isSubway){
-      //        let subItemId1 = this.subItemId1 
-      //        this.getSubItems1 = this.subItems.find((item,index)=>item.id == subItemId1).subItems
-      //        this.initScroll()
-      //      }else{
-      //       let subItemId2 = this.subItemId2
-      //       this.getSubItems2 = this.subItems.find((item,index)=>item.id == subItemId2).subItems
-      //       this.initScroll()
-      //      }
-      //   }
-      // }
     },
     watch:{
       isSubway(value){
@@ -120,30 +94,32 @@
       
       subItemId1(value){
         let subItemId1 = value 
-
+        this.$nextTick(()=>{
         if(this.district){
 
           this.getSubItems1 = this.district.subItems.find((item,index)=>item.id == subItemId1).subItems
 
-          this.$nextTick(()=>{
+         
             this.initScroll()
+        
+        }
           })
 
-        }
         
       },
       subItemId2(value){
         let subItemId2 = value
-        console.log(value,'id2')
+        this.$nextTick(()=>{
         if(this.subway){
-          console.log(this.subway.subItems.find((item,index)=>item.id == subItemId2))
+ 
           this.getSubItems2 = this.subway.subItems.find((item,index)=>item.id == subItemId2).subItems
    
-          this.$nextTick(()=>{
+          
             this.initScroll()
-          })
+         
 
         }
+         })
       }
     },
     methods:{
@@ -173,23 +149,32 @@
        }
       },
       checkSubItem(id,index,num){
+        console.log(index)
         if(num == 1){
           this.subItemId1 = id;
         
           this.currentIndex1 = index
+          sessionStorage.setItem('currentIndex1',index)
         }else{
           this.subItemId2 = id;
           this.currentIndex2 = index
+          sessionStorage.setItem('currentIndex2',index)
         }
-        
+        if(index === 0){
+          console.log(index)
+          this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:'全部'});
+
+        }
       },
       checkRightSubItem(index,num,item,getSubItems){
         if(num == 1){
           this.itemId1 = item.id
           this.currentIndexRight1 = index;
+          sessionStorage.setItem('currentIndexRight1',index)
         }else{
           this.itemId2 = item.id
           this.currentIndexRight2 = index;
+          sessionStorage.setItem('currentIndexRight2',index)
         }
 
         this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:item.name})
@@ -199,6 +184,15 @@
     },
    updated(){
      this.initScroll()
+   },
+   mounted(){
+    //  this.currentIndexRight1 = sessionStorage.getItem('currentIndexRight1')*1 || 0
+    //  this.currentIndexRight2 = sessionStorage.getItem('currentIndexRight2')*1 || 0
+    //  this.currentIndex1 = sessionStorage.getItem('currentIndex1')*1 || 0
+    //  this.currentIndex2 = sessionStorage.getItem('currentIndex2')*1 || 0
+    //  if(this.district.length || this.subway.length){
+    //    this.initScroll()
+    //  }
    }
 
   }

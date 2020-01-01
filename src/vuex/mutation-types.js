@@ -6,4 +6,5 @@ export const SET_FILTER_CINEMAS = "set_filter_cinemas" //设置影院过滤列�
 export const SET_ISSUBWAY = "set_isSubway" //设置影院过滤列表信息mutation名字
 export const SAVE_TOKENZSS = "saveToken" //设置保存token的mutation名字
 export const SAVE_PHONEZSS = "savePhone" //设置保存token的mutation名字
-export const SAVE_TYPE_OBJ = "save_type_obj" //设置保存影院检索条件的对象s
+export const SAVE_TYPE_OBJ = "save_type_obj" //设置保存影院检索条件的对象
+export const SAVE_CINEMA_LIST_ORIGIN = "save_cinema_list_origin" //设置影院简要信息列表(原信息)mutation名字

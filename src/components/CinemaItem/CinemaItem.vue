@@ -21,9 +21,12 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { mapState } from 'vuex';
   export default {
     props:['cinema'],
     computed:{
+     
+      
       cineTag(){
         let obj = {};
         let tag = this.cinema.tag;

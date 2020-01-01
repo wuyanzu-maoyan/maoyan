@@ -40,11 +40,14 @@ import BScroll from 'better-scroll'
       },
       checkBrandItem(index,item){
         this.currentIndex = index
-        this.$globalEventBus.$emit('getSearchCondition',{key:'subway',value:item.name})
+        this.$globalEventBus.$emit('getSearchCondition',{key:'brand',value:item.name})
+        //将index存到sessionStorage中
+        sessionStorage.setItem('brandIndex',index)
       }
       
     },
     async mounted(){
+      this.currentIndex = sessionStorage.getItem('brandIndex')*1 || 0
       await this.$store.dispatch('getFilterCinemas')
       this.initScroll()
     },

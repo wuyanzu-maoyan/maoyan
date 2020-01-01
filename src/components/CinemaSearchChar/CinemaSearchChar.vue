@@ -54,10 +54,12 @@ import BScroll from "better-scroll";
       checkF(index,item){
         this.currentIndexF = index
         this.itemF = item.name
+        sessionStorage.setItem('currentIndexF',index)
       },
       checkS(index,item){
         this.currentIndexS = index
         this.itemS = item.name
+        sessionStorage.setItem('currentIndexS',index)
       },
       kjcConfirm(){
         this.$globalEventBus.$emit('changeIsShowType',-1);
@@ -74,6 +76,8 @@ import BScroll from "better-scroll";
       }
     },
     async mounted(){
+      this.currentIndexF = sessionStorage.getItem('currentIndexF')*1 || 0
+      this.currentIndexS = sessionStorage.getItem('currentIndexS')*1 || 0
      await this.$store.dispatch('getFilterCinemas')
       this.initScroll()
     },
