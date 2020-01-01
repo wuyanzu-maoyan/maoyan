@@ -3,7 +3,7 @@
     <div ref="cinema" style="height: 667px">
       <div class="cinemaScroll">
         <Header :title="'中影星美国际影城（温都水城店）'"/>
-        <OpenApp/>
+        <!-- <OpenApp/> -->
         <!-- 头部影院信息 -->
         <div class="cinemaInfo"  >
           <div class="cinameData" v-if='cinemaDetail.cinemaData'>
@@ -49,6 +49,13 @@
             v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased">
             今天12月28日
           </div>
+          <div v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased && cinemaDetail.showData.movies[MovieIndex].shows.length==1">
+            <div class="movieDateNavItem" :class="{active: zyhIsActive===index+1}" @click="changeActive(1)"
+              v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
+              {{date.dateShow}}
+            </div>
+          </div>
+         
           <div class="movieDateNavItem" :class="{active: zyhIsActive===index}" @click="changeActive(index)"
             v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
             {{date.dateShow}}
@@ -211,7 +218,7 @@
     border-top 1px solid #ddd
     box-sizing border-box
     display flex
-    // margin-top 64px
+    margin-top 64px
     .cinameData
       width 300px
       height 42px

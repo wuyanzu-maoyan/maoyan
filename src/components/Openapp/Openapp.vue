@@ -14,7 +14,8 @@
       </div>
     </div>
     <!-- 右下方图标按钮 -->
-    <div class="open" :style="{display: zyhIsShow ? 'block' : 'none'}">
+    <!-- <div class="open" :style="{display: zyhIsShow ? 'block' : 'none'}"> -->
+    <div class="open">
       <div class="openBg">
         <img src="./images/logo.png" alt="">
       </div>
@@ -24,32 +25,32 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import BScroll from 'better-scroll'
+  // import BScroll from 'better-scroll'
 
   export default {
-    data(){
+    /* data(){
       return {
         zyhIsShow: false, //控制右下方图标的显示隐藏，默认隐藏
         zyhY: 0  //App导航向上滑动的距离 translateY
       }
-    },
-    // mounted(){
-    //   if (!this.scroll) {
-    //     this.scroll = new BScroll(this.$refs.app, {
-    //       click:true,
-    //       probeType: 1,  // 非实时 / 触摸
-    //     })
-    //   }
-    //   // 绑定scroll监听
-    //   this.scroll.on('scroll', ({x,y})=>{
-    //     console.log('scroll',x,y);
-    //     // this.zyhY = Math.abs(y)
-    //     // console.log('zyhY', this.zyhY);
-    //     // if (y < -120) {
-    //     //   this.zyhIsShow = true
-    //     // }
-    //   })
-    // }
+    }, */
+    /* mounted(){
+      if (!this.scroll) {
+        this.scroll = new BScroll(this.$refs.app, {
+          click:true,
+          probeType: 1,  // 非实时 / 触摸
+        })
+      }
+      // 绑定scroll监听
+      this.scroll.on('scroll', ({x,y})=>{
+        console.log('scroll',x,y);
+        this.zyhY = Math.abs(y)
+        console.log('zyhY', this.zyhY);
+        if (y < -120) {
+          this.zyhIsShow = true
+        }
+      })
+    } */
   }
 </script>
 
