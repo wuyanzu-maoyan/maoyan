@@ -218,7 +218,7 @@
     border-top 1px solid #ddd
     box-sizing border-box
     display flex
-    margin-top 64px
+    // margin-top 64px
     .cinameData
       width 300px
       height 42px
