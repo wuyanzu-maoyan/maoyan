@@ -16,6 +16,9 @@ export const reqMovieonList = ()=>ajax.get('/getMovieOn')
 //请求影院详情信息
 export const reqCinemaDetail = ()=>ajax.get('/getCinemaDetail')
 
+//请求电影详情信息
+export const reqDetail = ()=>ajax.get('/getDetail')
+
 //获取验证码
 export const reqPhoneCode = (phone) => ajax.get('/sendcode',{params:{phone}})
 

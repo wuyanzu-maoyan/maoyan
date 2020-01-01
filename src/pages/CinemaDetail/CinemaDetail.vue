@@ -3,7 +3,7 @@
     <div ref="cinema" style="height: 667px">
       <div class="cinemaScroll">
         <Header :title="'中影星美国际影城（温都水城店）'"/>
-        <!-- <OpenApp/> -->
+        <OpenApp/>
         <!-- 头部影院信息 -->
         <div class="cinemaInfo"  >
           <div class="cinameData" v-if='cinemaDetail.cinemaData'>
@@ -49,12 +49,12 @@
             v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased">
             今天12月28日
           </div>
-          <div v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased && cinemaDetail.showData.movies[MovieIndex].shows.length==1">
+          <!-- <div v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased && cinemaDetail.showData.movies[MovieIndex].shows.length==1">
             <div class="movieDateNavItem" :class="{active: zyhIsActive===index+1}" @click="changeActive(1)"
               v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
               {{date.dateShow}}
             </div>
-          </div>
+          </div> -->
          
           <div class="movieDateNavItem" :class="{active: zyhIsActive===index}" @click="changeActive(index)"
             v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
@@ -63,7 +63,6 @@
           
         </div>
         <!-- 电影播出具体时间场次信息 -->
-        <!-- <MovieShowTime :date='this.zyhIsActive'/> -->
         <div class="movieTimeWrap" >
           <!-- 会员卡信息 -->
           <div class="vipInfo" v-if="cinemaDetail.showData" >
@@ -148,7 +147,6 @@
   export default {
     components:{
       OpenApp,
-      // MovieShowTime
     },
     data(){
       return {
