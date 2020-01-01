@@ -49,7 +49,8 @@ export default [
     component:Seats,
     meta:{
       title:'中影星美国际影城（温都水城店）',//传给header组件的title
-      isBack:true//需要返回按钮
+      isBack:true,//需要返回按钮
+      isFooter:false,//不需要footer
 
     }
   },
@@ -66,19 +67,6 @@ export default [
   {
     path:"/home",
     component: Home,
-    children: [
-    {
-      path: '/home/Now',
-      component: Now,
-    },
-    {
-      path: '/home/Will',
-      component: Will
-    }
-  ]
-    
-  },
-  {
     meta:{
       isFooter:true //需要footer
     },
@@ -99,8 +87,8 @@ export default [
       }
     ]
      
-   },
-   {
+  },
+  {
     path:"/Movie",
     component: Movie,
     

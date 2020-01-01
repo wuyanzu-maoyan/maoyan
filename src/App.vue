@@ -2,7 +2,7 @@
   <div class="app">
     <Header :title="$route.meta.title || '猫眼电影'"></Header>
     <router-view></router-view>
-    <!-- <FooterNav></FooterNav> -->
+    <FooterNav></FooterNav>
   </div>
 </template>
 
