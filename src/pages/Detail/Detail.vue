@@ -55,12 +55,17 @@
               </div>
               <div class="mRight" v-if="detail.distributions">
                 <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  <div class="starts">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
-                    <img src="./images/star.png" alt="">
+                  
+                  <div class="stars" v-if="score.index==0">
+                    <img class="star" src="./images/star.png" alt="">
+                    <img class="star" src="./images/star.png" alt="">
+                    <img class="star" src="./images/star.png" alt="">
+                    <img class="star" src="./images/star.png" alt="">
+                    <img class="star" src="./images/star.png" alt="">
+                  </div>
+
+                  <div class="stars" v-else>
+                    <img class="star" src="./images/star.png" alt="">
                   </div>
                   <div class="bar">
                     <div class="percent" :style="`width: ${score.proportion}%`"></div>
@@ -188,6 +193,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+
   import BScroll from 'better-scroll'
   import OpenApp from '@/components/OpenApp/OpenApp'
   import {mapState} from 'vuex'
@@ -392,7 +398,7 @@
             display flex
             align-items center
             line-height 14px
-            .starts
+            .stars
               display flex
               align-items center
               justify-content flex-end
