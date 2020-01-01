@@ -80,28 +80,49 @@ export default [
     component: Personal, //个人中心
     meta:{
       isFooter:true,
-      isBack:true
+      isBack:true,
+      title:'我的'
     }
   },
   {
     path:"/order",
-    component:Order //电影订单
+    component:Order, //电影订单
+    meta:{
+      isBack:true,
+      title:'我的电影订单'
+    }
   },
   {
     path:"/store",
-    component:Store //商城订单
+    component:Store, //商城订单
+    meta:{
+      isBack:true,
+      title:'我的周边商品'
+    }
   },
   {
     path:"/cou",
-    component:Cou //优惠券
+    component:Cou, //优惠券
+    meta:{
+      isBack:true,
+      title:'我的优惠券'
+    }
   },
   {
     path:"/card",
-    component:Card //折扣卡
+    component:Card, //折扣卡
+    meta:{
+      isBack:true,
+      title:'我的折扣卡'
+    }
   },
   {
     path:"/vipcard",
-    component:VipCard //会员卡大全
+    component:VipCard, //影院会员卡
+    meta:{
+      isBack:true,
+      title:'影院会员卡'
+    }
   },
   {
     path:"/city",

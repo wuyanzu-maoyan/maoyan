@@ -4,11 +4,11 @@
     <div class="kjcCharWrap">
       <div class="kjcCharTitle1">特色功能</div>
       <ul class="kjcCharFeaturesBtn">
-        <li :class="{active:currentIndexF == index1}" v-if="service.subItems" v-for="(serve,index1) in service.subItems" :key="index1" @click="checkF(index1)">{{serve.name}}</li>
+        <li :class="{active:currentIndexF == index1}" v-if="service.subItems" v-for="(serve,index1) in service.subItems" :key="index1" @click="checkF(index1,serve)">{{serve.name}}</li>
       </ul>
       <div class="kjcCharTitle2">特殊厅</div>
       <ul class="kjcCharSpecialBtn">
-        <li :class="{active:currentIndexS == index2}" v-if="hallType.subItems" v-for="(hall,index2) in hallType.subItems" :key="index2" @click="checkS(index2)">{{hall.name}}</li>
+        <li :class="{active:currentIndexS == index2}" v-if="hallType.subItems" v-for="(hall,index2) in hallType.subItems" :key="index2" @click="checkS(index2,hall)">{{hall.name}}</li>
       </ul>
     </div>
   </div>
@@ -26,7 +26,9 @@ import BScroll from "better-scroll";
     data(){
       return{
         currentIndexF:0, //正在点击的index feature特色
-        currentIndexS:0 //正在点击的index special特殊
+        currentIndexS:0, //正在点击的index special特殊
+        itemF:'', //feature特色厅的搜索条件
+        itemS:'', //special特殊厅的搜索条件
       }
     },
     computed:{
@@ -49,14 +51,22 @@ import BScroll from "better-scroll";
           this.scroll.refresh()
         }
       },
-      checkF(index){
+      checkF(index,item){
         this.currentIndexF = index
+        this.itemF = item.name
       },
-      checkS(index){
+      checkS(index,item){
         this.currentIndexS = index
+        this.itemS = item.name
       },
       kjcConfirm(){
         this.$globalEventBus.$emit('changeIsShowType',-1);
+        if(this.itemF){
+          this.$globalEventBus.$emit('getSearchCondition',{key:'tag',value:this.itemF})
+        }
+        if(this.itemS){
+          this.$globalEventBus.$emit('getSearchCondition',{key:'hallType',value:this.itemS})
+        }
       },
       kjcReset(){
         this.currentIndexF = 0, //正在点击的index feature特色
