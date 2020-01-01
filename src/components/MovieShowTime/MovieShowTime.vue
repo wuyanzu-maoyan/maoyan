@@ -2,20 +2,23 @@
   <div id="MovieShowTimeContainer">
     <!-- 电影播出具体时间场次信息 -->
     <div class="movieTimeWrap">
-      <div class="vipInfo">
-        <div class="label">折扣卡</div>
-        <div class="labelText">现在开卡，首单2张最高立减6元</div>
-        <div class="labelProcess">20元起开卡 > </div>
+      <!-- 会员卡信息 -->
+      <div class="vipInfo" v-if="cinemaDetail.showData">
+        <div class="label">{{cinemaDetail.showData.vipInfo[0].tag}}</div>
+        <div class="labelText">{{cinemaDetail.showData.vipInfo[0].title}}</div>
+        <div class="labelProcess">{{cinemaDetail.showData.vipInfo[0].process}} > </div>
       </div>
-      <div class="movieShowList">
-        <div class="movieShowItem">
+      <!-- 放映时间 -->
+      <div class="movieShowList" v-if="cinemaDetail.showData">
+        <div class="movieShowItem" v-for="(show,index) in cinemaDetail.showData.movies[2].shows[date].plist" :key="index">
           <div class="time">
-            <div class="begin">10:22</div>
-            <div class="end">12:14 散场</div>
+            <div class="begin">{{show.tm}}</div>
+            <div class="end">{{show.tm}} 散场</div>
+            <!-- <div class="end">{{Number(show.tm) + cinemaDetail.showData.movies[0].dur}} 散场</div> -->
           </div>
           <div class="info">
-            <div class="lang">国语 2D</div>
-            <div class="hall">5号厅</div>
+            <div class="lang">{{show.lang}} {{show.tp}}</div>
+            <div class="hall">{{show.th}}</div>
           </div>
           <div class="price">
             <div class="sellPrice">
@@ -23,76 +26,10 @@
               <span class="p">38</span>
             </div>
             <div class="vipPrice">
-              <span class="vip">折扣卡</span>
-              <span class="num">￥33</span>
+              <span class="vip">{{show.vipPriceName}}</span>
+              <span class="num">￥{{show.vipPrice}}</span>
             </div>
-            <div class="vipDesc">折扣卡首单特惠</div>
-          </div>
-          <button class="btn">购票</button>
-        </div>
-        <div class="movieShowItem">
-          <div class="time">
-            <div class="begin">10:22</div>
-            <div class="end">12:14 散场</div>
-          </div>
-          <div class="info">
-            <div class="lang">国语 2D</div>
-            <div class="hall">5号厅</div>
-          </div>
-          <div class="price">
-            <div class="sellPrice">
-              ￥
-              <span class="p">38</span>
-            </div>
-            <div class="vipPrice">
-              <span class="vip">折扣卡</span>
-              <span class="num">￥33</span>
-            </div>
-            <div class="vipDesc">折扣卡首单特惠</div>
-          </div>
-          <button class="btn">购票</button>
-        </div>
-        <div class="movieShowItem">
-          <div class="time">
-            <div class="begin">10:22</div>
-            <div class="end">12:14 散场</div>
-          </div>
-          <div class="info">
-            <div class="lang">国语 2D</div>
-            <div class="hall">5号厅</div>
-          </div>
-          <div class="price">
-            <div class="sellPrice">
-              ￥
-              <span class="p">38</span>
-            </div>
-            <div class="vipPrice">
-              <span class="vip">折扣卡</span>
-              <span class="num">￥33</span>
-            </div>
-            <div class="vipDesc">折扣卡首单特惠</div>
-          </div>
-          <button class="btn">购票</button>
-        </div>
-        <div class="movieShowItem">
-          <div class="time">
-            <div class="begin">10:22</div>
-            <div class="end">12:14 散场</div>
-          </div>
-          <div class="info">
-            <div class="lang">国语 2D</div>
-            <div class="hall">5号厅</div>
-          </div>
-          <div class="price">
-            <div class="sellPrice">
-              ￥
-              <span class="p">38</span>
-            </div>
-            <div class="vipPrice">
-              <span class="vip">折扣卡</span>
-              <span class="num">￥33</span>
-            </div>
-            <div class="vipDesc">折扣卡首单特惠</div>
+            <div class="vipDesc">{{show.extraDesc}}</div>
           </div>
           <button class="btn">购票</button>
         </div>
@@ -102,7 +39,21 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapState} from 'vuex'
+  import {reqCinemaDetail} from '@/api'
+
   export default {
+    props:{
+      date:Number
+    },
+    mounted(){
+      this.$store.dispatch('getCinemaDetail')
+    },
+    computed:{
+      ...mapState({
+        cinemaDetail: state => state.cinemaDetail.cinemaDetail
+      })
+    },
   }
 </script>
 

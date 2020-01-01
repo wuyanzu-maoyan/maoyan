@@ -3,7 +3,6 @@
 import Cinema from '../pages/Cinema/Cinema';
 import CinemaDetail from '../pages/CinemaDetail/CinemaDetail';
 import Detail from '../pages/Detail/Detail'
-import Login from '../pages/Login/Login';
 import Home from '../pages/Home/Home';
 import Now from '../pages/Home/Now/Now'
 import Movie from '../pages/Movie/Movie'
@@ -17,6 +16,7 @@ import VipCard from '../pages/Personal/VipCard'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
+import Login from '../pages/Login/Login';
 
 
 export default [
@@ -52,13 +52,13 @@ export default [
     }
     
   },
-    {
-     path:"/home",
-     component: Home,
-     meta:{
-       isFooter:true //需要footer
-     },
-     children: [
+  {
+    path:"/home",
+    component: Home,
+    meta:{
+      isFooter:true //需要footer
+    },
+    children: [
       {
         path: '/home/Now',
         component: Now,
