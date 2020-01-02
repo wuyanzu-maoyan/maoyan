@@ -149,7 +149,7 @@
         display flex
         justify-content stretch
         overflow hidden
-        background-image url('../../static/images/wjOut.png')
+        background-image url('../../static/images/wjout.png')
         background-repeat no-repeat
         background-size 65px
         background-position top 7px right 7px
