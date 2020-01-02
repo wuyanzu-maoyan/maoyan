@@ -47,313 +47,448 @@ export default {
     }
     },
     getSearchContent({commit,state}){
-      let cinemas  = []; //用来放 '全部类型的电影'
+      // addr:"昌平镇"
+      // brand:"大地影院"
+      // tag:"可改签"
+      // hallType:"IMAX厅"
       let type = false
-      let cinemaArr = []; //用来放搜索出来的电影列表数组
-      //addr subway tag hallType
-      //全城
-      if(state.typeObj.addr && state.typeObj.addr !== '全部'){
-        if(state.cinemaList.length && state.isFirst){
-          cinemaArr = state.cinemaList.filter((item,value)=>{
-            return item.addr.includes(state.typeObj.addr)  
-         })
-         console.log(cinemaArr,'全城cinemalist')
-         if(cinemaArr.length){
-           commit(SET_CINEMA_LIST,{cinemaArr,type})
-           if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-             return
-           }
-         }else if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-          commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-          return
-         }
+      let addrArr = []
+      let typeObj = state.typeObj
+      console.log(typeObj)
+     let arr =  Object.keys(typeObj)
+     console.log(arr)
+     console.log(state.cinemaListOrigin)
+     arr.forEach((item,index)=>{
+        if(typeObj[item] == '全部'){
+          if(item == 'addr'){
+            addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
+              console.log(cinema1.addr,typeObj[item])
+                 return cinema1.addr
+              })
+             }else if(item == 'brand'){
+               addrArr = state.cinemaListOrigin.filter((cinema2,index2)=>{
+                 return cinema2.nm
+              })
+             }else if(item == 'tag'){
+               addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
+                 return cinema3.tag.allowRefund || cinema3.tag.endorse
+              })
+             }else if(item == 'hallType'){
+               addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
+                 return cinema4.tag.hallType.length > 0
+              })
+             }
+
+             commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
         }else{
-          cinemaArr = state.cinemaListOrigin.filter((item,value)=>{
-            return item.addr.includes(state.typeObj.addr)  
-         })
-         console.log(cinemaArr,'全城没有cinemalist')
-         if(cinemaArr.length){
-           commit(SET_CINEMA_LIST,{cinemaArr,type})
-           if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-             return
-           }
-          //return
-         }else if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-          commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-          return
-         }
+          if(item == 'addr'){
+            addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
+              console.log(cinema1.addr,typeObj[item])
+                 return cinema1.addr.includes(typeObj[item])
+              })
+             }else if(item == 'brand'){
+               addrArr = state.cinemaListOrigin.filter((cinema2,index2)=>{
+                 return cinema2.nm.includes(typeObj[item])
+              })
+             }else if(item == 'tag'){
+               addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
+                 return cinema3.tag.allowRefund || cinema3.tag.endorse
+              })
+             }else if(item == 'hallType'){
+               addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
+                 return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
+              })
+             }
+             console.log(addrArr)
+   
+   
+   
+             if(addrArr.length){
+              commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               if(item == 'brand'){
+                 addrArr = state.cinemaListOrigin.filter((cinema2,index2)=>{
+                   return cinema2.nm.includes(typeObj[item])
+                })
+               }else if(item == 'tag'){
+                 addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
+                   return cinema3.tag.allowRefund || cinema3.tag.endorse
+                })
+               }else if(item == 'hallType'){
+                 addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
+                   return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
+                })
+               }else if(item == 'addr'){
+                 addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
+                      return cinema1.addr.includes(typeObj[item])
+                   })
+               }
+             }else{
+               commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+               return
+             }
+             console.log(addrArr)
+             if(addrArr.length){
+              // commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               if(item == 'tag'){
+               addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
+                 return cinema3.tag.allowRefund || cinema3.tag.endorse
+              })}else if(item == 'hallType'){
+               addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
+                 return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
+              })
+             }else if(item == 'addr'){
+               addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
+                    return cinema1.addr.includes(typeObj[item])
+                 })
+             }else if(item == 'brand'){
+                 addrArr = state.cinemaListOrigin.filter((cinema2,index2)=>{
+                   return cinema2.nm.includes(typeObj[item])
+                })
+             }
+             }else{
+               commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+               return
+             }
+             console.log(addrArr)
+             if(addrArr.length){
+              // commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               if(item == 'hallType'){
+               addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
+                 return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
+              })
+             }else if(item == 'addr'){
+                 addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
+                      return cinema1.addr.includes(typeObj[item])
+                   })
+               }
+              else if(item == 'brand'){
+                 addrArr = state.cinemaListOrigin.filter((cinema2,index2)=>{
+                   return cinema2.nm.includes(typeObj[item])
+                })
+               }else if(item == 'tag'){
+                   addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
+                     return cinema3.tag.allowRefund || cinema3.tag.endorse
+                  })
+               }
+             }
+             console.log(addrArr)
+             if(addrArr.length){
+               commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               return 
+             }
         }
+      })
+
+
+
+
+    //   let cinemas  = []; //用来放 '全部类型的电影'
+    //   let type = false
+    //   let cinemaArr = []; //用来放搜索出来的电影列表数组
+    //   //addr subway tag hallType
+    //   //全城
+    //   if(state.typeObj.addr && state.typeObj.addr !== '全部'){
+    //     if(state.cinemaList.length && state.isFirst){
+    //       cinemaArr = state.cinemaList.filter((item,value)=>{
+    //         return item.addr.includes(state.typeObj.addr)  
+    //      })
+    //      console.log(cinemaArr,'全城cinemalist')
+    //      if(cinemaArr.length){
+    //        commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //        if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //          return
+    //        }
+    //      }else if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //       commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //       return
+    //      }
+    //     }else{
+    //       cinemaArr = state.cinemaListOrigin.filter((item,value)=>{
+    //         return item.addr.includes(state.typeObj.addr)  
+    //      })
+    //      console.log(cinemaArr,'全城没有cinemalist')
+    //      if(cinemaArr.length){
+    //        commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //        if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //          return
+    //        }
+    //       //return
+    //      }else if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //       commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //       return
+    //      }
+    //     }
        
-      }else if(state.typeObj.addr === '全部'){
-        if(state.cinemaList.length){
-          state.cinemaList.forEach((cinema,index1)=>{
-            if(cinema.addr){
-              cinemas.push(cinema)
-            }
-          })
-          console.log(cinemas,'------------有length')
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-            //   return
-            // }
-            return
-          }
-        }else{
-          state.cinemaListOrigin.forEach((cinema,index1)=>{
-            if(cinema.addr){
-              cinemas.push(cinema)
-            }
-          })
-          console.log(cinemas,'------------没有length')
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
-            //   return
-            // }
-            return
-          }
-        }
-      }
-      //品牌
-      if(state.typeObj.brand && state.typeObj.brand !== '全部'){
-        if(state.cinemaList.length && state.isFirst){
-          cinemaArr = state.cinemaList.filter((item,value)=>{
-            return item.nm.includes(state.typeObj.brand)
-          })
-          console.log(cinemaArr,'品牌cinemaArr')
-          if(cinemaArr.length){
-            commit(SET_CINEMA_LIST,{cinemaArr,type})
-            if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-              return
-            }
-          }else if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-          return
-          }
-        }else{
-          cinemaArr = state.cinemaListOrigin.filter((item,value)=>{
-            return item.nm.includes(state.typeObj.brand)
-          })
-          console.log(cinemaArr,'品牌没有cinemaList')
-          if(cinemaArr.length){
-            commit(SET_CINEMA_LIST,{cinemaArr,type})
-            if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-              return
-            }
-            //return
-          }else if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-          return
-          }
-        }
-      }else if(state.typeObj.brand === '全部'){
-       if(state.cinemaList.length){
-        state.cinemaList.forEach((cinema,index1)=>{
-          if(cinema.nm){
-            cinemas.push(cinema)
-          }
-        })
-        console.log(cinemas,'--------品牌')
-        if(cinemas.length){
-          commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-          // if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-          //   return
-          // }
-          return
-        }
-       }else{
-        state.cinemaListOrigin.forEach((cinema,index1)=>{
-          if(cinema.nm){
-            cinemas.push(cinema)
-          }
-        })
-        console.log(cinemas,'--------品牌')
-        if(cinemas.length){
-          commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-          // if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
-          //   return
-          // }
-          return
-        }
-       }
-      }
-      //特色功能
-      if(state.typeObj.tag && state.typeObj.tag !== '全部'){
-       if(state.cinemaList.length && state.isFirst){
-        if(state.typeObj.tag === '可改签'){
-          cinemaArr = state.cinemaList.filter((item,index)=>{
-            return item.tag.endorse === 1
-           })
-           if(cinemaArr.length){
-             commit(SET_CINEMA_LIST,{cinemaArr,type})
-             if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-               return
-             }
+    //   }else if(state.typeObj.addr === '全部'){
+    //     if(state.cinemaList.length){
+    //       state.cinemaList.forEach((cinema,index1)=>{
+    //         if(cinema.addr){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       console.log(cinemas,'------------有length')
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //         //   return
+    //         // }
+    //         return
+    //       }
+    //     }else{
+    //       state.cinemaListOrigin.forEach((cinema,index1)=>{
+    //         if(cinema.addr){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       console.log(cinemas,'------------没有length')
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.brand && !state.typeObj.tag && !state.typeObj.hallType){
+    //         //   return
+    //         // }
+    //         return
+    //       }
+    //     }
+    //   }
+    //   //品牌
+    //   if(state.typeObj.brand && state.typeObj.brand !== '全部'){
+    //     if(state.cinemaList.length && state.isFirst){
+    //       cinemaArr = state.cinemaList.filter((item,value)=>{
+    //         return item.nm.includes(state.typeObj.brand)
+    //       })
+    //       console.log(cinemaArr,'品牌cinemaArr')
+    //       if(cinemaArr.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //         if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //           return
+    //         }
+    //       }else if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //       return
+    //       }
+    //     }else{
+    //       cinemaArr = state.cinemaListOrigin.filter((item,value)=>{
+    //         return item.nm.includes(state.typeObj.brand)
+    //       })
+    //       console.log(cinemaArr,'品牌没有cinemaList')
+    //       if(cinemaArr.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //         if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //           return
+    //         }
+    //         //return
+    //       }else if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //       return
+    //       }
+    //     }
+    //   }else if(state.typeObj.brand === '全部'){
+    //    if(state.cinemaList.length){
+    //     state.cinemaList.forEach((cinema,index1)=>{
+    //       if(cinema.nm){
+    //         cinemas.push(cinema)
+    //       }
+    //     })
+    //     console.log(cinemas,'--------品牌')
+    //     if(cinemas.length){
+    //       commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //       // if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //       //   return
+    //       // }
+    //       return
+    //     }
+    //    }else{
+    //     state.cinemaListOrigin.forEach((cinema,index1)=>{
+    //       if(cinema.nm){
+    //         cinemas.push(cinema)
+    //       }
+    //     })
+    //     console.log(cinemas,'--------品牌')
+    //     if(cinemas.length){
+    //       commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //       // if(!state.typeObj.addr && !state.typeObj.tag && !state.typeObj.hallType){
+    //       //   return
+    //       // }
+    //       return
+    //     }
+    //    }
+    //   }
+    //   //特色功能
+    //   if(state.typeObj.tag && state.typeObj.tag !== '全部'){
+    //    if(state.cinemaList.length && state.isFirst){
+    //     if(state.typeObj.tag === '可改签'){
+    //       cinemaArr = state.cinemaList.filter((item,index)=>{
+    //         return item.tag.endorse === 1
+    //        })
+    //        if(cinemaArr.length){
+    //          commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //          if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //            return
+    //          }
              
-           }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-            return
-           }
-         }
-         if(state.typeObj.tag === '可退票'){
-           cinemaArr = state.cinemaList.filter((item,index)=>{
-             return item.tag.allowRefund === 1
-            })
-            if(cinemaArr.length){
-              commit(SET_CINEMA_LIST,{cinemaArr,type})
-              if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-               return
-             }
-            }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-              commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-              return
-             }
-          }
-       }else{
-        if(state.typeObj.tag === '可改签'){
-          cinemaArr = state.cinemaListOrigin.filter((item,index)=>{
-            return item.tag.endorse === 1
-           })
-           if(cinemaArr.length){
-             commit(SET_CINEMA_LIST,{cinemaArr,type})
-             if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-               return
-             }
-             //return
-           }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-            return
-           }
-         }
-         if(state.typeObj.tag === '可退票'){
-           cinemaArr = state.cinemaListOrigin.filter((item,index)=>{
-             return item.tag.allowRefund === 1
-            })
-            if(cinemaArr.length){
-              commit(SET_CINEMA_LIST,{cinemaArr,type})
-            //   if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-            //    return
-            //  }
-            return
-            }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-              commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-              return
-             }
-          }
-       }
-      }else if(state.typeObj.tag === '全部'){
-        if(state.cinemaList.length){
-          state.cinemaList.forEach((cinema,index1)=>{
-            if(cinema.tag.allowRefund || cinema.tag.endorse){
-              cinemas.push(cinema)
-            }
-          })
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-            //   return
-            // }
-            return
-          }
-        }else{
-          state.cinemaListOrigin.forEach((cinema,index1)=>{
-            if(cinema.tag.allowRefund || cinema.tag.endorse){
-              cinemas.push(cinema)
-            }
-          })
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
-            //   return
-            // }
-            return
-          }
-        }
-      }
-      //特殊厅
-    if(state.typeObj.hallType && state.typeObj.hallType !== '全部'){
-       if(state.cinemaList.length && state.isFirst){
-        state.cinemaList.forEach((item,index)=>{
-          if(item.tag.hallType.length){
-            item.tag.hallType.forEach((hall,index)=>{
-              if(hall == state.typeObj.hallType){
-                cinemaArr.push(item)
-              }
-            })
-          }
-      })
-      if(cinemaArr.length){
-        commit(SET_CINEMA_LIST,{cinemaArr,type})
-        if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-          return
-        }
-      }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-        commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-        return
-      }
-    }else{
-        state.cinemaListOrigin.forEach((item,index)=>{
-          if(item.tag.hallType.length){
-            item.tag.hallType.forEach((hall,index)=>{
-              if(hall == state.typeObj.hallType){
-                cinemaArr.push(item)
-              }
-            })
-          }
-      })
-      if(cinemaArr.length){
-        commit(SET_CINEMA_LIST,{cinemaArr,type})
-        if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-          return
-        }
-       // return
-      }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-        commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-        return
-      }
-       }
-      }else if(state.typeObj.hallType === '全部'){
-        if(state.cinemaList.length){
-          state.cinemaList.forEach((cinema,index1)=>{
-            if(cinema.tag.hallType.length){
-              cinemas.push(cinema)
-            }
-          })
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-            //   return
-            // }
-            return
-          }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-            return
-          }
-        }else{
-          state.cinemaListOrigin.forEach((cinema,index1)=>{
-            if(cinema.tag.hallType.length){
-              cinemas.push(cinema)
-            }
-          })
-          if(cinemas.length){
-            commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
-            // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-            //   return
-            // }
-            return
-          }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
-            commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-            return
-          }
-        }
-      }
+    //        }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //         return
+    //        }
+    //      }
+    //      if(state.typeObj.tag === '可退票'){
+    //        cinemaArr = state.cinemaList.filter((item,index)=>{
+    //          return item.tag.allowRefund === 1
+    //         })
+    //         if(cinemaArr.length){
+    //           commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //           if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //            return
+    //          }
+    //         }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //           commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //           return
+    //          }
+    //       }
+    //    }else{
+    //     if(state.typeObj.tag === '可改签'){
+    //       cinemaArr = state.cinemaListOrigin.filter((item,index)=>{
+    //         return item.tag.endorse === 1
+    //        })
+    //        if(cinemaArr.length){
+    //          commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //          if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //            return
+    //          }
+    //          //return
+    //        }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //         return
+    //        }
+    //      }
+    //      if(state.typeObj.tag === '可退票'){
+    //        cinemaArr = state.cinemaListOrigin.filter((item,index)=>{
+    //          return item.tag.allowRefund === 1
+    //         })
+    //         if(cinemaArr.length){
+    //           commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //         //   if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //         //    return
+    //         //  }
+    //         return
+    //         }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //           commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //           return
+    //          }
+    //       }
+    //    }
+    //   }else if(state.typeObj.tag === '全部'){
+    //     if(state.cinemaList.length){
+    //       state.cinemaList.forEach((cinema,index1)=>{
+    //         if(cinema.tag.allowRefund || cinema.tag.endorse){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //         //   return
+    //         // }
+    //         return
+    //       }
+    //     }else{
+    //       state.cinemaListOrigin.forEach((cinema,index1)=>{
+    //         if(cinema.tag.allowRefund || cinema.tag.endorse){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.hallType){
+    //         //   return
+    //         // }
+    //         return
+    //       }
+    //     }
+    //   }
+    //   //特殊厅
+    // if(state.typeObj.hallType && state.typeObj.hallType !== '全部'){
+    //    if(state.cinemaList.length && state.isFirst){
+    //     state.cinemaList.forEach((item,index)=>{
+    //       if(item.tag.hallType.length){
+    //         item.tag.hallType.forEach((hall,index)=>{
+    //           if(hall == state.typeObj.hallType){
+    //             cinemaArr.push(item)
+    //           }
+    //         })
+    //       }
+    //   })
+    //   if(cinemaArr.length){
+    //     commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //     if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //       return
+    //     }
+    //   }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //     commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //     return
+    //   }
+    // }else{
+    //     state.cinemaListOrigin.forEach((item,index)=>{
+    //       if(item.tag.hallType.length){
+    //         item.tag.hallType.forEach((hall,index)=>{
+    //           if(hall == state.typeObj.hallType){
+    //             cinemaArr.push(item)
+    //           }
+    //         })
+    //       }
+    //   })
+    //   if(cinemaArr.length){
+    //     commit(SET_CINEMA_LIST,{cinemaArr,type})
+    //     if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //       return
+    //     }
+    //    // return
+    //   }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //     commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //     return
+    //   }
+    //    }
+    //   }else if(state.typeObj.hallType === '全部'){
+    //     if(state.cinemaList.length){
+    //       state.cinemaList.forEach((cinema,index1)=>{
+    //         if(cinema.tag.hallType.length){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //         //   return
+    //         // }
+    //         return
+    //       }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //         return
+    //       }
+    //     }else{
+    //       state.cinemaListOrigin.forEach((cinema,index1)=>{
+    //         if(cinema.tag.hallType.length){
+    //           cinemas.push(cinema)
+    //         }
+    //       })
+    //       if(cinemas.length){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:cinemas,type})
+    //         // if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //         //   return
+    //         // }
+    //         return
+    //       }else if(!state.typeObj.addr && !state.typeObj.brand && !state.typeObj.tag){
+    //         commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //         return
+    //       }
+    //     }
+    //   }
 
      
-      //commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-      if(!cinemas.length && !cinemaArr){
-        commit(SET_CINEMA_LIST,{cinemaArr:[],type})
-      }
+    //   //commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //   if(!cinemas.length && !cinemaArr){
+    //     commit(SET_CINEMA_LIST,{cinemaArr:[],type})
+    //   }
       
     }
    

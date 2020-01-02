@@ -139,7 +139,8 @@ export default [
     path:"/cinemadetail",
     component: CinemaDetail,
     meta:{
-      isBack:true
+      isBack:true,
+      noHeader:true
     }
   },
   {
