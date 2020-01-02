@@ -144,7 +144,10 @@ export default [
   },
   {
     path:"/city",
-    component: City
+    component: City,
+    meta:{
+      isFooter:false,//不需要footer
+    }
   },
   {
     path:"/cinemadetail",

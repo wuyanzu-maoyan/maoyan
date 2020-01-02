@@ -24,7 +24,7 @@
           <h3>电影/电视剧/综艺</h3>
           <div class="zxList clearfix" >
             <div class="zxMovie" v-for="(movie,index) in cutMovieList" :key="index">
-              <img :src="movie.img" alt="" style="width 64px; height 90px">
+              <img :src="movie.img" alt="" >
               <div class="zxMovieInfo">
                 <div class="zxNameScore">
                   <p class="zxName">{{movie.nm}}</p>
