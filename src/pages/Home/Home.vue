@@ -37,7 +37,7 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="stylus" rel="stylesheet/stylus">
      .lyhLogo_app{
        width: 100%;
        height: 64px;

@@ -1,7 +1,7 @@
 <template>
   <div class="kjcHeaderContainer">
     <header class="kjcHeader">
-      <i class="iconfont icon-zuojiantou back"></i>
+      <i class="iconfont icon-zuojiantou back" v-show="$route.meta.isBack" @click="$router.back()"></i>
       <h1 class="kjcTitle">{{title}}</h1>
     </header>
   </div>
@@ -39,6 +39,7 @@
         position absolute 
         top 10px
         left 10px
+        z-index 20
       .kjcTitle
         width 100%
         height 100%

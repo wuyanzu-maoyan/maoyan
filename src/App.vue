@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Header title="猫眼电影"></Header>
+    <Header :title="$route.meta.title || '猫眼电影'"></Header>
     <router-view></router-view>
     <FooterNav></FooterNav>
   </div>

@@ -15,6 +15,11 @@ export const reqComingList = ()=>ajax.get('/getComingList')
 //请求获取正在上映的电影信息 
 export const reqMovieonList = ()=>ajax.get('/getMovieOn') 
 
+//请求影院详情信息
+export const reqCinemaDetail = ()=>ajax.get('/getCinemaDetail')
+
+//请求电影详情信息
+export const reqDetail = ()=>ajax.get('/getDetail')
 
 //获取验证码
 export const reqPhoneCode = (phone) => ajax.get('/sendcode',{params:{phone}})
@@ -27,3 +32,6 @@ export const reqLoginByPhone = (data) => ajax.post('/login_sms',data)
 
 //自动登录
 export const reqAutoLogin = () => ajax.get('/auto_login')
+
+//请求座位信息
+export const reqSeats = (data) => ajax.post('/getSeats',data)

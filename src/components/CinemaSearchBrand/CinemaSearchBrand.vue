@@ -1,7 +1,7 @@
 <template>
   <div class="kjcBrandContainer">
     <ul class="kjcBrandWrap">
-      <li v-for="(item,index) in brand.subItems" v-if="brand.subItems" :key="index" @click="checkBrandItem(index)"> 
+      <li v-for="(item,index) in brand.subItems" v-if="brand.subItems" :key="index" @click="checkBrandItem(index,item)"> 
         <span class="kjcTrue" :class="{show:currentIndex == index}"></span>
         <span class="kjcTitle" :class="{active:currentIndex == index}">{{item.name}}</span>
         <span class="kjcCount" :class="{active:currentIndex == index}">{{item.count}}</span>
@@ -38,12 +38,16 @@ import BScroll from 'better-scroll'
           this.scroll.refresh()
         }
       },
-      checkBrandItem(index){
+      checkBrandItem(index,item){
         this.currentIndex = index
+        this.$globalEventBus.$emit('getSearchCondition',{key:'brand',value:item.name})
+        //将index存到sessionStorage中
+        sessionStorage.setItem('brandIndex',index)
       }
       
     },
     async mounted(){
+      this.currentIndex = sessionStorage.getItem('brandIndex')*1 || 0
       await this.$store.dispatch('getFilterCinemas')
       this.initScroll()
     },
