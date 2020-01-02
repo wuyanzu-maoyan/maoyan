@@ -11,69 +11,63 @@
       <div class="zxCancel" @click="cancel">取消</div>
     </div>
     <!-- 搜索历史 -->
-    <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="index">
+    <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="index" style="display:none">
       <div class="zxSearchIco"><i class="iconfont icon-shijianzhongbiao"></i></div>
       <span class="zxSearchContent">{{input}}</span>
       <div class="zxSearchIco" @click="deleteInput(index)"><i class="iconfont icon-guanbi"></i></div>
     </div>
-    <div class="zxSearchResult">
-      <!-- 搜索电影 -->
+    <!-- 搜索成功结果 -->
+    <div class="zxSearchResult clearfix" v-if="isShoeSearch">
+      <!-- 电影列表 -->
       <div class="zxResultWrapper">
         <div class="zxResult">
           <h3>电影/电视剧/综艺</h3>
-          <div class="zxList">
-            <div class="zxMovie">
-              <img src="../../static/images/wjMovie.png" alt="">
+          <div class="zxList clearfix" >
+            <div class="zxMovie" v-for="(movie,index) in cutMovieList" :key="index">
+              <img :src="movie.img" alt="" style="width 64px; height 90px">
               <div class="zxMovieInfo">
                 <div class="zxNameScore">
-                  <p class="zxName">1111111111111111111111111111111111111</p>
-                  <p class="zxWish">222</p>
+                  <p class="zxName">{{movie.nm}}</p>
+                  <p class="zxWish">{{movie.wish}}</p>
                 </div>
                 <div class="zxDetailSection">
                   <div class="zxDetailItems">
-                    <p>111</p>
-                    <p>3333333333333333333333333333333333333333333</p>
-                    <p>555</p>
-                  </div>
-                  <div class="zxBuy">ddd</div>
-                </div>
-              </div>
-            </div>
-            <div class="zxMovie">
-              <img src="../../static/images/wjMovie.png" alt="">
-              <div class="zxMovieInfo">
-                <div class="zxNameScore"> 
-                  <p class="zxName">1111111</p>
-                  <p class="zxWish">2222222</p>
-                </div>
-                <div class="zxDetailSection">
-                  <div class="zxDetailItems">
-                    <p>111</p>
-                    <p>333</p>
-                    <p>555</p>
+                    <p>{{movie.enm}}</p>
+                    <p>{{movie.cat}}</p>
+                    <p>{{movie.ftime}}</p>
                   </div>
                   <div class="zxBuy">ddd</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="zxMoreResult">查看全部6520部影视剧</div>
+          <div class="zxMoreResult">查看全部{{movieList.length}}部影视剧</div>
         </div>
         
       </div>
-      <!-- 搜索影院 -->
+      <!-- 影院列表 -->
       
+    </div>
+    <!-- 搜索失败结果 -->
+    <div class="zxNoResult" style="display:none">
+      <div>没有找到相关内容</div>
+      <p>大家都在搜</p>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {reqCinemaList} from '../../api'
+import {reqSearchMovie} from '../../api'
+import {mapState} from 'vuex'
   export default {
     data(){
       return {
         zxInput:'', //输入内容
-        inputList: [] //输入历史
+        inputList: [], //输入历史
+        movieList: [],
+        cutMovieList: [],
+        cutMovieList: [],
+        isShoeSearch: false,
       }
     },
     methods:{
@@ -101,20 +95,43 @@ import {reqCinemaList} from '../../api'
         
       }
     },
+    computed:{
+      ...mapState({
+        cinemaList: state => state.cinema.cinemaList || []
+      })
+    },
     watch:{
       async zxInput(){
-        //请求得到影院信息
-        const result = await reqCinemaList()
-        if(result.code === 0){
-          console.log(result.data.cinemas);
-          this.cinemasList = result.data.cinemas.filter((item,index)=> item.nm.includes(this.zxInput))
-        }else{
-          console.log('111111');
-          
+        if(this.zxInput.trim()){
+          //请求得到影院信息
+        /*  
+          this.$store.dispatch('getCinemaList')
+          if(this.cinemaList.length>0){
+            this.cinemaSearchList = this.cinemaList.filter((item,index)=> item.nm.includes(this.zxInput))
+            console.log(this.cinemaSearchList);
+          }
+        */
+        /*
+          const result = await reqCinemaList()
+          if(result.code === 0){
+            console.log(result.data.cinemas);
+            this.cinemasList = result.data.cinemas.filter((item,index)=> item.nm.includes(this.zxInput))
+          }else{
+            console.log('111111');
+            
+          }
+        */
+          //请求得到电影信息
+          if(true){
+            const result = await reqSearchMovie()
+            if(result.code === 0){
+              this.movieList = result.data.movies.filter((item,index)=> item.nm.includes(this.zxInput))
+              this.cutMovieList = this.movieList.slice(0,3)
+              console.log(this.cutMovieList);
+              this.isShoeSearch = true
+            }
+          }
         }
-
-        //请求得到电影信息
-        
 
       }
     }
@@ -183,7 +200,6 @@ import {reqCinemaList} from '../../api'
       height 44px
       font-size 16px
   .zxSearchResult
-    display none
     width 100%
     .zxResultWrapper
       .zxResult
@@ -197,7 +213,11 @@ import {reqCinemaList} from '../../api'
           border-bottom 1px solid #e6e6e6
         .zxList
           padding-left 15px
-
+          box-sizing border-box
+        .clearfix::after
+          content ""
+          display table
+          clear both
           .zxMovie
             padding 12px 0
             min-height 90px
@@ -265,5 +285,25 @@ import {reqCinemaList} from '../../api'
           color #ef4238
           line-height 44px
           text-align center
-
+  .zxNoResult
+    width 100%
+    height 84px
+    div
+      width 100%
+      height 44px
+      background-color #fff
+      font-size 15px
+      color #999
+      line-height 44px
+      text-align center
+    p 
+      display block
+      width 100%
+      height 29px
+      line-height 29px
+      color #999
+      font-size 13px
+      padding-left 15px
+      background-color #f5f5f5
+      border-bottom 1px solid #ddd
 </style>

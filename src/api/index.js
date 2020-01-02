@@ -8,6 +8,8 @@ export const reqFilterCinemas = ()=>ajax.get('/getFilterCinemas');
 
 //请求城市信息
 export const reqCityList = ()=>ajax.get('/getCity') 
+//请求电影信息
+export const reqSearchMovie = ()=>ajax.get('/getSearchMovie') 
 //请求获取即将上映的电影信息
 export const reqComingList = ()=>ajax.get('/getComingList')
 //请求获取正在上映的电影信息 
