@@ -85,7 +85,7 @@
       }),
       isRed(){
         //计算特色什么时候是红色
-        if((this.tagName && this.isShowType == -1)||( this.hallTypeName && this.isShowType == -1)){
+        if((this.tagName != '全部' && this.hallTypeName != '全部') && (this.hallTypeName || this.tagName != '全部') && this.isShowType !== -1){
           return true
         }else if(this.isShowType == 2){
           return true
