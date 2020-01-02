@@ -27,21 +27,35 @@
         <div class='seatsRows'>
           <div class='rowItem' v-for="(item,index) in seat.seat.regions[0].rows" :key="index">{{index}}</div>
         </div>
+
+
         <div class="seats">
-          <div class="colum" v-for="(row,index) in seat.seat.regions[0].rows" :key="index" >
-            <div class="row" v-for="(colum,indexColum) in row.seats" :key="indexColum">
-              <img src="../../static/images/seats/seat.png" alt="" v-show="row.rowId&&colum.seatType">
+          <div class='seatsBlock'>
+            <div class="colum" v-for="(row,index) in seat.seat.regions[0].rows" :key="index" >
+              <div class="rowWraper" v-for="(colum,indexColum) in row.seats" :key="indexColum" >
+                <div 
+                  
+                  class='row' :class="[colum.seatType,seatType[colum.seatStatus]]" 
+                  
+                  @click="selectSeat(index,indexColum)"
+                >
+
+                </div>
+                <!-- <img class='double' src="../../static/images/seats/doubleseat.png" alt="" v-if="colum.seatType==='L'||colum.seatType==='R'">
+                <img src="../../static/images/seats/seat.png" alt="" v-show="row.rowId&&colum.seatType" v-else> -->
+              </div>
             </div>
+            
           </div>
 
-
           
+          <div class="line"></div> 
           <div class='bg'>
             <img src="../../static/images/seats/bg.png" alt="">
           </div>
-          
-          
         </div>
+        
+        
         
       </div>
       
@@ -49,7 +63,7 @@
     </div>
 
     <!-- footer -->
-    <div class="seatsFooter">
+    <div class="seatsFooter" v-if="seat.price">
       <div class="seatsTypes">
         <img src="../../static/images/seats/seat.png" alt="">
         <span>可选</span>
@@ -66,7 +80,9 @@
         <div>4人</div>
       </div> -->
       <div class='selectSeat'>
-        <button >请先选座</button>
+        
+        <!-- <button>{{seat.price[0000000000000001].seatsPrice[selectedNum].totalPrice}}</button> -->
+        <button>请先选座</button>
       </div>
       
     </div>
@@ -76,17 +92,40 @@
 
 <script type="text/ecmascript-6">
   import {reqSeats} from '../../api/index';
+  import { Toast,MessageBox } from 'mint-ui';
   export default {
     data() {
       return {
-        seat:{}
+        seat:{},
+        seatType:['empty','optional','optioned','noOption'],//没有座位，可以选的座位（白），自己选的（绿），不能选的（红）
+        selectedNum:0,
+        
       }
     },
     async mounted() {
-      const result = await reqSeats({hall:'2号厅'});
+      const result = await reqSeats({hall:'7号厅'});
       console.log(result);
       if(result.code===0){
         this.seat = result.data.seatData
+      }
+    },
+    methods: {
+      selectSeat(row,colum){
+        const seatStatus = this.seat.seat.regions[0].rows[row].seats[colum].seatStatus;
+        if(seatStatus === 1){
+          
+          
+          if(this.selectedNum>=4){
+            Toast('每次最多可选4个座位')
+            return
+          }
+          this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
+          this.selectedNum++;
+        }
+        if(seatStatus === 2){
+          this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
+        }
+        
       }
     },
   }
@@ -143,12 +182,14 @@
       line-height 18px
       font-family: PingFangSC-Regular,Hiragino Sans GB,sans-serif;
     .seatsDetail
-      position absolute
-      top 50%
-      transform translateY(-50%)
-      display flex
+      overflow:hidden
+      height 100%
       .seatsRows
-        width 2vw
+        position absolute
+        top 85px
+        left 0
+        width 6px
+        z-index 2
         background-color: rgba(0,0,0,.05)
         .rowItem
           font-size 1px
@@ -158,28 +199,70 @@
           height 20px
           line-height 20px
           transform:  scale(0.8, 0.8) rotate3d(0, 0, 0, 0deg);  
+      
       .seats
-        width 90vw
-        padding 0 4vw
-        .colum
-          display flex
-          .row
-            width 16px
-            height 14px
-            padding 3px 2px
-            // background-image url(../../static/images/seats/seat.png)
-            // background-size 16px 14px
-            // background-repeat no-repeat
-            img 
-              width 16px
-              height 14px
+        position absolute
+        left 50%
+        top 85px
+        transform translateX(-50%)
         .bg
+          position absolute
           width 100%
           height 10px
           text-align center
           img 
             width 46px
             height 8px
+        .seatsBlock
+          position relative
+          z-index 2
+          width 324px
+          .colum
+            width 324px
+            overflow hidden
+            .rowWraper  
+              float left         
+              width 18px
+              height 20px
+              overflow hidden
+              .row
+                padding 3px 1px
+                width 16px
+                height 14px
+                background-image url(../../static/images/seats/seat.png)
+                background-repeat no-repeat
+                background-size 16px 14px
+                &.empty
+                  background-image none 
+                &.optional
+                  background-image url(../../static/images/seats/seat.png)
+                &.optioned
+                  background-image url(../../static/images/seats/greenseat.png)
+                &.noOption
+                  background-image url(../../static/images/seats/redseat.png)
+                
+                &.R
+                  padding 3px 1px 3px 0
+                  
+                  background-image url(../../static/images/seats/doubleseat.png)
+                  background-position -18px 0
+                  background-size 34px 14px
+                  
+                &.L
+                  padding 3px 0px 3px 1px
+                  background-image url(../../static/images/seats/doubleseat.png)
+                  background-position 0 0
+                  background-size 34px 14px
+        
+        .line
+          position absolute
+          width 0px
+          border-left 1px dashed #c3c3c3
+          height 100%
+          top 50%
+          left 50%
+          transform translate(0 ,-50%)
+          z-index 1
   .seatsFooter
     width 100%
     background-color #fff
