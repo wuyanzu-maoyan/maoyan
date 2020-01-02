@@ -34,13 +34,8 @@ module.exports = {
       // 处理以/api开头路径的请求
       // '/api': 'http://localhost:4000'   // http://localhost:4000/api/search/users
       '/api': {
-<<<<<<< HEAD
          target: 'http://localhost:3000', // 转发的目标地址
         //target: 'http://kangjiachang.utools.club', // 转发的目标地址
-=======
-        target: 'http://localhost:3000', // 转发的目标地址
-        // target: 'http://kangjiachang.utools.club', // 转发的目标地址
->>>>>>> 87ea063aa35f91df98c300aec5048509cfe2321d
 
         pathRewrite: {
           '^/api' : ''  // 转发请求时去除路径前面的/api
