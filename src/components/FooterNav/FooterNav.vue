@@ -36,6 +36,7 @@
     background #fff
     display flex
     height 48px
+    border-top 0.5px solid #d8d8d8
     .kjcFooterItem
       width 33.33333%
       display flex
