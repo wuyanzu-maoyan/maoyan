@@ -17,6 +17,7 @@ import VipCard from '../pages/Personal/VipCard'
 import City from '../pages/City/City';
 import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
+import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 
 
@@ -42,6 +43,16 @@ export default [
   {
     path:'/findpassword',
     component:FindPassword,
+  },
+  {
+    path:'/seats',
+    component:Seats,
+    meta:{
+      title:'中影星美国际影城（温都水城店）',//传给header组件的title
+      isBack:true,//需要返回按钮
+      isFooter:false,//不需要footer
+
+    }
   },
   
   {
@@ -76,8 +87,8 @@ export default [
       }
     ]
      
-   },
-   {
+  },
+  {
     path:"/Movie",
     component: Movie,
     

@@ -30,3 +30,6 @@ export const reqLoginByPhone = (data) => ajax.post('/login_sms',data)
 
 //自动登录
 export const reqAutoLogin = () => ajax.get('/auto_login')
+
+//请求座位信息
+export const reqSeats = (data) => ajax.post('/getSeats',data)
