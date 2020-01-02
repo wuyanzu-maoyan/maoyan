@@ -1,6 +1,6 @@
 <template>
   <div id="zxSearchContainer">
-    <Header :title="'猫眼电影'"></Header>
+    <!-- <Header :title="'猫眼电影'"></Header> /128.180 -->
     <div class="zxSearchHeader">
       <!-- 搜索框 -->
       <div class="zxInputWrapper"> 
@@ -11,42 +11,49 @@
       <div class="zxCancel" @click="cancel">取消</div>
     </div>
     <!-- 搜索历史 -->
-    <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="index" style="display:none">
+    <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="input.id" v-if="!isShoeSearch">
       <div class="zxSearchIco"><i class="iconfont icon-shijianzhongbiao"></i></div>
-      <span class="zxSearchContent">{{input}}</span>
-      <div class="zxSearchIco" @click="deleteInput(index)"><i class="iconfont icon-guanbi"></i></div>
+      <span class="zxSearchContent" @click="addInput(input.value)">{{input.value}}</span>
+      <div class="zxSearchIco" @click="deleteInput(input.id)"><i class="iconfont icon-guanbi"></i></div>
     </div>
     <!-- 搜索成功结果 -->
     <div class="zxSearchResult clearfix" v-if="isShoeSearch">
       <!-- 电影列表 -->
-      <div class="zxResultWrapper">
+      <div class="zxResultWrapper" v-if="movieList.length>0">
         <div class="zxResult">
           <h3>电影/电视剧/综艺</h3>
           <div class="zxList clearfix" >
             <div class="zxMovie" v-for="(movie,index) in cutMovieList" :key="index">
-              <img :src="movie.img" alt="" >
+              <img class="zxMovieImg" :src="movie.img" alt="" >
               <div class="zxMovieInfo">
                 <div class="zxNameScore">
                   <p class="zxName">{{movie.nm}}</p>
-                  <p class="zxWish">{{movie.wish}}</p>
+                  <p class="zxWish">{{movie.sc? movie.sc+'分':movie.wish+'人想看'}}</p>
                 </div>
                 <div class="zxDetailSection">
                   <div class="zxDetailItems">
                     <p>{{movie.enm}}</p>
                     <p>{{movie.cat}}</p>
-                    <p>{{movie.ftime}}</p>
+                    <p>{{movie.rt}}</p>
                   </div>
                   <div class="zxBuy">ddd</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="zxMoreResult">查看全部{{movieList.length}}部影视剧</div>
+          <div class="zxMoreResult" @click="">查看全部{{movieList.length}}部影视剧</div>
         </div>
         
       </div>
       <!-- 影院列表 -->
-      
+      <div class="zxResultWrapper">
+        <div class="zxResult">
+          <h3>影院</h3>
+          <CinemaItem v-for="(cinema,index) in cutCinemaSearchList" :key="index" :cinema="cinema"></CinemaItem>
+          <div class="zxMoreResult" @click="">查看全部{{cinemaSearchList.length}}部影视剧</div>
+        </div>
+        
+      </div>
     </div>
     <!-- 搜索失败结果 -->
     <div class="zxNoResult" style="display:none">
@@ -57,23 +64,26 @@
 </template>
 
 <script type="text/ecmascript-6">
+import CinemaItem from '../../components/CinemaItem/CinemaItem';
 import {reqSearchMovie} from '../../api'
 import {mapState} from 'vuex'
   export default {
     data(){
       return {
         zxInput:'', //输入内容
-        inputList: [], //输入历史
-        movieList: [],
-        cutMovieList: [],
-        cutMovieList: [],
-        isShoeSearch: false,
+        inputList: JSON.parse(localStorage.getItem('inputList')) || [], //输入历史
+        movieList: [], //匹配电影列表
+        cutMovieList: [], //匹配电影前三
+        isShoeSearch: false,//是否显示搜索结果
+        cinemaSearchList: [], //匹配影院信息
+        cutCinemaSearchList: [], 
       }
     },
     methods:{
       //清除输入
       clear(){
         this.zxInput = ''
+        this.isShoeSearch = false
       },
       //取消,返回
       cancel(){
@@ -81,36 +91,41 @@ import {mapState} from 'vuex'
       },
       //失去焦点保存输入
       saveInput(){
-        const input = this.zxInput
-        if(input.trim()) {
+        const input = {id:Date.now(),value:this.zxInput}
+        if(this.zxInput.trim()) {
           this.inputList.unshift(input)
           if(this.inputList.length>3){
             this.inputList.splice(this.inputList.length-1)
           }
+          //保存到localStorage中
+          localStorage.setItem('inputList', JSON.stringify(this.inputList))
         }
       },
       //点击输入历史列表的X,删除信息
-      deleteInput(index){
-        this.inputList.shift(this.inputList[index])
+      deleteInput(id){
+        this.inputList.splice(this.inputList.findIndex(item=>item.id === id),1)
+        localStorage.setItem('inputList', JSON.stringify(this.inputList))
+        // localStorage.removeItem()
+      },
+      //点击输入历史.搜索
+      addInput(value){
+        this.zxInput = value
+        console.log(this.zxInput);
         
       }
     },
     computed:{
       ...mapState({
-        cinemaList: state => state.cinema.cinemaList || []
+        cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
       })
     },
     watch:{
       async zxInput(){
         if(this.zxInput.trim()){
           //请求得到影院信息
-        /*  
-          this.$store.dispatch('getCinemaList')
-          if(this.cinemaList.length>0){
-            this.cinemaSearchList = this.cinemaList.filter((item,index)=> item.nm.includes(this.zxInput))
-            console.log(this.cinemaSearchList);
-          }
-        */
+          console.log('11111');
+          this.$store.dispatch('getCinemaListOrigin');
+        
         /*
           const result = await reqCinemaList()
           if(result.code === 0){
@@ -121,8 +136,9 @@ import {mapState} from 'vuex'
             
           }
         */
+       
           //请求得到电影信息
-          if(true){
+          if(false){
             const result = await reqSearchMovie()
             if(result.code === 0){
               this.movieList = result.data.movies.filter((item,index)=> item.nm.includes(this.zxInput))
@@ -133,9 +149,20 @@ import {mapState} from 'vuex'
           }
         }
 
+      },
+      //筛选得到的影院信息
+      cinemaListOrigin(){
+        if(this.cinemaListOrigin.length>0){
+          this.cinemaSearchList = this.cinemaListOrigin.filter((item,index)=> item.nm.includes(this.zxInput))
+          this.cutCinemaSearchList = this.cinemaSearchList.slice(0,3)
+          console.log(this.cutCinemaSearchList);
+          this.isShoeSearch = true
+        }
       }
+    },
+    components:{
+      CinemaItem
     }
-
   }
 </script>
 
@@ -188,7 +215,8 @@ import {mapState} from 'vuex'
   .zxSearchHistory
     display flex
     line-height 44px
-    background-color #fff
+    background-color #ffffff
+    border-bottom 1px solid #eee
     .zxSearchIco
       text-align center
       width 44px
@@ -201,6 +229,10 @@ import {mapState} from 'vuex'
       font-size 16px
   .zxSearchResult
     width 100%
+    .clearfix::after
+      content ""
+      display table
+      clear both
     .zxResultWrapper
       .zxResult
         margin-bottom 10px
@@ -214,15 +246,11 @@ import {mapState} from 'vuex'
         .zxList
           padding-left 15px
           box-sizing border-box
-        .clearfix::after
-          content ""
-          display table
-          clear both
           .zxMovie
             padding 12px 0
             min-height 90px
             border-bottom 1px solid #e6e6e6
-            img 
+            .zxMovieImg 
               background-color #eee
               width 64px
               height 90px
@@ -239,13 +267,17 @@ import {mapState} from 'vuex'
                 font-size 16px
                 color #222
                 margin-bottom 2px
+                margin-top 5px
                 .zxName
                   max-height 24px
-                  width 215px
+                  min-width 170px
+                  max-width 180px
                   overflow hidden
                   white-space nowrap
                   text-overflow ellipsis
-                  font-weight bold
+                  font-weight 700
+                  font-size 17px
+                  
                 .zxWish
                   font-size 14px
                   // color #666
