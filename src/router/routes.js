@@ -19,6 +19,7 @@ import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
 import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
+import CardDetail from '../pages/CardDetail/CardDetail'
 
 
 export default [
@@ -84,6 +85,10 @@ export default [
         meta:{
           isFooter:true //需要footer
         },
+      },
+      {
+        path:'',
+        redirect:'/home/Now'
       }
     ]
      
@@ -150,7 +155,8 @@ export default [
     path:"/cinemadetail",
     component: CinemaDetail,
     meta:{
-      isBack:true
+      isBack:true,
+      noHeader:true
     }
   },
   {
@@ -160,6 +166,10 @@ export default [
   {
     path:"/app",
     component: App
+  },
+  {
+    path:'/carddetail',
+    component: CardDetail
   },
   {
     path:'/',
