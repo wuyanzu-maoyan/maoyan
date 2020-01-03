@@ -89,14 +89,14 @@ export default [
         },
       },
       {
-        path:'',
+        path:'/',
         redirect:'/home/now'
       }
     ]
      
   },
   {
-    path:"/Movie/:id",
+    path:"/movie/:id",
     component: Movie,
     
   },

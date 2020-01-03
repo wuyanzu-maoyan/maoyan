@@ -3,7 +3,7 @@
     <div class='nowContainer' ref="nowContainer">
       <div>
         <div class="lyhContent" 
-          @click="$router.push(`/Movie/${movie.id}`)"
+          @click="$router.push(`/movie/${movie.id}`)"
           v-for="movie in movieList" :key="movie.id"
         >
           <img :src="movie.img" alt="" >
