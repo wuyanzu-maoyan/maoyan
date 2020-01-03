@@ -1,6 +1,6 @@
 <template>
-  <div id="detailContainer">
-    <div ref="movie" style="height: 607px">
+  <div id="detailContainer" >
+    <div ref="movie" style="height: 607px" >
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -110,13 +110,15 @@
               <span class="right">全部 > </span> 
             </div>
             <div class="actorList" ref="actor" style="width: 375px">
-              <ul class="swiperWrapper" v-if="detail.actors">
-                <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
-                  <img :src="actor.img" alt="">
-                  <span class="name">{{actor.name}}</span>
-                  <span class="role">{{actor.role}}</span>
-                </li>
-              </ul>
+              <div>
+                <ul class="swiperWrapper" v-if="detail.actors">
+                  <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
+                    <img :src="actor.img" alt="">
+                    <span class="name">{{actor.name}}</span>
+                    <span class="role">{{actor.role}}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <!-- 视频剧照 -->
@@ -126,15 +128,17 @@
               <span class="right">全部剧照 > </span> 
             </div>
             <div class="videosList" ref="video" style="width:375px">
-              <ul class="swiperWrapper" v-if="detail.photos">
-                <li class="swiperSlide" @click="toVideo">
-                  <img class="photo" :src="detail.videoImg" alt="">
-                  <img class="videoStop" src="./images/videoStop.png" alt="">
-                </li>
-                <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
-                  <img  class="photo" :src="photo" alt="">
-                </li>
-              </ul>
+              <div>
+                <ul class="swiperWrapper" v-if="detail.photos">
+                  <li class="swiperSlide" @click="toVideo">
+                    <img class="photo" :src="detail.videoImg" alt="">
+                    <img class="videoStop" src="./images/videoStop.png" alt="">
+                  </li>
+                  <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
+                    <img  class="photo" :src="photo" alt="">
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -184,7 +188,7 @@
       </div>
     </div>
     
-    <!-- 底部分享 购票 -->
+    <!-- <div 底部分享 购票 --> -->
     <div class="shareBuy">
       <img src="./images/share.png" alt="">
       <button>特惠购票</button>
@@ -200,6 +204,8 @@
   import {reqDetail} from '@/api'
   
   export default {
+    name: 'Detail',
+    props: ['id'],
     components:{
       OpenApp
     },
@@ -209,7 +215,9 @@
       }
     },
     mounted(){
-      this.$store.dispatch('getDetail')
+      const id = this.id
+      this.$store.dispatch('getDetail', id)
+      
 
       //全屏竖向滑屏
       if (!this.scroll) {
@@ -233,27 +241,32 @@
       toVideo(){
         // console.log('跳转到视频');
         location.href=`${this.detail.videourl}`
+      },
+
+      //初始化横向滑屏
+      _initScroll(){
+        //演员的横向滑动
+        if (!this.actorScroll) {
+          this.actorScroll = new BScroll(this.$refs.actor, {
+            click:true,
+            bounce:false,  //取消弹簧效果
+            scrollX:true,  //允许横向滑屏
+          })
+        }
+        //视频剧照的横向滑屏
+        if (!this.videoScroll) {
+          this.videoScroll = new BScroll(this.$refs.video, {
+            click:true,
+            bounce:false,  //取消弹簧效果
+            scrollX:true,  //允许横向滑屏
+          })
+        }
       }
     },
     watch:{
       detail(){
         this.$nextTick(()=>{
-          //演员的横向滑动
-          if (!this.actorScroll) {
-            this.actorScroll = new BScroll(this.$refs.actor, {
-              click:true,
-              bounce:false,  //取消弹簧效果
-              scrollX:true,  //允许横向滑屏
-            })
-          }
-          //视频剧照的横向滑屏
-          if (!this.videoScroll) {
-            this.videoScroll = new BScroll(this.$refs.video, {
-              click:true,
-              bounce:false,  //取消弹簧效果
-              scrollX:true,  //允许横向滑屏
-            })
-          }
+          this._initScroll()
         })
       }
     }
@@ -263,7 +276,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
 
 #detailContainer
-  background rgb(39, 40, 64)
+  // background rgb(39, 40, 64)
   .back
     position absolute
     left 8px
@@ -274,8 +287,6 @@
     border-left 2px solid #fff
     border-bottom 2px solid #fff
   .movieInfo
-    // margin-top 64px
-    background rgb(39, 40, 64)
     padding 21px 16px
     .movieInfoTop
       width 100%

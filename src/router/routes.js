@@ -21,6 +21,7 @@ import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 import CardDetail from '../pages/CardDetail/CardDetail'
 import Search from '../pages/Search/Search'
+import SearchDetail from '../pages/SearchDetail/SearchDetail'
 
 
 export default [
@@ -74,14 +75,14 @@ export default [
     },
     children: [
       {
-        path: '/home/Now',
+        path: '/home/now',
         component: Now,
         meta:{
           isFooter:true //需要footer
         },
       },
       {
-        path: '/home/Will',
+        path: '/home/will',
         component: Will,
         meta:{
           isFooter:true //需要footer
@@ -89,7 +90,7 @@ export default [
       },
       {
         path:'',
-        redirect:'/home/Now'
+        redirect:'/home/now'
       }
     ]
      
@@ -104,7 +105,6 @@ export default [
     component: Personal, //个人中心
     meta:{
       isFooter:true,
-      isBack:true,
       title:'我的'
     }
   },
@@ -166,7 +166,18 @@ export default [
     }
   },
   {
-    path:"/cinemadetail",
+    path:"/searchdetail",
+    component: SearchDetail,
+    meta:{
+      isFooter:false,//不需要footer
+      isBack:true,//需要返回按钮
+      title:' ',
+    }
+  },
+  {
+    name: 'cinemadetail',
+    path:"/cinemadetail/:id",
+    props: true,
     component: CinemaDetail,
     meta:{
       isBack:true,
@@ -174,7 +185,9 @@ export default [
     }
   },
   {
-    path:"/detail",
+    name: 'detail',
+    path:"/detail/:id",
+    props: true,
     component: Detail
   },
   {
@@ -183,7 +196,11 @@ export default [
   },
   {
     path:'/carddetail',
-    component: CardDetail
+    component: CardDetail,
+    meta:{
+      isBack:true,
+      title:'会员卡详情'
+    }
   },
   {
     path:'/',

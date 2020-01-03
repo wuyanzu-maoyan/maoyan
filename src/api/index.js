@@ -40,3 +40,9 @@ export const reqAutoLogin = () => ajax.get('/auto_login')
 
 //请求座位信息
 export const reqSeats = (data) => ajax.post('/getSeats',data)
+
+//获取电影详情列表
+export const reqmyOrder = () => ajax.get('/getMyOrderList');
+
+//获取优惠券列表
+export const reqDiscount = () => ajax.get('/getDiscount')
