@@ -1,5 +1,5 @@
 <template>
-  <div class="kjcCinemaItemContainer" @click="$router.push(`/cinemadetail/:${cinema.id}`)">
+  <div class="kjcCinemaItemContainer" @click="$router.push(`/cinemadetail/${cinema.id}`)">
       <div class="kjcTitleAndSearch">
       <span class="title">{{cinema.nm}}</span>
       <span>{{cinema.sellPrice}}<i>元起</i></span>
