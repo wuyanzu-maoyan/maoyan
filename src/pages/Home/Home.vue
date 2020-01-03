@@ -6,8 +6,8 @@
     <div class="lyhNavigation">
       <span class="BJ">北京</span>
       <div class="lyhSj"></div>
-      <span class="lyhRb"  @click="$router.push('/home/Now')">正在热播</span>
-      <span class="lyhSy" @click="$router.push('/home/Will')">即将上映</span>
+      <span class="lyhRb " :class="{active:$route.path==='/home/now'}" @click="toNow">正在热播</span>
+      <span class="lyhSy"  :class="{active:$route.path==='/home/will'}" @click="toWill">即将上映</span>
       <div class="lyHiconfont"><i class="iconfont icon-search"></i></div>
      </div>
   </div>
@@ -21,13 +21,30 @@
 <script type="text/ecmascript-6">
  import open from '../../components/Openapp/OpenApp'
   export default {
+    mounted() {
+      console.log(this.$route.path);
+    },
     data() {
       return {
       }
     },
     components:{
       open
-    }
+    },
+    methods: {
+      toNow(){
+        if(this.$route.path!=='/home/now'){
+          this.$router.replace('/home/now');
+        }
+        
+      },
+      toWill(){
+        if(this.$route.path!=='/home/will'){
+          this.$router.push('/home/will')
+        }
+        
+      }
+    },
   }
 </script>
 
@@ -78,7 +95,7 @@
        font-weight: 700;
        
      }
-     .lyhNav .lyhSy:hover{
+     .lyhNav .lyhSy.active{
        border-bottom: 1px solid red;
        color: red;
      }
@@ -87,7 +104,7 @@
        right: 180px;
        font-weight: 700;
      }
-     .lyhNav .lyhRb:hover{
+     .lyhNav .lyhRb.active{
        border-bottom: 1px solid red;
        color: red;
      }

@@ -74,14 +74,14 @@ export default [
     },
     children: [
       {
-        path: '/home/Now',
+        path: '/home/now',
         component: Now,
         meta:{
           isFooter:true //需要footer
         },
       },
       {
-        path: '/home/Will',
+        path: '/home/will',
         component: Will,
         meta:{
           isFooter:true //需要footer
@@ -89,7 +89,7 @@ export default [
       },
       {
         path:'',
-        redirect:'/home/Now'
+        redirect:'/home/now'
       }
     ]
      
