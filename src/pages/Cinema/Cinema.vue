@@ -13,7 +13,7 @@
     <div class="kjcHeaderLine" v-show="isShowType === 0 || isShowType === 1 || isShowType === 2"></div>
     <div class="kjcSearchType">
       <div class="kjcAllCity" @click="toggleShow(0)"> 
-        <span :class="{kjcRed:isShowType == 0 || (allCityName && isShowType === 0)}">{{allCityName || '全城'}}</span>
+        <span :class="{kjcRed:isShowType == 0 || (allCityName && isShowType === 0)}">{{allCityName || locationName || '全城'}}</span>
         <i :class="{kjcRed:isShowType == 0 || (allCityName && isShowType === 0)}"></i>
       </div>
       <div class="kjcBrand" @click="toggleShow(1)">
@@ -26,12 +26,12 @@
       </div>
     </div>
     <div class="kjcSearchTypeDetail">
-      <div class="kjcAllCityWrap" v-if="isShowType === 0">
+      <div class="kjcAllCityWrap" v-show="isShowType === 0">
         <div class="kjcAllCityContentHeader">
           <span class="kjcAllCityContentHeaderLeft" :class="{active:!isSubway}" @click="checkSubway(false)">商区</span>
           <span class="kjcAllCityContentHeaderRight" :class="{active:isSubway}" @click="checkSubway(true)">地铁站</span>
         </div>
-        <CinemaSearchType v-if="isShowType === 0" :district="district" :subway="subway"></CinemaSearchType>
+        <CinemaSearchType ref="CinemaSearchType" v-show="isShowType === 0" :district="district" :subway="subway"></CinemaSearchType>
       </div>
       <CinemaSearchBrand v-if="isShowType === 1"></CinemaSearchBrand>
       <CinemaSearchChar v-if="isShowType === 2"></CinemaSearchChar>
@@ -39,7 +39,7 @@
     <div class="kjcMask" v-if="isShowType !== -1" @click="closeMask()"></div>
     <div class="kjcScrollWrap" ref="scrollContainer">
       <div class="kjcSrcollContent"  v-if="isFirst && !cinemaList.length">
-        <CinemaItem  v-for="(cinema,index) in cinemaListOrigin" :key="cinema.id" :cinema="cinema"></CinemaItem>
+        <CinemaItem v-for="(cinema,index) in cinemaListOrigin" :key="cinema.id" :cinema="cinema"></CinemaItem>
       </div>
       <div class="kjcSrcollContent"  v-else-if="cinemaList.length || !isFirst">
       <CinemaItem  v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
@@ -74,7 +74,8 @@
         brandName:'',//搜索品牌的条件名字
         tagName: '', //搜索标签 可改签/可退票的条件名字
         hallTypeName:'', //搜索特殊厅的条件名字
-        isShowLocation:true //展示定位信息
+        isShowLocation:true, //展示定位信息
+        locationName:'' //地区的名字
       }
     },
     components:{
@@ -172,6 +173,9 @@
              this.$store.dispatch('getSearchContent')
            
       })
+      this.$globalEventBus.$on('getLocation',(value)=>{
+          this.locationName = value
+      })
       this.$globalEventBus.$on('changeIsShowType',(value)=>{
           this.isShowType = value
       })
@@ -193,6 +197,18 @@
         this.$nextTick(()=>{
           this.initScroll();
         })
+      },
+      isShowType(value){
+       // this.$ref.CinemaSearchType
+        if(value  ==  0 && this.district.name || this.subway.name){
+          this.$nextTick(()=>{
+            console.log(123)
+          this.$refs.CinemaSearchType.initScroll()
+          })
+        }
+        // if(value == -1){
+        //   this.$refs.CinemaSearchType.initScroll(true)
+        // }
       }
     },
   }
