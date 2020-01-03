@@ -13,3 +13,4 @@ export const SAVE_TYPE_OBJ = "save_type_obj" //设置保存影院检索条件的
 export const SAVE_CINEMA_LIST_ORIGIN = "save_cinema_list_origin" //设置影院简要信息列表(原信息)mutation名字
 export const SAVE_CITY_LIST = "save_city_list" //设置保存城市列表
 export const RECEIVE_RECENTLY_CITY = "receive_recently_city" //设置保存最近访问城市列表
+export const SAVE_MOVIE_LIST = "save_movie_list" //设置保存符合搜索条件的电影
