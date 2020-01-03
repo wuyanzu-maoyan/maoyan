@@ -72,7 +72,8 @@
           </div>
           <!-- 放映时间 -->
           <div class="movieShowList" v-if="cinemaDetail.showData && cinemaDetail.showData.movies[MovieIndex].globalReleased">
-            <div class="movieShowItem" v-for="(show,index) in cinemaDetail.showData.movies[MovieIndex].shows[this.zyhIsActive].plist" :key="index">
+            <div class="movieShowItem" @click="$router.push(`/seats/${show.th}`)"
+              v-for="(show,index) in cinemaDetail.showData.movies[MovieIndex].shows[this.zyhIsActive].plist" :key="index">
               <div class="time">
                 <div class="begin">{{show.tm}}</div>
                 <div class="end">{{show.tm}} 散场</div>
