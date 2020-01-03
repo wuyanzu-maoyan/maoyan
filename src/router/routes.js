@@ -158,7 +158,7 @@ export default [
     }
   },
   {
-    path:"/search",
+    path:"/search/:isCinema",
     component: Search,
     meta:{
       isFooter:false,//不需要footer
