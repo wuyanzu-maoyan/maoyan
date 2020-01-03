@@ -26,6 +26,7 @@
     },
     data() {
       return {
+        
       }
     },
     components:{
