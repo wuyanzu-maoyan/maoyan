@@ -146,7 +146,8 @@ export default [
     component:VipCard, //影院会员卡
     meta:{
       isBack:true,
-      title:'影院会员卡'
+      title:'影院会员卡',
+      noHeader:true
     }
   },
   {
