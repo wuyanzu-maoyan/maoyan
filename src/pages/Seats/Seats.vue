@@ -25,7 +25,7 @@
 
       <div class='seatsDetail'>
         <div class='seatsRows'>
-          <div class='rowItem' v-for="(item,index) in seat.seat.regions[0].rows" :key="index">{{index}}</div>
+          <div class='rowItem' v-for="(item,index) in seat.seat.regions[0].rows" :key="index">{{item.rowId}}</div>
         </div>
 
 
@@ -37,12 +37,11 @@
                   
                   class='row' :class="[colum.seatType,seatType[colum.seatStatus]]" 
                   
-                  @click="selectSeat(index,indexColum,colum.seatType)"
+                  @click="selectSeat(index,indexColum,colum.rowId,colum.columnId,colum.seatType)"
                 >
 
                 </div>
-                <!-- <img class='double' src="../../static/images/seats/doubleseat.png" alt="" v-if="colum.seatType==='L'||colum.seatType==='R'">
-                <img src="../../static/images/seats/seat.png" alt="" v-show="row.rowId&&colum.seatType" v-else> -->
+                
               </div>
             </div>
             
@@ -130,12 +129,12 @@
         return arr.slice(0,this.selectedNum) ;
         
       },
-      realSeat(){
-        
-      }
+     
     },
     methods: {
-      selectSeat(row,colum,seatType){
+      selectSeat(row,colum,rowId,columId,seatType){
+        rowId = Number(rowId);
+        columId = Number(columId);
         const seatStatus = this.seat.seat.regions[0].rows[row].seats[colum].seatStatus;
         let num = this.selectedNum;
         if(seatStatus === 1){
@@ -153,20 +152,20 @@
           if(seatType==='L'){
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 2;
-            this.addSeat(row,colum);
-            this.addSeat(row,colum+1);
+            this.addSeat(rowId,columId);
+            this.addSeat(rowId,columId-1);
 
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
           }else if(seatType==='R'){
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 2;
-            this.addSeat(row,colum-1);
-            this.addSeat(row,colum);
+            this.addSeat(rowId,columId+1);
+            this.addSeat(rowId,columId);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
           }else{
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
-            this.addSeat(row,colum);
+            this.addSeat(rowId,columId);
           }
           this.selectedNum = num;
           
@@ -176,20 +175,20 @@
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 1;
             this.selectedNum = this.selectedNum-2;
-            this.deleteSeat(row,colum);
-            this.deleteSeat(row,colum+1);
+            this.deleteSeat(rowId,columId);
+            this.deleteSeat(rowId,columId-1);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }else if(seatType==='R'){
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 1;
             this.selectedNum = this.selectedNum-2;
-            this.deleteSeat(row,colum);
-            this.deleteSeat(row,colum-1);
+            this.deleteSeat(rowId,columId);
+            this.deleteSeat(rowId,columId+1);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }else{
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.selectedNum--;
-            this.deleteSeat(row,colum);
+            this.deleteSeat(rowId,columId);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }
           
@@ -198,19 +197,16 @@
         
       },
       addSeat(row,colum){
-        row++;
-        colum++;
+        
         this.seatsNum.push({row,colum});
       },
       deleteSeat(row,colum){
-        row++;
-        colum++;
-        console.log(row,colum);
-        console.log(this.seatsNum);
+        
+        
         let seatId = this.seatsNum.findIndex(item => {
           return item.row === row && item.colum === colum;
         })
-        console.log(seatId);
+        
         
         this.seatsNum.splice(seatId,1);
       }
