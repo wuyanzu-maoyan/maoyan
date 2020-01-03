@@ -199,7 +199,7 @@ export default [
     component: CardDetail,
     meta:{
       isBack:true,
-      title:'会员卡详情'
+      noHeader:true
     }
   },
   {
