@@ -20,6 +20,7 @@ import FindPassword from '../pages/FindPassword/FindPassword';
 import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 import CardDetail from '../pages/CardDetail/CardDetail'
+import Search from '../pages/Search/Search'
 
 
 export default [
@@ -152,6 +153,16 @@ export default [
     component: City,
     meta:{
       isFooter:false,//不需要footer
+      noHeader:true
+    }
+  },
+  {
+    path:"/search",
+    component: Search,
+    meta:{
+      isFooter:false,//不需要footer
+      title:'猫眼电影',
+      isBack:true,//需要返回按钮
     }
   },
   {

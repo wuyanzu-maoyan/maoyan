@@ -58,6 +58,7 @@
 #openAppContainer
   height 64px
   .lyhLogo_app
+    z-index 20
     width: 100%;
     height: 64px;
     background #fff
