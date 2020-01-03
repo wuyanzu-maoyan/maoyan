@@ -19,6 +19,8 @@ import Register from '../pages/Register/Register';
 import FindPassword from '../pages/FindPassword/FindPassword';
 import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
+import CardDetail from '../pages/CardDetail/CardDetail'
+import Search from '../pages/Search/Search'
 
 
 export default [
@@ -84,6 +86,10 @@ export default [
         meta:{
           isFooter:true //需要footer
         },
+      },
+      {
+        path:'',
+        redirect:'/home/Now'
       }
     ]
      
@@ -144,13 +150,26 @@ export default [
   },
   {
     path:"/city",
-    component: City
+    component: City,
+    meta:{
+      isFooter:false,//不需要footer
+    }
+  },
+  {
+    path:"/search",
+    component: Search,
+    meta:{
+      isFooter:false,//不需要footer
+      title:'猫眼电影',
+      isBack:true,//需要返回按钮
+    }
   },
   {
     path:"/cinemadetail",
     component: CinemaDetail,
     meta:{
-      isBack:true
+      isBack:true,
+      noHeader:true
     }
   },
   {
@@ -160,6 +179,10 @@ export default [
   {
     path:"/app",
     component: App
+  },
+  {
+    path:'/carddetail',
+    component: CardDetail
   },
   {
     path:'/',

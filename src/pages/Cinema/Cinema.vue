@@ -37,15 +37,23 @@
       <CinemaSearchChar v-if="isShowType === 2"></CinemaSearchChar>
     </div>
     <div class="kjcMask" v-if="isShowType !== -1" @click="closeMask()"></div>
-    <div class="kjcScrollContainer" ref="scrollContainer">
-      <div class="kjcSrcollContent" v-if="isFirst">
-        <CinemaItem   v-for="(cinema,index) in cinemaListOrigin" :key="cinema.id" :cinema="cinema"></CinemaItem>
+    <div class="kjcScrollWrap" ref="scrollContainer">
+      <div class="kjcSrcollContent"  v-if="isFirst && !cinemaList.length">
+        <CinemaItem  v-for="(cinema,index) in cinemaListOrigin" :key="cinema.id" :cinema="cinema"></CinemaItem>
       </div>
-      <div class="kjcSrcollContent" v-else-if="cinemaList.length || !isFirst">
-      <CinemaItem   v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
+      <div class="kjcSrcollContent"  v-else-if="cinemaList.length || !isFirst">
+      <CinemaItem  v-for="(cinema,index) in cinemaList" :key="cinema.id" :cinema="cinema"></CinemaItem>
       </div>
     </div>
-
+    <div class="kjcNoFind" v-if="!cinemaList.length && !isFirst">
+        <img src="../../static/images/wjCat.png" alt="">
+        <p>暂无符合条件的影院</p>
+    </div>
+    <div class="kjcNoLocation" v-show="isShowLocation">
+      <img class="kjcFirstImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACI0lEQVRoQ+2Z4VHDMAxGlQ3KBLABMAFsUDYAJkCdAJgAbQBswAbABLABMAFsYE53Mee2VmLZsZXekT/c0TT2iz8/y24HO351O95/+AdoNYKIuOi67tw5d0xEF77d2Y8AIh4AwDUAnAHAAgAuiehh9gCr1WrpnEMAOA1G+YuIGOjvmtUIBDHhjq91tO/xLRHdzA4gEhNpau0R0c9sAISYSJ1/DCev2RxIiIkEwPZ53/yw2RxQxCQG8EpE4WRuN4mVMZHe/po6q8+BgpjEALbUWQ2gMCbS299S5+QAE8UkWZ2TAEwcE5U6iwAqxUSlziyAyjFRqTMZoFFM1OocBWgcE7U6RQCDmGSpc3AE+rfPpSwv3Ud9WXsotVTp/1tVp9ROci2EiAzjgRiOIfcrAESrzmKA2AN4kvdQHoz/nhRCRavOKgDSQ4MY8u5JAyRWnU0BfGOIyKcH94oREatOKwCO1FsiwGDVaQLAjSKiSwQYrDotAXgbmKLhZHWOrsSJbyzpNkR8AoDlyM0qdbYGYBPxydrQpVJnawBe9J4Heq9WZ2sAXrE/BgDU6mwKMGKiLHVaALwIK3KWOi0ACACuIjHKUqcFAJ82320AZKvTAiBmomx1WgBw2f0dNFykzuYAvYk+gw1QkTqtALyJitVpBeBLimJ1WgH4zU2xOq0AeHODsZ+Jkspa4abkU4mSRvx3+WQj9jNRybObApR0VPruP0CNt6p55i/PKfMxjSGtyAAAAABJRU5ErkJggg==" alt="">
+      <span>定位失败，请稍后再试</span>
+      <img class="kjcLastImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAEUElEQVRoQ91aTVbbSBCuEkjbkBMMc4KBE4ScgOQEMzlB8ILWYxWy4qm8sHOCkBMETjDkBHFOEDjBMFt+VHmfX8tPltQ/tuzgpJcgdddX9VV16SszbcgqiuIVEY2Y+coY8ybWLI59cN3PicgVEb3AOar6Ps/z05gzNwnABREdWgDXeZ7/uREARORFmqbfBoPBrc8gEfmHiD5WzzDzy+PjY0TFu1YWARjKzAeqekBEe0S04zj5SlUnRDTJsuyyAjYajXbu7u6umfmZjcKnPM8Ban0Azs7OdpMkecvMOMhlsM8AROWCmT/B20VRnDPz3/aFW2PM87UAgOFbW1vviCjooZABtf+DLt+I6G31N1V9nec5csO5FqaQiOAAVIhlPL4Anumjl8YYlNf+ACxHPzKzd0NVhRenXkuSZC4JVXW3yhFm/isGTZqmz30FICoCMP7+/v5fm5ytc2E0M48fHx+vTk5OrmMMs/kDCh5Viet4740x5ty1ZxCA5ftXB2VuQCffASEwNrJHHiBfjDGobJ3LC8DneVWNKnM+ANb4Q1vFOo0MneMFICKgTdfG3rCGvD4cDnFfoFw6q5iq/k9E4yzLxkvlQFEU4OaoaUzsDekCYSn53QNySss0TS9Ctzf26IyAh/e9PI8D0XUy8+cOAF9UdRyq+y2HdnmicSNOHwlxMUSb6v82r9BK/FHtW5blaWz1CgJwhPjGGLMba2ToOYB4eHjY297ensTQxLdfi0Jd3iei3tQJgVr2/y0AIvJfo+Z76/CyB6/qvTkAjgTbWO+3qpCIjOvdIB4I9SKr8uSy+8xFoP5dajfcaPp0RUDrnljk43pZD/Z9bxaBrvIZ80HR14C+788A2P4Evc9s9W0b+hoX874XABHtG2Nwa27s+r0B/FIUAkdEpFmFgqrAU3OreRPf1r9Pf6kyaiMwE1itZ4OyxqZF4JSZIVjN1qa0EsPhEMIvWvAP9Ra82UpA04QCUV9P3sw1erSJMWa/MrCrnYauM/1asgsDh5dPRZWuDsEYM7O764Om9TH/lC1FxwfWXIPZAtCUueF5VY0eOKwyUiLSonTzbupUJYqiaCUzEX0wxkBB+2lLRJCPAFGtVnvvFLZEpJkL2OSnJbSIYFrTFL5avZkTQFd3at2w9gaviwGuS9UrLTqotNZIFEWBUescVaF+53lep9KMU0F12iGzILGhog1WlRBW8IJiN6fFwvgsyw5c+lEQAAz0gECeDBaVA5ugPVOfmzRN95YSd5uHuEBUl52qntenjqHI2AvqUFVx77RUP3i+LMtXIckxKgKVMZjlgjq+iYqqXiRJMinLEiPTuWkNM++UZXnAzOCzc2gBHTbLsqMY2XEhAABiPYeRz/RnASteN4jIIpRcGEAjGgh/1LDOB7QaZsT+PqK+19IAqk1wX5RliQsHuv90yr7AusREs8+MrTeAurHoXTBGtUnZqtvoqYjoGuPXmN9BxDjiB9YfOU/rFhCmAAAAAElFTkSuQmCC" alt="">
+  </div>
   </div>
 </template>
 
@@ -66,6 +74,7 @@
         brandName:'',//搜索品牌的条件名字
         tagName: '', //搜索标签 可改签/可退票的条件名字
         hallTypeName:'', //搜索特殊厅的条件名字
+        isShowLocation:true //展示定位信息
       }
     },
     components:{
@@ -85,7 +94,7 @@
       }),
       isRed(){
         //计算特色什么时候是红色
-        if((this.tagName && this.isShowType == -1)||( this.hallTypeName && this.isShowType == -1)){
+        if((this.tagName != '全部' && this.hallTypeName != '全部') && (this.hallTypeName || this.tagName != '全部') && this.isShowType !== -1){
           return true
         }else if(this.isShowType == 2){
           return true
@@ -99,12 +108,19 @@
     methods:{
       initScroll(){
         if(!this.cinemaScroll){
-        this.cinemaScroll = new BScroll('.kjcScrollContainer',{
+        this.cinemaScroll = new BScroll('.kjcScrollWrap',{
           click:true
+          })
+          this.cinemaScroll.on('scrollStart',()=>{
+            this.isShowLocation = false
+          })
+          this.cinemaScroll.on('touchEnd',()=>{
+            this.isShowLocation = true
           })
         }else{
          this.cinemaScroll.refresh()
        }
+      
       },
       toggleShow(type){
                   /* 0 全城 1品牌 2特色  */
@@ -128,7 +144,16 @@
        
       }
     },
-    mounted(){
+   async mounted(){
+     this.$store.dispatch('getFilterCinemas')
+    await this.$store.dispatch('getCinemaListOrigin');
+       this.$nextTick(()=>{
+          this.initScroll()
+       })
+      // if(this.cinemaListOrigin.length){
+      //   this.initScroll()
+      // }
+      //在挂载时判断如果有值 相当于缓存(切换到其他路由 没有销毁 就重新初始化scroll
       this.$globalEventBus.$on('getSearchCondition',(obj)=>{
 
             if(this.isShowType !== 2){
@@ -147,16 +172,12 @@
              this.$store.dispatch('getSearchContent')
            
       })
-      this.$store.dispatch('getCinemaListOrigin');
-
-      //在挂载时判断如果有值 相当于缓存(切换到其他路由 没有销毁 就重新初始化scroll
-      if(this.cinemaListOrigin.length){
-        this.initScroll()
-      }
       this.$globalEventBus.$on('changeIsShowType',(value)=>{
           this.isShowType = value
       })
-      this.$store.dispatch('getFilterCinemas')
+      
+      
+     
     },
     watch:{
       //监视电影院列表的值
@@ -173,8 +194,7 @@
           this.initScroll();
         })
       }
-    }
-    
+    },
   }
 </script>
 
@@ -324,9 +344,50 @@
         height 20px
         color #e8e8e8
         border-left 1px solid #e8e8e8 
-    .kjcScrollContainer
+    .kjcScrollWrap
       width 100%
-      height calc(100vh - 188px)
+      height calc(100vh - 188px)    
+      .kjcScrollContainer
+        width 100%
+    .kjcNoFind
+      position absolute
+      top 0
+      left 0 
+      width 100%
+      height calc(100vh - 188px) 
+      text-align center
+      img 
+        width 83px
+        margin 180px 55px 0 
+      p
+        font-size 14px
+        color #777  
+    .kjcNoLocation
+      position fixed
+      background-color hsla(0,0%,94%,.9)
+      width 335px
+      height 19px
+      bottom 49px
+      left 0
+      padding 8px
+      margin 0 12px
+      border-radius 5px
+      z-index 1
+      .kjcFirstImg
+        width 14px
+        height 14px
+        vertical-align middle 
+        margin 2px 5px 0 0
+      .kjcLastImg
+        width 14px
+        height 14px
+        vertical-align middle 
+        margin 2px 0 0
+        float right
+      span
+        font-size 13px
+        color #666
+        vertical-align middle 
 
 
 </style>
