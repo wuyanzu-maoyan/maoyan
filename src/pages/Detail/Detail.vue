@@ -55,17 +55,8 @@
               </div>
               <div class="mRight" v-if="detail.distributions">
                 <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  
-                  <div class="stars" v-if="score.index==0">
-                    <img class="star" src="./images/star.png" alt="">
-                    <img class="star" src="./images/star.png" alt="">
-                    <img class="star" src="./images/star.png" alt="">
-                    <img class="star" src="./images/star.png" alt="">
-                    <img class="star" src="./images/star.png" alt="">
-                  </div>
-
-                  <div class="stars" v-else>
-                    <img class="star" src="./images/star.png" alt="">
+                  <div class="stars" >
+                    <img class="star" src="./images/star.png" alt="" v-for="(star,index) in starts" :key="index">
                   </div>
                   <div class="bar">
                     <div class="percent" :style="`width: ${score.proportion}%`"></div>
@@ -188,7 +179,7 @@
       </div>
     </div>
     
-    <!-- <div 底部分享 购票 --> -->
+     <!-- 底部分享 购票 -->
     <div class="shareBuy">
       <img src="./images/share.png" alt="">
       <button>特惠购票</button>
@@ -229,8 +220,27 @@
     },
     computed:{
       ...mapState({
-        detail: state => state.detail.detail
-      })
+        detail: state => state.detail.detail || {}
+      }),
+
+      //计算星星个数
+      starts(){
+        let bigArr = []
+        let smallArr = []
+        this.detail.distributions.forEach(movieScore => {
+          const score = movieScore.movieScoreLevel.slice(0,1) * 1
+          console.log(score);
+          for (let index = 0; index < Math.floor(score/2) + 1; index++) {
+            // arr.push('star')
+            smallArr.push('<img class="star" src="./images/star.png" alt="">')
+          }
+          console.log(smallArr);
+          bigArr.push(smallArr)
+          console.log(bigArr);
+          smallArr = []
+        });
+        return bigArr
+      }
     },
     methods:{
       //切换简介内容展开收起状态的回调
