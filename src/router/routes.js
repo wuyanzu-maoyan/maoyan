@@ -153,6 +153,7 @@ export default [
     component: City,
     meta:{
       isFooter:false,//不需要footer
+      noHeader:true
     }
   },
   {
