@@ -1,6 +1,6 @@
 <template>
     <div class="kjcFooterContainer" v-show="$route.meta.isFooter">
-      <span class="kjcFooterItem" @click="goto('/home')">
+      <span class="kjcFooterItem" @click="goto('/home/now')">
           <i class="iconfont icon-dianying"></i>
           <p>电影</p>
       </span>
