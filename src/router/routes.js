@@ -21,6 +21,7 @@ import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 import CardDetail from '../pages/CardDetail/CardDetail'
 import Search from '../pages/Search/Search'
+import SearchDetail from '../pages/SearchDetail/SearchDetail'
 
 
 export default [
@@ -74,14 +75,14 @@ export default [
     },
     children: [
       {
-        path: '/home/Now',
+        path: '/home/now',
         component: Now,
         meta:{
           isFooter:true //需要footer
         },
       },
       {
-        path: '/home/Will',
+        path: '/home/will',
         component: Will,
         meta:{
           isFooter:true //需要footer
@@ -89,13 +90,13 @@ export default [
       },
       {
         path:'',
-        redirect:'/home/Now'
+        redirect:'/home/now'
       }
     ]
      
   },
   {
-    path:"/Movie",
+    path:"/Movie/:id",
     component: Movie,
     
   },
@@ -104,7 +105,6 @@ export default [
     component: Personal, //个人中心
     meta:{
       isFooter:true,
-      isBack:true,
       title:'我的'
     }
   },
@@ -129,7 +129,8 @@ export default [
     component:Cou, //优惠券
     meta:{
       isBack:true,
-      title:'我的优惠券'
+      title:'我的优惠券',
+      noHeader:true
     }
   },
   {
@@ -163,6 +164,15 @@ export default [
       isFooter:false,//不需要footer
       title:'猫眼电影',
       isBack:true,//需要返回按钮
+    }
+  },
+  {
+    path:"/searchdetail",
+    component: SearchDetail,
+    meta:{
+      isFooter:false,//不需要footer
+      isBack:true,//需要返回按钮
+      title:' ',
     }
   },
   {

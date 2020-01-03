@@ -1,6 +1,6 @@
 <template>
-  <div id="detailContainer">
-    <div ref="movie" style="height: 607px" :style="{background: detail.backgroundColor}">
+  <div id="detailContainer" >
+    <div ref="movie" style="height: 607px" >
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -220,7 +220,7 @@
     },
     computed:{
       ...mapState({
-        detail: state => state.detail.detail
+        detail: state => state.detail.detail || {}
       }),
 
       //计算星星个数
