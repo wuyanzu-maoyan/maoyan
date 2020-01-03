@@ -76,7 +76,7 @@
               v-for="(show,index) in cinemaDetail.showData.movies[MovieIndex].shows[this.zyhIsActive].plist" :key="index">
               <div class="time">
                 <div class="begin">{{show.tm}}</div>
-                <div class="end">{{show.tm}} 散场</div>
+                <div class="end">{{EndTime[index]}} 散场</div>
               </div>
               <div class="info">
                 <div class="lang">{{show.lang}} {{show.tp}}</div>
@@ -98,10 +98,14 @@
           </div>
 
           <!-- 影片未上映的情况 -->
+          <!--  v-if="cinemaDetail.showData && !cinemaDetail.showData.movies[MovieIndex].globalReleased" -->
           <div class="noSeat" v-if="cinemaDetail.showData && !cinemaDetail.showData.movies[MovieIndex].globalReleased">
             <img src="./images/noSeat.png" alt="">
-            <div class="text">影片未上映</div>
-            <div class="dateBtn">点击查看{{cinemaDetail.showData.movies[MovieIndex].shows[0].dateShow}}场次</div>
+            <div class="text">影片未上映  </div>
+            <!-- <div class="text">{{movieText}} </div> -->
+            <div class="dateBtn">点击查看{{cinemaDetail.showData.movies[MovieIndex].shows[0].dateShow}}场次
+            </div>
+            <!-- <div class="dateBtn">点击查看{{movieTime}}场次</div> -->
           </div>
         </div>
 
@@ -153,6 +157,7 @@
         zyhIsActive: 0,  //时间导航的切换：默认为0：12月28日  ||  1：12月29日  ||  2：12月30日
         MovieIndex: 0,  //轮播图中当前选中的电影的index，初始为0，默认选中第一个
         MovieX: 0,  //电影轮播图的偏移量
+        EndTime: [] , //包含电影结束时间的数组
       }
     },
     mounted(){
@@ -166,11 +171,40 @@
           bounce:false,  //取消弹簧效果
         })
       }
+
+      //对横向滑动实例化或刷新
+      this.$nextTick(()=>{
+        this._initMovieScroll()
+      })
+
     },
     computed:{
       ...mapState({
         cinemaDetail: state => state.cinemaDetail.cinemaDetail || {}
       }),
+
+     //电影结束时间的计算
+      endTime(){
+        this.cinemaDetail.showData.movies[this.MovieIndex].shows[this.zyhIsActive].plist.forEach(show=>{
+          let startTimeArr = show.tm.split(':')    //将电影开始时间分割成【小时，分钟】小数组
+          let startTime = startTimeArr[0]*60 + startTimeArr[1]*1   //将时间计算成分钟
+          //求电影结束时间的小数组=电影开始时间+电影时长
+          let EndTimeItem = startTime + this.cinemaDetail.showData.movies[this.MovieIndex].dur    
+          //结束时间拼成数组
+          let EndTimeArr = [Math.floor(EndTimeItem/60)%24, EndTimeItem%60]
+          // console.log(EndTimeArr);
+          //判断时间，
+          if (EndTimeArr[0] <= 9) {
+            EndTimeArr[0] = `0${EndTimeArr[0]}`
+          }
+          if (EndTimeArr[1] < 10) {
+            EndTimeArr[1] = `0${EndTimeArr[1]}`
+          }
+
+          this.EndTime.push(`${EndTimeArr[0]}:${EndTimeArr[1]}`)
+          // console.log(this.EndTime);
+        })
+      },
 
     },
     methods:{
@@ -191,8 +225,11 @@
           this.moviesScroll = new BScroll(this.$refs.movies, {
             click:true,
             scrollX: true,  //允许横向滑屏
-            // bounce:true,  //弹簧效果
+            freeScroll:true,
+            eventPassthrough:'horizontal',
           })
+        }else{
+          this.moviesScroll.refresh()
         }
       },
 
@@ -203,7 +240,7 @@
           //电影轮播图的横向滑屏
           this._initMovieScroll()
         })
-      }
+      },
     }
   }
 </script>
@@ -265,6 +302,7 @@
       background #8E9BA7
       padding 20px 15px 20px 5px
       box-sizing border-box
+      overflow hidden
       .bg
         position absolute
         left 0
