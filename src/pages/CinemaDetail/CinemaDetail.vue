@@ -92,14 +92,11 @@
           </div>
 
           <!-- 影片未上映的情况 -->
-          <!--  v-if="cinemaDetail.showData && !cinemaDetail.showData.movies[MovieIndex].globalReleased" -->
           <div class="noSeat" v-if="cinemaDetail.showData && !cinemaDetail.showData.movies[MovieIndex].globalReleased">
             <img src="./images/noSeat.png" alt="">
             <div class="text">影片未上映  </div>
-            <!-- <div class="text">{{movieText}} </div> -->
             <div class="dateBtn">点击查看{{cinemaDetail.showData.movies[MovieIndex].shows[0].dateShow}}场次
             </div>
-            <!-- <div class="dateBtn">点击查看{{movieTime}}场次</div> -->
           </div>
         </div>
 
