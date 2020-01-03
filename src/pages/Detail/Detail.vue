@@ -1,6 +1,6 @@
 <template>
   <div id="detailContainer" >
-    <div ref="movie" style="height: 607px" >
+    <div ref="movie" style="height: 607px" :style="{background:detail.backgroundColor}">
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -55,8 +55,8 @@
               </div>
               <div class="mRight" v-if="detail.distributions">
                 <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  <div class="stars" >
-                    <img class="star" src="./images/star.png" alt="" v-for="(star,index) in starts" :key="index">
+                  <div class="stars">
+                    <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
                   </div>
                   <div class="bar">
                     <div class="percent" :style="`width: ${score.proportion}%`"></div>
@@ -203,8 +203,8 @@
     data(){
       return {
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
-        // smallArr: [],
-        bigArr: [],  //存放星星的数组
+        smallArr: [],  //存放星星的小数组
+        bigArr: [],  //存放星星数组的大数组，二维数组，
       }
     },
     mounted(){
@@ -219,6 +219,15 @@
           bounce:false  //取消弹簧效果
         })
       }
+
+      //对横向滑动实例化或刷新
+      if (!this.actorScroll || this.videoScroll) {
+        this._initScroll()
+      }else{
+        this.actorScroll.refresh()
+        this.videoScroll.refresh()
+      }
+      
     },
     computed:{
       ...mapState({
@@ -227,19 +236,13 @@
 
       //计算星星个数
       starts(){
-        // let bigArr = []
-        let smallArr = []
         this.detail.distributions.forEach(movieScore => {
           const score = movieScore.movieScoreLevel.slice(0,1) * 1
-          console.log(score);
           for (let index = 0; index < Math.floor(score/2) + 1; index++) {
-            // arr.push('star')
-            smallArr.push('<img class="star" src="./images/star.png" alt="">')
+            this.smallArr.push('star')
           }
-          console.log(smallArr);
-          this.bigArr.push(smallArr)
-          console.log(this.bigArr);
-          smallArr = []
+          this.bigArr.push(this.smallArr)
+          this.smallArr = []
         });
         return this.bigArr
       }
@@ -537,7 +540,7 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          width 2220px
+          // width 2220px
           height 147px
           display flex
           justify-content flex-start
@@ -588,7 +591,7 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          width 3130px
+          // width 3130px
           height 98px
           display flex
           justify-content flex-start
