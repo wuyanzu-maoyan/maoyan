@@ -1,11 +1,11 @@
 <template>
   <div class="kjcCinemaContainer">
       <div class="kjcTopbar">
-      <div class="kjcLocation">
+      <div class="kjcLocation" @click="$router.push('/city')">
         <span>北京</span>
         <i></i>
       </div>
-      <div class="kjcSearchCinema">
+      <div class="kjcSearchCinema" @click="$router.push('/search')">
         <i class="iconfont icon-search"></i>
         <span>搜影院</span>
       </div>
