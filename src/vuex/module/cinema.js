@@ -13,7 +13,6 @@ export default {
   },
   mutations:{
     [SET_CINEMA_LIST](state,{cinemaArr,type=true}){ //设置北京电影院列表(简要)
-      console.log(cinemaArr)
       state.cinemaList = cinemaArr;
       state.isFirst = type
     },
@@ -54,15 +53,11 @@ export default {
       let type = false
       let addrArr = []
       let typeObj = state.typeObj
-      console.log(typeObj)
      let arr =  Object.keys(typeObj)
-     console.log(arr)
-     console.log(state.cinemaListOrigin)
      arr.forEach((item,index)=>{
         if(typeObj[item] == '全部'){
           if(item == 'addr'){
             addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
-              console.log(cinema1.addr,typeObj[item])
                  return cinema1.addr
               })
              }else if(item == 'brand'){
@@ -83,7 +78,6 @@ export default {
         }else{
           if(item == 'addr'){
             addrArr = state.cinemaListOrigin.filter((cinema1,index1)=>{
-              console.log(cinema1.addr,typeObj[item])
                  return cinema1.addr.includes(typeObj[item])
               })
              }else if(item == 'brand'){
@@ -99,8 +93,7 @@ export default {
                  return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
               })
              }
-             console.log(addrArr)
-   
+
    
    
              if(addrArr.length){
@@ -126,9 +119,9 @@ export default {
                commit(SET_CINEMA_LIST,{cinemaArr:[],type})
                return
              }
-             console.log(addrArr)
+
              if(addrArr.length){
-              // commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
                if(item == 'tag'){
                addrArr = state.cinemaListOrigin.filter((cinema3,index3)=>{
                  return cinema3.tag.allowRefund || cinema3.tag.endorse
@@ -149,9 +142,8 @@ export default {
                commit(SET_CINEMA_LIST,{cinemaArr:[],type})
                return
              }
-             console.log(addrArr)
              if(addrArr.length){
-              // commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
+               commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
                if(item == 'hallType'){
                addrArr = state.cinemaListOrigin.filter((cinema4,index4)=>{
                  return cinema4.tag.hallType.indexOf(typeObj[item]) !== -1
@@ -171,7 +163,7 @@ export default {
                   })
                }
              }
-             console.log(addrArr)
+
              if(addrArr.length){
                commit(SET_CINEMA_LIST,{cinemaArr:addrArr,type})
                return 

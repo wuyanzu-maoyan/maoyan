@@ -1,13 +1,13 @@
 <template>
     <div class="kjcContent">
       <div class="kjcContentLeft" v-if="!isSubway">
-        <ul class="kjcContentLeftWrap">
-          <li :class="{active:currentIndex1 == index}" v-if="district.subItems" v-for="(subItem,index) in district.subItems" @click="checkSubItem(subItem.id,index,1)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
+        <ul class="kjcContentLeftWrap"  v-if="district.subItems" >
+          <li :class="{active:currentIndex1 == index}"v-for="(subItem,index) in district.subItems" @click="checkSubItem(subItem.id,index,1,subItem.name)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
         </ul>
       </div>
       <div class="kjcContentLeft" v-else>
-        <ul class="kjcContentLeftWrap">
-          <li :class="{active:currentIndex2 == index}" v-if="subway.subItems"  v-for="(subItem,index) in subway.subItems" @click="checkSubItem(subItem.id,index,2)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
+        <ul class="kjcContentLeftWrap"  v-if="subway.subItems">
+          <li :class="{active:currentIndex2 == index}"  v-for="(subItem,index) in subway.subItems" @click="checkSubItem(subItem.id,index,2,subItem.name)" :key="subItem.id">{{subItem.name}}({{subItem.count}})</li>
         </ul>
       </div>
       <div class="kjcContentRight" v-if="!isSubway">
@@ -56,6 +56,7 @@
         getSubItems2:[], //获取每个地铁的具体subItem
         itemId1:'', //每个subitem的id  行政区
         itemId2:'', //每个subitem的id 地铁站
+        locationName:'' //每个地区的名字
         
       }
     },
@@ -72,10 +73,10 @@
       },
       district(value){
         if(value.name){
-          this.$nextTick(()=>{
+         this.$nextTick(()=>{
 
           this.initScroll()
-        })
+       })
         }
 
         
@@ -123,8 +124,9 @@
       }
     },
     methods:{
-      initScroll(){
-      if(!this.leftScroll){
+      initScroll(type=false){
+      if(type == false){
+        if(!this.leftScroll){
        this.leftScroll = new BScroll('.kjcContentLeft',{
           click:true,
           bounce: {
@@ -147,9 +149,12 @@
         }else{
           this.rightScroll.refresh()
        }
+      }else{
+        this.leftScroll = {};
+        this.rightScroll = {};
+      }
       },
-      checkSubItem(id,index,num){
-        console.log(index)
+      checkSubItem(id,index,num,name){
         if(num == 1){
           this.subItemId1 = id;
         
@@ -161,10 +166,12 @@
           sessionStorage.setItem('currentIndex2',index)
         }
         if(index === 0){
-          console.log(index)
           this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:'全部'});
 
+        }else{
+          this.locationName = name
         }
+        
       },
       checkRightSubItem(index,num,item,getSubItems){
         if(num == 1){
@@ -178,6 +185,9 @@
         }
 
         this.$globalEventBus.$emit('getSearchCondition',{key:'addr',value:item.name})
+        if(index==0){
+          this.$globalEventBus.$emit('getLocation',this.locationName || '全部')
+        }
 
       
       }
@@ -186,14 +196,17 @@
      this.initScroll()
    },
    mounted(){
-    //  this.currentIndexRight1 = sessionStorage.getItem('currentIndexRight1')*1 || 0
-    //  this.currentIndexRight2 = sessionStorage.getItem('currentIndexRight2')*1 || 0
-    //  this.currentIndex1 = sessionStorage.getItem('currentIndex1')*1 || 0
-    //  this.currentIndex2 = sessionStorage.getItem('currentIndex2')*1 || 0
-    //  if(this.district.length || this.subway.length){
+     this.currentIndexRight1 = sessionStorage.getItem('currentIndexRight1')*1 || 0
+     this.currentIndexRight2 = sessionStorage.getItem('currentIndexRight2')*1 || 0
+     this.currentIndex1 = sessionStorage.getItem('currentIndex1')*1 || 0
+     this.currentIndex2 = sessionStorage.getItem('currentIndex2')*1 || 0
+    //  this.$nextTick(()=>{
+    //   if(this.district.length || this.subway.length){
     //    this.initScroll()
     //  }
+    //  })
    }
+   
 
   }
 </script>
