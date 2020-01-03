@@ -5,102 +5,18 @@
       <a href="#">添加</a>
     </div>
     <div class="wjCouList">
-      <div class=wjCouItem>
+      <div class=wjCouItem v-for="(coupon,index) in couponList" :key="index">
         <div class="wjCouItemLeft">
           <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
+            <div class="wjAmount">{{coupon.value}}<span>元</span>
             </div>
             <div class="wjVoucher">代金券</div>
           </div>
         </div> 
         <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
-        </div>
-      </div>
-      <div class=wjCouItem>
-        <div class="wjCouItemLeft">
-          <div class="wjLeftWrapper">
-            <div class="wjAmount">10<span>元</span>
-            </div>
-            <div class="wjVoucher">代金券</div>
-          </div>
-        </div> 
-        <div class="wjCouItemRight">
-          <div class="wjTitle">【电影】-新客专享券</div>
-          <div class="wjDescribe">满30元可用，限猫眼电影新用户使用，不可与其他优惠同享。 购票时，请在“活动与抵用券”栏选择该券</div>
-          <div class="wjLife">有效期 2019-10-26 至 2019-10-30</div>
+          <div class="wjTitle">{{coupon.title}}</div>
+          <div class="wjDescribe">{{coupon.limitDesc}}</div>
+          <div class="wjLife">{{coupon.rangeTime}}</div>
         </div>
       </div>
     </div>
@@ -108,7 +24,20 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {reqDiscount} from '@/api';
   export default {
+    async mounted() {
+    const result = await reqDiscount();
+    console.log(result);
+    if(result.code===0){
+      this.couponList = result.data.couponlist;
+      }
+    },
+    data() {
+      return {
+        couponList:[]
+      }
+    }
   }
 </script>
 

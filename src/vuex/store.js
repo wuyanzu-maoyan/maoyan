@@ -8,6 +8,7 @@ import cinemaDetail from '@/vuex/module/cinemaDetail.js'
 import detail from '@/vuex/module/detail.js'
 import user from '@/vuex/module/user.js'
 import city from '@/vuex/module/city.js'
+import search from '@/vuex/module/search.js'
 
 
 Vue.use(Vuex);
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     cinemaDetail,
     detail,
     user,
-    city
+    city,
+    search
   }
 
 })
