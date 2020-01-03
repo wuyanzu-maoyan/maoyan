@@ -51,12 +51,10 @@
 
 <script type="text/ecmascript-6">
  import BScroll from 'better-scroll'
- import {reqCityList} from '../../api'
+import {mapState} from 'vuex'
   export default {
     data(){
       return{
-        recentlyCity:[], // 最近访问城市
-        cityList: [], //a-z所有城市列表
         tops:[], 
         // hotCitys:['上海','北京','广州','深圳','武汉','天津','西安','南京','杭州','成都','重庆'],
         hotCitys:[
@@ -131,18 +129,14 @@
       }
     },
     async mounted(){
-      //请求a-z所有城市列表
-      const result = await reqCityList()
-      //  console.log(result)
-      if(result.code===0){
-        this.cityList = result.data.city
-      }
-      // console.log(this.cityList[0].list);
-
-      //读取localStorage中存储的最近访问城市
-      const recentlyCity = JSON.parse(localStorage.getItem('recentlyCity')) || []
-      // console.log(recentlyCity);
-      this.recentlyCity = recentlyCity
+      //获取城市列表
+      this.$store.dispatch("getCityList")
+    },
+    computed:{
+      ...mapState({
+        cityList: state => state.city.cityList || [], 
+        recentlyCity: state => state.city.recentlyCity || []
+      })
     },
     methods:{
       //初始化tops
@@ -169,18 +163,7 @@
       },
       //点击城市,添加到最近访问
       checkedCity(item){
-        const code = item.code
-        const name = item.name
-        const city = {code,name} 
-        this.recentlyCity.unshift(city)
-
-        if(this.recentlyCity.length>3){
-          // console.log('1111');
-          
-        this.recentlyCity.splice(this.recentlyCity.length-1)
-      }
-        //保存到localStorage中
-        localStorage.setItem('recentlyCity', JSON.stringify(this.recentlyCity))
+        this.$store.dispatch("saveRecentlyCity",item)
       }
     },
     watch:{ // 使用BScroll添加滑动
