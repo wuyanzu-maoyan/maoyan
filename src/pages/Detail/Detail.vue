@@ -1,6 +1,6 @@
 <template>
-  <div id="detailContainer" :style="{background: detail.backgroundColor}">
-    <div ref="movie" style="height: 607px" :style="{background: detail.backgroundColor}">
+  <div id="detailContainer" >
+    <div ref="movie" style="height: 607px" >
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -188,7 +188,7 @@
       </div>
     </div>
     
-    <div 底部分享 购票 -->
+    <!-- <div 底部分享 购票 --> -->
     <div class="shareBuy">
       <img src="./images/share.png" alt="">
       <button>特惠购票</button>
