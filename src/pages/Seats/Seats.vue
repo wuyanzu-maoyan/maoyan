@@ -116,19 +116,19 @@
     },
     async mounted() {
       //发送自动登录的请求
-      if(this.token){
-        const result = await reqAutoLogin()
-        console.log(result);
-        if(result.code===1){
-          console.log(result.msg);
-          MessageBox('提示','请求失败请重新登录');
-          this.$router.replace('/login');
+      // if(this.token){
+      //   const result = await reqAutoLogin()
+      //   console.log(result);
+      //   if(result.code===1){
+      //     console.log(result.msg);
+      //     MessageBox('提示','请求失败请重新登录');
+      //     this.$router.replace('/login');
           
-        }
-      }else{
-        MessageBox('提示','没有token请重新登录');
-        this.$router.replace('/login');
-      }
+      //   }
+      // }else{
+      //   MessageBox('提示','没有token请重新登录');
+      //   this.$router.replace('/login');
+      // }
 
 
       const result = await reqSeats({hall:this.$route.params.id});
