@@ -105,7 +105,6 @@ export default [
     component: Personal, //个人中心
     meta:{
       isFooter:true,
-      isBack:true,
       title:'我的'
     }
   },
@@ -176,7 +175,9 @@ export default [
     }
   },
   {
-    path:"/cinemadetail",
+    name: 'cinemadetail',
+    path:"/cinemadetail/:id",
+    props: true,
     component: CinemaDetail,
     meta:{
       isBack:true,
@@ -184,7 +185,9 @@ export default [
     }
   },
   {
-    path:"/detail",
+    name: 'detail',
+    path:"/detail/:id",
+    props: true,
     component: Detail
   },
   {

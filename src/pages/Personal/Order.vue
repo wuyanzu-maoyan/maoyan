@@ -2,46 +2,60 @@
   <!-- 订单列表 -->
   <div class="wjOrderList">
     <!-- 订单项 -->
-    <div class="wjOrderItem">
+    <div class="wjOrderItem" v-for="(order,index) in orderlist" :key="index">
       <!-- 订单头部 -->
       <div class="wjOrderTitle">
-        <a class="wjCinemaName" href="#">中影星美国际影城（温都水城店）<i class="iconfont icon-arrow-right-ico"></i></a>
-        <div>支付剩余时间：14:00</div>
+        <a class="wjCinemaName" href="#">{{order.cinema.name}}<i class="iconfont icon-arrow-right-ico"></i></a>
+        <div>支付剩余时间：15:00</div>
       </div>
       <!-- 订单详情 -->
       <a href="#" class="wjOrderDetail">
         <div class="wjOrderInfo">
           <!-- 电影海报 -->
-          <img src="../../static/images/wjPoster.jpg">
+          <img :src= order.movie.img>
           <!-- 电影相关信息 -->
           <div class="wjOrderMessage">
             <div class=wjMessageName>
-              <div>冰雪奇缘2<span>2张</span></div>
+              <div>{{order.movie.name}}<span>{{order.seats.count}}张</span></div>
             </div>
             <div class=wjMessageDate>
-              <div>2019-12-30 周一 16:45</div>
+              <div>{{order.show.showTime}}</div>
             </div>
             <div class=wjMessageSeat>
-              <span>2号厅</span> <span>9排05座</span> <span>10排06座</span>
+              <span>{{order.seats.hallName}} </span>
+              <span v-for="(seat,index) in order.seats.list" :key="index">{{seat.rowId}}排{{seat.columnId}}座 </span>
             </div>
           </div>
           <!-- 订单状态按钮 -->
           <div class="wjOrderStatus">
-            <div>付款</div>
+            <div>{{order.infoStatus}}</div>
           </div>
         </div>
       </a>
       <!-- 订单状态信息 -->
       <div class="wjOrderMore">
-        <div class="wjPrive">总价：<span>888元</span></div>
-        <div class="wjStatus">未支付</div>
+        <div class="wjPrive">总价：<span>{{order.order.sellMoney}}</span></div>
+        <div class="wjStatus">{{order.otherStatus}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import {reqmyOrder} from '@/api';
   export default {
+    async mounted() {
+      const result = await reqmyOrder();
+      console.log(result);
+        if(result.code===0){
+          this.orderlist = result.data.orderlist;
+        }
+      },
+      data() {
+        return {
+          orderlist:[]
+        }
+      },
   }
 </script>
 

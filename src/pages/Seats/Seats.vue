@@ -25,7 +25,7 @@
 
       <div class='seatsDetail'>
         <div class='seatsRows'>
-          <div class='rowItem' v-for="(item,index) in seat.seat.regions[0].rows" :key="index">{{index}}</div>
+          <div class='rowItem' v-for="(item,index) in seat.seat.regions[0].rows" :key="index">{{item.rowId}}</div>
         </div>
 
 
@@ -37,12 +37,11 @@
                   
                   class='row' :class="[colum.seatType,seatType[colum.seatStatus]]" 
                   
-                  @click="selectSeat(index,indexColum)"
+                  @click="selectSeat(index,indexColum,colum.rowId,colum.columnId,colum.seatType)"
                 >
 
                 </div>
-                <!-- <img class='double' src="../../static/images/seats/doubleseat.png" alt="" v-if="colum.seatType==='L'||colum.seatType==='R'">
-                <img src="../../static/images/seats/seat.png" alt="" v-show="row.rowId&&colum.seatType" v-else> -->
+                
               </div>
             </div>
             
@@ -79,10 +78,20 @@
         <div>3人</div>
         <div>4人</div>
       </div> -->
-      <div class='selectSeat'>
-        
-        <!-- <button>{{seat.price[0000000000000001].seatsPrice[selectedNum].totalPrice}}</button> -->
-        <button>请先选座</button>
+      
+      <div class='selectSeatButton'>
+        <div class="selectedSeats" v-if="selectedNum>0">
+          <div>已选座位</div>
+          <ul>
+            <li v-for="(item,index) in priceList" :key="index">
+              <!-- {{`${item.seatNum.row}排${item.seatNum.colum}座`}} -->
+              <div class='seatNum'>{{`${item.seatNum.row}排${item.seatNum.colum}座`}}</div>
+              <div class='price' >{{`￥${item.originPrice}`}}</div>
+            </li>
+          </ul>
+        </div>
+        <!-- <button>{{seat.price.0000000000000001.seatsPrice[selectedNum].totalPrice}}</button> -->
+        <button :class='{active:selectedNum>0}'>{{selectedNum>0?`￥${totalPrice}确认选座`:'请先选座'}}</button>
       </div>
       
     </div>
@@ -99,6 +108,8 @@
         seat:{},
         seatType:['empty','optional','optioned','noOption'],//没有座位，可以选的座位（白），自己选的（绿），不能选的（红）
         selectedNum:0,
+        totalPrice:0,
+        seatsNum:[],
         
       }
     },
@@ -109,23 +120,95 @@
         this.seat = result.data.seatData
       }
     },
+    computed: {
+      priceList(){
+        let arr = Object.values(this.seat.price['0000000000000001'].seatsPriceDetail);
+        arr.forEach((item,index) => {
+          item.seatNum = this.seatsNum[index];
+        })
+        return arr.slice(0,this.selectedNum) ;
+        
+      },
+     
+    },
     methods: {
-      selectSeat(row,colum){
+      selectSeat(row,colum,rowId,columId,seatType){
+        rowId = Number(rowId);
+        columId = Number(columId);
         const seatStatus = this.seat.seat.regions[0].rows[row].seats[colum].seatStatus;
+        let num = this.selectedNum;
         if(seatStatus === 1){
-          
-          
-          if(this.selectedNum>=4){
+          if(seatType==='L'){
+            num = num+2;
+          }else if(seatType==='R'){
+            num = num+2;
+          }else{
+            num++;
+          }
+          if(num>4){
             Toast('每次最多可选4个座位')
             return
           }
-          this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
-          this.selectedNum++;
-        }
-        if(seatStatus === 2){
-          this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
+          if(seatType==='L'){
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
+            this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 2;
+            this.addSeat(rowId,columId);
+            this.addSeat(rowId,columId-1);
+
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
+          }else if(seatType==='R'){
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
+            this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 2;
+            this.addSeat(rowId,columId+1);
+            this.addSeat(rowId,columId);
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
+          }else{
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
+            this.addSeat(rowId,columId);
+          }
+          this.selectedNum = num;
+          
+        }else if(seatStatus === 2){
+          
+          if(seatType==='L'){
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
+            this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 1;
+            this.selectedNum = this.selectedNum-2;
+            this.deleteSeat(rowId,columId);
+            this.deleteSeat(rowId,columId-1);
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+          }else if(seatType==='R'){
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
+            this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 1;
+            this.selectedNum = this.selectedNum-2;
+            this.deleteSeat(rowId,columId);
+            this.deleteSeat(rowId,columId+1);
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+          }else{
+            this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
+            this.selectedNum--;
+            this.deleteSeat(rowId,columId);
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+          }
+          
         }
         
+        
+      },
+      addSeat(row,colum){
+        
+        this.seatsNum.push({row,colum});
+      },
+      deleteSeat(row,colum){
+        
+        
+        let seatId = this.seatsNum.findIndex(item => {
+          return item.row === row && item.colum === colum;
+        })
+        
+        
+        this.seatsNum.splice(seatId,1);
       }
     },
   }
@@ -243,16 +326,42 @@
                 
                 &.R
                   padding 3px 1px 3px 0
-                  
                   background-image url(../../static/images/seats/doubleseat.png)
                   background-position -18px 0
                   background-size 34px 14px
+                  &.empty
+                    background-image none 
+                  &.optional
+                    background-image url(../../static/images/seats/doubleseat.png)
+                  &.optioned
+                    background-image url(../../static/images/seats/doublegreenseat.png)
+                  &.noOption
+                    padding 3px 1px
+                    width 16px
+                    height 14px
+                    background-repeat no-repeat
+                    background-size 16px 14px
+                    background-position 0px 0
+                    background-image url(../../static/images/seats/redseat.png)
                   
                 &.L
                   padding 3px 0px 3px 1px
                   background-image url(../../static/images/seats/doubleseat.png)
                   background-position 0 0
                   background-size 34px 14px
+                  &.empty
+                    background-image none 
+                  &.optional
+                    background-image url(../../static/images/seats/doubleseat.png)
+                  &.optioned
+                    background-image url(../../static/images/seats/doublegreenseat.png)
+                  &.noOption
+                    padding 3px 1px
+                    width 16px
+                    height 14px
+                    background-repeat no-repeat
+                    background-size 16px 14px
+                    background-image url(../../static/images/seats/redseat.png)
         
         .line
           position absolute
@@ -301,7 +410,8 @@
         text-align center
         margin-left 8px
         vertical-align middle
-    .selectSeat
+    .selectSeatButton
+      position relative
       width 100%
       height 65px
       padding 10px
@@ -317,4 +427,43 @@
         font-size 18px 
         font-weight bold
         color white
+        &.active
+          background-color #f90
+      .selectedSeats
+        width 100%
+        height 72px
+        background-color #fff
+        position absolute
+        top -72px
+        left 0
+        z-index 9
+        padding 0 10px
+        box-sizing border-box
+        &>div 
+          position: relative;
+          margin: 0;
+          padding-top: 5px;
+          height: 20px;
+          color: #333;
+          font-size: 11px;
+        ul
+          display flex
+          li
+            background-image: url(../../static/images/seats/border.png);
+            margin: 5px 2px;
+            width: 82.5px;
+            height: 37px;
+            background-size: 82.5px 37px;
+            text-align: center;
+            .seatNum
+              font-size: 12px;
+              color: #333;
+              height 19px
+              line-height 19px
+            .price
+              font-size: 11px;
+              color: #fa5939;
+              height 18px
+              line-height 18px
+              
 </style>
