@@ -102,6 +102,7 @@
 <script type="text/ecmascript-6">
   import {reqSeats} from '../../api/index';
   import { Toast,MessageBox } from 'mint-ui';
+  import {mapState} from 'vuex';
   export default {
     data() {
       return {
@@ -114,13 +115,32 @@
       }
     },
     async mounted() {
-      const result = await reqSeats({hall:'7号厅'});
+      //发送自动登录的请求
+      if(this.token){
+        const result = await reqAutoLogin()
+        console.log(result);
+        if(result.code===1){
+          console.log(result.msg);
+          MessageBox('提示','请求失败请重新登录');
+          this.$router.replace('/login');
+          
+        }
+      }else{
+        MessageBox('提示','没有token请重新登录');
+        this.$router.replace('/login');
+      }
+
+
+      const result = await reqSeats({hall:this.$route.params.id});
       console.log(result);
       if(result.code===0){
         this.seat = result.data.seatData
       }
     },
     computed: {
+      ...mapState({
+        token:state => state.user.token
+      }),
       priceList(){
         let arr = Object.values(this.seat.price['0000000000000001'].seatsPriceDetail);
         arr.forEach((item,index) => {

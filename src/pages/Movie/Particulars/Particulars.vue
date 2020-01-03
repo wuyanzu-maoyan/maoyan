@@ -118,15 +118,14 @@
     width: 100%;
     height: 45px;
     background-color: #fff
-    
+    position relative
     z-index 100
     vertical-align: baseline;
     ul
       padding: 0;
       margin: 0;
       height: 45px;
-      white-space: nowrap;
-      
+      white-space: nowrap;  
       float left
       li
         position: relative;
