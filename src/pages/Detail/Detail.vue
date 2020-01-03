@@ -100,16 +100,14 @@
               <span class="left">演职人员</span>
               <span class="right">全部 > </span> 
             </div>
-            <div class="actorList" ref="actor" style="width: 375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.actors">
-                  <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
-                    <img :src="actor.img" alt="">
-                    <span class="name">{{actor.name}}</span>
-                    <span class="role">{{actor.role}}</span>
-                  </li>
-                </ul>
-              </div>
+            <div class="actorList" ref="actor">
+              <ul class="swiperWrapper" v-if="detail.actors">
+                <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
+                  <img :src="actor.img" alt="">
+                  <span class="name">{{actor.name}}</span>
+                  <span class="role">{{actor.role}}</span>
+                </li>
+              </ul>
             </div>
           </div>
           <!-- 视频剧照 -->
@@ -118,18 +116,16 @@
               <span class="left">视频剧照</span>
               <span class="right">全部剧照 > </span> 
             </div>
-            <div class="videosList" ref="video" style="width:375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.photos">
-                  <li class="swiperSlide" @click="toVideo">
-                    <img class="photo" :src="detail.videoImg" alt="">
-                    <img class="videoStop" src="./images/videoStop.png" alt="">
-                  </li>
-                  <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
-                    <img  class="photo" :src="photo" alt="">
-                  </li>
-                </ul>
-              </div>
+            <div class="videosList" ref="video">
+              <ul class="swiperWrapper" v-if="detail.photos">
+                <li class="swiperSlide" @click="toVideo">
+                  <img class="photo" :src="detail.videoImg" alt="">
+                  <img class="videoStop" src="./images/videoStop.png" alt="">
+                </li>
+                <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
+                  <img  class="photo" :src="photo" alt="">
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -540,12 +536,11 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          // width 2220px
+          width 1230px
           height 147px
           display flex
           justify-content flex-start
           align-items flex-start
-          // overflow-x scroll
           .swiperSlide
             display flex
             flex-shrink 0
@@ -591,7 +586,7 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          // width 3130px
+          width 3100px
           height 98px
           display flex
           justify-content flex-start
@@ -620,7 +615,7 @@
 
   .discussion
     width 100%
-    height 700px
+    // height 700px
     background #fff
     border-top-left-radius 10px
     border-top-right-radius 10px
