@@ -183,7 +183,11 @@ export default [
   },
   {
     path:'/carddetail',
-    component: CardDetail
+    component: CardDetail,
+    meta:{
+      isBack:true,
+      title:'会员卡详情'
+    }
   },
   {
     path:'/',
