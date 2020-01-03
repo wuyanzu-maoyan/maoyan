@@ -2,7 +2,7 @@
   <div id="cinemaDetailContainer">
     <div ref="cinema" style="height: 667px">
       <div class="cinemaScroll">
-        <Header :title="'中影星美国际影城（温都水城店）'" v-if="!$route.meta.noHeader"/>
+        <Header :title="'中影星美国际影城（温都水城店）'"/>
         <OpenApp/>
         <!-- 头部影院信息 -->
         <div class="cinemaInfo"  >
