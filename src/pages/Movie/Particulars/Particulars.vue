@@ -6,7 +6,7 @@
       <div class="lyhContentt">
         <img :src="movieInfo.img">
         <div class="lyhDetails">
-          <h2>叶问4:完结版</h2>
+          <h2>{{movieInfo.nm}}</h2>
           <div>{{movieInfo.enm}}</div>
           <div class="lyhGrade">9.5<p>(30.2万人ping)</p></div><br>
           <span>{{movieInfo.cat}}</span><br>
@@ -28,7 +28,9 @@
 
 <script type="text/ecmascript-6">
   import { reqDetail } from "../../../api/index";
+  import {mapState} from 'vuex'
   export default {
+    props:['id'],
     data() {
       return {
         movieInfo:{}
@@ -38,7 +40,7 @@
       const result = await reqDetail();
       console.log(result);
       if(result.code===0){
-        this.movieInfo = result.data[0];
+        this.movieInfo = result.data['id'];
       };
      }
   }
@@ -56,12 +58,13 @@
       height 100%
       background-color #333
       z-index -1
-      display block
+      opacity .8
+      display #333
     .backgroundImg
       position absolute
       width 100%
       height 100%
-      z-index -1
+      z-index -2
       overflow hidden
       background-size cover
       background-repeat no-repeat
