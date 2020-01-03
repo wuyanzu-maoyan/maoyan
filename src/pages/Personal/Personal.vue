@@ -1,7 +1,7 @@
 <template>
   <div class="wjCenterContainer">
     <div class="wjHeader">
-      <img src="https://img.meituan.net/avatar/cca0b818c56e53f6549f2848c116009e12700.jpg">
+      <img src="https://img.meituan.net/maoyanuser/8bcb755048586d97d25e8cbb91db389411430.png">
     </div>
     <div class="wjContent">
       <div class="wjOrder">
