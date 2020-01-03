@@ -129,7 +129,8 @@ export default [
     component:Cou, //优惠券
     meta:{
       isBack:true,
-      title:'我的优惠券'
+      title:'我的优惠券',
+      noHeader:true
     }
   },
   {
@@ -188,11 +189,17 @@ export default [
     name: 'detail',
     path:"/detail/:id",
     props: true,
-    component: Detail
+    component: Detail,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:"/app",
-    component: App
+    component: App,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:'/carddetail',

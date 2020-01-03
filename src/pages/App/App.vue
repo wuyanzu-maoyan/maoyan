@@ -1,6 +1,6 @@
 <template>
   <div id="AppContainer">
-    <div class="back" @click="$router.go(-1)"></div>
+    <div class="back" @click="$router.back()"></div>
     <img src="./images/app.png" alt="">
     <div class="btn">立即下载</div>
   </div>
