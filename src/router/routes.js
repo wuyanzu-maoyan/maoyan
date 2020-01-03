@@ -20,6 +20,7 @@ import FindPassword from '../pages/FindPassword/FindPassword';
 import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 import CardDetail from '../pages/CardDetail/CardDetail'
+import Search from '../pages/Search/Search'
 
 
 export default [
@@ -149,10 +150,25 @@ export default [
   },
   {
     path:"/city",
-    component: City
+    component: City,
+    meta:{
+      isFooter:false,//不需要footer
+      noHeader:true
+    }
   },
   {
-    path:"/cinemadetail",
+    path:"/search",
+    component: Search,
+    meta:{
+      isFooter:false,//不需要footer
+      title:'猫眼电影',
+      isBack:true,//需要返回按钮
+    }
+  },
+  {
+    name: 'cinemadetail',
+    path:"/cinemadetail/:id",
+    props: true,
     component: CinemaDetail,
     meta:{
       isBack:true,
@@ -160,7 +176,9 @@ export default [
     }
   },
   {
-    path:"/detail",
+    name: 'detail',
+    path:"/detail/:id",
+    props: true,
     component: Detail
   },
   {
@@ -169,7 +187,11 @@ export default [
   },
   {
     path:'/carddetail',
-    component: CardDetail
+    component: CardDetail,
+    meta:{
+      isBack:true,
+      title:'会员卡详情'
+    }
   },
   {
     path:'/',

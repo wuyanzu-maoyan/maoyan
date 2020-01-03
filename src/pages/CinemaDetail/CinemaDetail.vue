@@ -2,7 +2,7 @@
   <div id="cinemaDetailContainer">
     <div ref="cinema" style="height: 667px">
       <div class="cinemaScroll">
-        <Header :title="'中影星美国际影城（温都水城店）'" v-if="!$route.meta.noHeader"/>
+        <Header :title="'中影星美国际影城（温都水城店）'"/>
         <OpenApp/>
         <!-- 头部影院信息 -->
         <div class="cinemaInfo"  >
@@ -18,7 +18,6 @@
         <div class="moviesSwiper">
           <div class="swiperContainer" ref="movies" >
             <transition name="fade">
-              <!-- :style="`transform:translateX(${142-MovieX}px)`" -->
               <div class="swiperWrapper" v-if='cinemaDetail.showData' :style="`transform:translateX(${MovieX}px)`">
                 <div class="swiperSlide" :class="{selectMovie:MovieIndex===index}" @click="changeMovie(index)"
                   v-for="(movie,index) in cinemaDetail.showData.movies" :key="index">
@@ -119,8 +118,6 @@
                   <div class="tag" v-if="taocan.recommendPersonNum===1">单人</div>
                   <div class="tag" v-if="taocan.recommendPersonNum===2">双人</div>
                   <div class="tag" v-if="taocan.recommendPersonNum===3">多人</div>
-                  <!-- <div class="tag">{{taocan.recommendPersonNum===2?'双人':'单人'}}</div> -->
-                  <!-- <div class="tag">{{taocan.recommendPersonNum===1 || 2 || 3 ? '单人' || '双人' || '多人'}}</div> -->
                   <span class="content">{{taocan.title}}</span>
                 </div>
                 <div class="sellNum">{{taocan.curNumberDesc}}</div>
@@ -140,11 +137,12 @@
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
   import OpenApp from '../../components/Openapp/OpenApp'
-  // import MovieShowTime from '@/components/MovieShowTime/MovieShowTime'
   import {mapState} from 'vuex'
   import {reqCinemaDetail} from '@/api'
   
   export default {
+    name: 'CinemaDetail',
+    props:['id'],
     components:{
       OpenApp,
     },
@@ -156,7 +154,9 @@
       }
     },
     mounted(){
-      this.$store.dispatch('getCinemaDetail')
+      const id = this.id
+      this.$store.dispatch('getCinemaDetail', id)
+
       //竖向滑屏
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.cinema, {
@@ -169,6 +169,7 @@
       ...mapState({
         cinemaDetail: state => state.cinemaDetail.cinemaDetail
       }),
+
     },
     methods:{
       //电影轮播图 点击切换电影的回调
@@ -177,25 +178,28 @@
         this.MovieIndex = index
         MovieX = MovieX - this.MovieIndex*80
         this.MovieX = MovieX
-        
-        console.log('index'+index, 'MovieIndex'+this.MovieIndex, 'MovieX'+this.MovieX);
       },
       //切换时间导航的回调
       changeActive(date){
         this.zyhIsActive = date
       },
+      //初始化电影轮播图的横向滑屏
+      _initMovieScroll(){
+        if (!this.moviesScroll) {
+          this.moviesScroll = new BScroll(this.$refs.movies, {
+            click:true,
+            scrollX: true,  //允许横向滑屏
+            // bounce:true,  //弹簧效果
+          })
+        }
+      },
+
     },
     watch:{
       cinemaDetail(){
         this.$nextTick(()=>{
           //电影轮播图的横向滑屏
-          if (!this.moviesScroll) {
-            this.moviesScroll = new BScroll(this.$refs.movies, {
-              click:true,
-              scrollX: true,  //允许横向滑屏
-              // bounce:true,  //弹簧效果
-            })
-          }
+          this._initMovieScroll()
         })
       }
     }
@@ -225,10 +229,16 @@
         font-weight bold
         color #333
         line-height 24px
+        overflow hidden
+        text-overflow hidden 
+        white-space nowrap
       .cinemaAddress
         font-size 13px
         color #999
         line-height 21px
+        overflow hidden
+        text-overflow hidden 
+        white-space nowrap
     .cinameLocation
       width 71px
       height 30px
@@ -458,24 +468,25 @@
         font-size 16px
         color #acacac
       .dateBtn
-        width 170px
+        min-width 170px
         height 35px
         background #fff
         margin 20px auto 0
+        padding 0 10px
         border-radius 5px
         border 1px solid rgba(0,0,0,.15)
         line-height 35px
         text-align center
         font-size 14px
         color #f03d37
-        overflow hidden
-        text-overflow ellipsis
-        white-space nowrap
+        // overflow hidden
+        // text-overflow ellipsis
+        // white-space nowrap
 
  
   .taocanList
     width 100%
-    height 989px
+    // height 989px
     margin-left 15px
     .title 
       height 45px
