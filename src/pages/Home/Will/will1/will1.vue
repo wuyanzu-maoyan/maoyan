@@ -3,7 +3,7 @@
     <div>
       <div>
         <div class="lyh" v-for="(coming,index) in comingList" :key="index">
-          <span class="lyhDate">{{coming.comingTitle}}</span>
+          <!-- <span class="lyhDate">{{coming.comingTitle}}</span> -->
           <div class="lyhContent">
             <img :src="coming.img" alt />
             <div class="content">

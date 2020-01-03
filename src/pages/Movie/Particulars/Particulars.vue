@@ -118,7 +118,7 @@
     width: 100%;
     height: 45px;
     background-color: #fff
-    
+    position relative
     z-index 100
     vertical-align: baseline;
     ul

@@ -41,7 +41,8 @@ export default {
      new BScroll(wrap, {
         startX: 0, 
         click: true,
-        scrollX: true
+        scrollX: true,
+        scrollY: false,
     });
     new BScroll(this.$refs.nowContainer, {
         click: true,
