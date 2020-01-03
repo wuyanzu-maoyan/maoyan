@@ -1,7 +1,7 @@
 
 <template>
  <div>
-   <open></open>
+   <open v-show="!isClose"></open>
   <div class="lyhNav">
     <div class="lyhNavigation">
       <span class="BJ">北京</span>
@@ -12,25 +12,29 @@
      </div>
   </div>
   <router-view></router-view>
- 
-  
+  <OpenApp v-show="isClose"></OpenApp>
   
  </div>
 </template>
 
 <script type="text/ecmascript-6">
  import open from '../../components/Openapp/OpenApp'
+ import OpenApp from '../../components/Open/Open'
   export default {
     mounted() {
       console.log(this.$route.path);
+      this.$globalEventBus.$on('close',(type)=>{
+        this.isClose = type
+      })
     },
     data() {
       return {
-        
+        isClose:false
       }
     },
     components:{
-      open
+      open,
+      OpenApp
     },
     methods: {
       toNow(){
@@ -49,8 +53,7 @@
   }
 </script>
 
-<style scoped>
-     
+<style scoped lang="stylus" rel="stylesheet/stylus">
       /* 导航 */
       .lyhNav{
         position: relative;
