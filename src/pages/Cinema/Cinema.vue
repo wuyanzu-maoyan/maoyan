@@ -202,7 +202,6 @@
        // this.$ref.CinemaSearchType
         if(value  ==  0 && this.district.name || this.subway.name){
           this.$nextTick(()=>{
-            console.log(123)
           this.$refs.CinemaSearchType.initScroll()
           })
         }
