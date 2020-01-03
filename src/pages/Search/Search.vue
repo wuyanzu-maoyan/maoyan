@@ -1,6 +1,6 @@
 <template>
   <div id="zxSearchContainer" ref="zxSearchScroll">
-    <section>
+    <div class="section">
       <div class="zxSearchHeader">
         <!-- 搜索框 -->
         <div class="zxInputWrapper"> 
@@ -23,7 +23,7 @@
           <div class="zxResult">
             <h3>电影/电视剧/综艺</h3>
             <MovieItem :MovieList="cutMovieList"></MovieItem>
-            <div class="zxMoreResult" @click="">查看全部{{movieList.length}}部影视剧</div>
+            <div class="zxMoreResult" @click="toMovieDetail">查看全部{{movieList.length}}部影视剧</div>
           </div>
           
         </div>
@@ -32,7 +32,7 @@
           <div class="zxResult">
             <h3>影院</h3>
             <CinemaItem v-for="(cinema,index) in cutCinemaSearchList" :key="index" :cinema="cinema"></CinemaItem>
-            <div class="zxMoreResult" @click="">查看全部{{cinemaSearchList.length}}部影视剧</div>
+            <div class="zxMoreResult" @click="toCinemaDetail">查看全部{{cinemaSearchList.length}}家电影院</div>
           </div>
           
         </div>
@@ -42,7 +42,7 @@
         <div>没有找到相关内容</div>
         <p>大家都在搜</p>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -51,22 +51,19 @@ import {mapState} from 'vuex'
 import BScroll from 'better-scroll'
 import CinemaItem from '../../components/CinemaItem/CinemaItem';
 import MovieItem from '../../components/MovieItem';
-import {reqSearchMovie} from '../../api'
+
 
   export default {
     data(){
       return {
         zxInput:'', //输入内容
         inputList: JSON.parse(localStorage.getItem('inputList')) || [], //输入历史
-        movieList: [], //匹配电影列表
+        
         cutMovieList: [], //匹配电影前三
         isShoeSearch: false,//是否显示搜索结果
         cinemaSearchList: [], //匹配影院信息
         cutCinemaSearchList: [], 
       }
-    },
-    mounted(){
-      
     },
     methods:{
       //清除输入
@@ -101,18 +98,29 @@ import {reqSearchMovie} from '../../api'
         this.zxInput = value
         // console.log(this.zxInput);
         
+      },
+      //跳转页面
+      toCinemaDetail(){
+        this.$router.push(`/SearchDetail?keyword=${this.zxInput}&code=0`)
+      },
+      toMovieDetail(){
+        this.$router.push(`/SearchDetail?keyword=${this.zxInput}&code=1`)
       }
+      
     },
     computed:{
       ...mapState({
         cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
+      }),
+      ...mapState({
+        movieList: state => state.search.movieList || [],
       })
     },
     watch:{
       async zxInput(){
         if(this.zxInput.trim()){
           //请求得到影院信息
-          console.log('11111');
+          // console.log('11111');
           this.$store.dispatch('getCinemaListOrigin');
         
         /*
@@ -128,13 +136,12 @@ import {reqSearchMovie} from '../../api'
        
           //请求得到电影信息
           if(true){
-            const result = await reqSearchMovie()
-            if(result.code === 0){
-              this.movieList = result.data.movies.filter((item,index)=> item.nm.includes(this.zxInput))
-              this.cutMovieList = this.movieList.slice(0,3)
-              console.log(this.cutMovieList);
-              this.isShoeSearch = true
-            }
+            this.$store.dispatch('getMovieList',this.zxInput);
+            // const result = await reqSearchMovie()
+            // if(result.code === 0){
+            //   this.movieList = result.data.movies.filter((item,index)=> item.nm.includes(this.zxInput))
+              
+            // }
           }
         }
 
@@ -148,11 +155,18 @@ import {reqSearchMovie} from '../../api'
           this.isShoeSearch = true
         }
       },
+      //筛选得到的电影信息
+      movieList(){
+        this.cutMovieList = this.movieList.slice(0,3)
+        console.log(this.cutMovieList);
+        this.isShoeSearch = true
+      },
       cutMovieList(){
         this.$nextTick(()=>{ 
           if(!this.scroll){
             this.scroll = new BScroll(this.$refs.zxSearchScroll, {
               click: true,
+              bounce: false
             })
           }else{
             this.scroll.refresh()
@@ -171,8 +185,8 @@ import {reqSearchMovie} from '../../api'
 #zxSearchContainer
   background-color #f5f5f5
   width 100%
-  height 667px
-  section 
+  height 617px
+  .section 
     width 100%
     .zxSearchHeader
       width 100%

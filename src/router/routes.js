@@ -21,6 +21,7 @@ import Seats from '../pages/Seats/Seats';
 import Login from '../pages/Login/Login';
 import CardDetail from '../pages/CardDetail/CardDetail'
 import Search from '../pages/Search/Search'
+import SearchDetail from '../pages/SearchDetail/SearchDetail'
 
 
 export default [
@@ -163,6 +164,15 @@ export default [
       isFooter:false,//不需要footer
       title:'猫眼电影',
       isBack:true,//需要返回按钮
+    }
+  },
+  {
+    path:"/searchdetail",
+    component: SearchDetail,
+    meta:{
+      isFooter:false,//不需要footer
+      isBack:true,//需要返回按钮
+      title:' ',
     }
   },
   {
