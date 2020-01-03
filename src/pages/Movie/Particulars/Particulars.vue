@@ -13,7 +13,7 @@
           <div>{{movieInfo.src}}/{{movieInfo.episodeDur}}分钟</div>
           <div class="riqi">{{movieInfo.pubDesc}}</div>
         </div>
-        <span>></span>
+        <span @click="$router.push(`/detail/${movieInfo.id}`)">></span>
     </div>
    </div>
     <div class="lyhTime">
@@ -28,7 +28,9 @@
 
 <script type="text/ecmascript-6">
   import { reqDetail } from "../../../api/index";
+  import {mapState} from 'vuex'
   export default {
+    props:['id'],
     data() {
       return {
         movieInfo:{ 
@@ -98,6 +100,7 @@
       const result = await reqDetail();
       console.log(result);
       if(result.code===0){
+        this.movieInfo = result.data['id'];
         let obj = result.data.find((item,index)=>{
           console.log(item.id,this.$route.params.id)
            return item.id == this.$route.params.id*1
@@ -123,12 +126,13 @@
       height 100%
       background-color #333
       z-index -1
-      display block
+      opacity .8
+      display #333
     .backgroundImg
       position absolute
       width 100%
       height 100%
-      z-index -1
+      z-index -2
       overflow hidden
       background-size cover
       background-repeat no-repeat
