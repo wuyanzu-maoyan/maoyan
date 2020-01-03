@@ -104,7 +104,6 @@ export default [
     component: Personal, //个人中心
     meta:{
       isFooter:true,
-      isBack:true,
       title:'我的'
     }
   },
