@@ -1,6 +1,6 @@
 <template>
   <div class="zxList clearfix" >
-    <div class="zxMovie" v-for="(movie,index) in getMovieList" :key="index">
+    <div class="zxMovie" v-for="(movie,index) in getMovieList" :key="index" @click="$router.push(`/detail/${movie.id}`)">
       <img class="zxMovieImg" :src="movie.img" alt="" >
       <div class="zxMovieInfo">
         <div class="zxNameScore">
@@ -23,11 +23,7 @@
 <script type="text/ecmascript-6">
   export default {
     props:["MovieList"],
-    data(){
-      return{
-        calssArray:['btn0','btn1','btn2','btn3']
-      }
-    },
+    
     computed:{
       getMovieList(){
         this.MovieList.forEach(item => {

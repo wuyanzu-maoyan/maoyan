@@ -5,13 +5,13 @@
         <!-- 搜索框 -->
         <div class="zxInputWrapper"> 
           <div class="zxIco"><i class="iconfont icon-search"></i></div>
-          <input type="text" placeholder="搜影院" v-model="zxInput" @blur="saveInput">
+          <input type="text" :placeholder="isCinema?'搜影院':'搜电影、搜影院'" v-model="zxInput" @blur="saveInput">
           <div class="zxIco"><i class="iconfont icon-guanbi" v-show="zxInput" @click="clear"></i></div>
         </div>
         <div class="zxCancel" @click="cancel">取消</div>
       </div>
       <!-- 搜索历史 -->
-      <div class="zxSearchHistory" v-for="(input,index) in inputList" :key="input.id" v-if="!isShoeSearch">
+      <div class="zxSearchHistory" v-for="(input,index) in getInputList" :key="input.id" v-if="!isShoeSearch && !isShowImg">
         <div class="zxSearchIco"><i class="iconfont icon-shijianzhongbiao"></i></div>
         <span class="zxSearchContent" @click="addInput(input.value)">{{input.value}}</span>
         <div class="zxSearchIco" @click="deleteInput(input.id)"><i class="iconfont icon-guanbi"></i></div>
@@ -19,7 +19,7 @@
       <!-- 搜索成功结果 -->
       <div class="zxSearchResult clearfix" v-if="isShoeSearch">
         <!-- 电影列表 -->
-        <div class="zxResultWrapper" v-if="movieList.length>0">
+        <div class="zxResultWrapper" v-if="movieList.length>0 && !isCinema">
           <div class="zxResult">
             <h3>电影/电视剧/综艺</h3>
             <MovieItem :MovieList="cutMovieList"></MovieItem>
@@ -38,9 +38,13 @@
         </div>
       </div>
       <!-- 搜索失败结果 -->
-      <div class="zxNoResult" style="display:none">
+      <div class="zxNoResult" v-if="!isCinema && isShowImg" >
         <div>没有找到相关内容</div>
         <p>大家都在搜</p>
+      </div>
+      <div v-if="isCinema && isShowImg" class="zxNothing">
+        <img src="../../static/images/nothing.png" alt="">
+        <p>没有找到相关影院</p>
       </div>
     </div>
   </div>
@@ -52,46 +56,70 @@ import BScroll from 'better-scroll'
 import CinemaItem from '../../components/CinemaItem/CinemaItem';
 import MovieItem from '../../components/MovieItem';
 
-
   export default {
     data(){
       return {
         zxInput:'', //输入内容
-        inputList: JSON.parse(localStorage.getItem('inputList')) || [], //输入历史
+        inputListCinema: JSON.parse(localStorage.getItem('inputListCinema')) || [], //输入历史
+        inputListMovie: JSON.parse(localStorage.getItem('inputListMovie')) || [], //输入历史
         
         cutMovieList: [], //匹配电影前三
         isShoeSearch: false,//是否显示搜索结果
         cinemaSearchList: [], //匹配影院信息
         cutCinemaSearchList: [], 
+        isCinema: this.$route.params.isCinema === 'true', //是否从影院进入
+        isShowImg: false //是否显示图标
       }
+    },
+    mounted(){
+      // console.log(this.$route.params.isCinema)
+      console.log(this.isCinema)
     },
     methods:{
       //清除输入
       clear(){
         this.zxInput = ''
         this.isShoeSearch = false
+        this.isShowImg = false
       },
       //取消,返回
       cancel(){
-
+        this.$router.back()
       },
       //失去焦点保存输入
       saveInput(){
         const input = {id:Date.now(),value:this.zxInput}
         if(this.zxInput.trim()) {
-          this.inputList.unshift(input)
-          if(this.inputList.length>3){
-            this.inputList.splice(this.inputList.length-1)
+          
+          if(this.isCinema){
+            this.inputListCinema.unshift(input)
+            if(this.inputListCinema.length>3){
+
+              this.inputListCinema.splice(this.inputListCinema.length-1)
+            }
+            //保存到localStorage中
+            localStorage.setItem('inputListCinema', JSON.stringify(this.inputListCinema))
+          }else{
+            this.inputListMovie.unshift(input)
+            if(this.inputListMovie.length>3){
+              this.inputListMovie.splice(this.inputListMovie.length-1)
+            }
+            //保存到localStorage中
+            localStorage.setItem('inputListMovie', JSON.stringify(this.inputListMovie))
           }
-          //保存到localStorage中
-          localStorage.setItem('inputList', JSON.stringify(this.inputList))
+          
         }
       },
       //点击输入历史列表的X,删除信息
       deleteInput(id){
-        this.inputList.splice(this.inputList.findIndex(item=>item.id === id),1)
-        localStorage.setItem('inputList', JSON.stringify(this.inputList))
-        // localStorage.removeItem()
+        if(this.isCinema){
+          this.inputListCinema.splice(this.inputListCinema.findIndex(item=>item.id === id),1)
+          localStorage.setItem('inputListCinema', JSON.stringify(this.inputListCinema))
+          // localStorage.removeItem()
+        }else{
+          this.inputListMovie.splice(this.inputListMovie.findIndex(item=>item.id === id),1)
+          localStorage.setItem('inputListMovie', JSON.stringify(this.inputListMovie))
+        }
       },
       //点击输入历史.搜索
       addInput(value){
@@ -112,7 +140,16 @@ import MovieItem from '../../components/MovieItem';
       ...mapState({
         cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
         movieList: state => state.search.movieList || [],
-      })
+      }),
+      getInputList(){
+        let inputList = []
+        if(this.isCinema){
+          inputList = this.inputListCinema
+        }else{
+          inputList = this.inputListMovie
+        }
+        return inputList
+      }
     },
     watch:{
       async zxInput(){
@@ -133,7 +170,7 @@ import MovieItem from '../../components/MovieItem';
         */
        
           //请求得到电影信息
-          if(true){
+          if(!this.isCinema){
             this.$store.dispatch('getMovieList',this.zxInput);
             // const result = await reqSearchMovie()
             // if(result.code === 0){
@@ -150,14 +187,26 @@ import MovieItem from '../../components/MovieItem';
           this.cinemaSearchList = this.cinemaListOrigin.filter((item,index)=> item.nm.includes(this.zxInput))
           this.cutCinemaSearchList = this.cinemaSearchList.slice(0,3)
           console.log(this.cutCinemaSearchList);
-          this.isShoeSearch = true
+          if(this.cutCinemaSearchList.length>0){
+            console.log('1111111111')
+            this.isShoeSearch = true
+            this.isShowImg = false
+          }else{
+            this.isShowImg = true
+          }
+          
         }
       },
       //筛选得到的电影信息
       movieList(){
-        this.cutMovieList = this.movieList.slice(0,3)
-        console.log(this.cutMovieList);
-        this.isShoeSearch = true
+        if(this.cinemaListOrigin.length>0){
+          this.cutMovieList = this.movieList.slice(0,3)
+          console.log(this.cutMovieList);
+          this.isShoeSearch = true
+          this.isShowImg = false
+        }else{
+          this.isShowImg = true
+        }
       },
       cutMovieList(){
         this.$nextTick(()=>{ 
@@ -286,4 +335,16 @@ import MovieItem from '../../components/MovieItem';
         padding-left 15px
         background-color #f5f5f5
         border-bottom 1px solid #ddd
+    .zxNothing
+      position absolute
+      left 50%
+      top 50%
+      transform translate(-50%,-50%)
+      img 
+        width 100px
+        margin-left 12px
+        margin-bottom 10px
+      p
+        font-size 16px
+        color #999
 </style>
