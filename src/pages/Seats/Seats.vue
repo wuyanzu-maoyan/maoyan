@@ -117,8 +117,9 @@
     async mounted() {
      
 
-
-      const result = await reqSeats({hall:this.$route.params.id});
+      let hall = this.$route.params.id.substring(0,1);
+      console.log(hall);
+      const result = await reqSeats({hall});
       console.log(result);
       if(result.code===0){
         this.seat = result.data.seatData
