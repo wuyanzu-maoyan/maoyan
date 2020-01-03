@@ -75,7 +75,7 @@ export default [
     },
     children: [
       {
-        path: '/home/now',
+        path: 'now',
         component: Now,
         meta:{
           isFooter:true //需要footer
@@ -96,7 +96,7 @@ export default [
      
   },
   {
-    path:"/Movie/:id",
+    path:"/movie/:id",
     component: Movie,
     
   },
@@ -206,7 +206,7 @@ export default [
     component: CardDetail,
     meta:{
       isBack:true,
-      title:'会员卡详情'
+      noHeader:true
     }
   },
   {

@@ -1,7 +1,9 @@
 <template>
 <div>
   <div class="kjcContainer">
+    
    <div class="kjcCardDetailContainer">
+     <Header title='会员卡详情页'></Header>
     <div class="kjcHeader">
       <div class="kjcContent">
         <div class="kjcInstruction">
@@ -128,7 +130,6 @@ import BScroll from 'better-scroll'
     height calc(100vh - 65px)
     position relative
     .kjcCardDetailContainer
-      padding-top 15px
       width 100%
       position relative
       .kjcItemHeight
@@ -137,7 +138,7 @@ import BScroll from 'better-scroll'
         background-color #F4F4F4
       .kjcCardFooter
         width 100%
-        height 110px
+        height 58.5px
         .kjcFooterContent
           width 100%
           height 58.5px
@@ -266,7 +267,7 @@ import BScroll from 'better-scroll'
         background-size 100% 100%
         background-position cover
         background-repeat no-repeat
-        margin 0 auto
+        margin 15px auto 0
         color #fff
         border-radius 6px
         position relative
