@@ -61,7 +61,7 @@
               >
             </div>
           </div>
-          <mint-button class='zssLoginButton ' @click.prevent="loginByPhone" :class="{enabled:!isRightPhoneZss}">登录</mint-button>
+          <mint-button class='zssLoginButton' :disabled='!isRightPhoneZss' @click.prevent="loginByPhone" :class="{enabled:!isRightPhoneZss}">登录</mint-button>
         </div>
         
       </div>
@@ -192,8 +192,9 @@
         }
         // 
         //发登录的请求
-        this.$store.dispatch('getTokenZss',{phone:phoneZss,code:codeZss})
-          
+        await this.$store.dispatch('getTokenZss',{phone:phoneZss,code:codeZss})
+        this.time = 0;
+        
          
         
       },
@@ -202,7 +203,7 @@
         
         
         
-        this.time = 10;
+        this.time = 60;
         this.timeId = setInterval(() => {
           if(this.time<=0){
             clearInterval(this.timeId);
@@ -216,6 +217,7 @@
         }
         const result = await reqPhoneCode(this.phoneZss);
         const {code,msg} = result;
+        console.log(result);
         if(code===0){
           //发送验证码成功
           Toast({
