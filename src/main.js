@@ -6,7 +6,6 @@ import {VerifySlider} from 'vue-verify-slider';
 import App from './App.vue'
 import 'lib-flexible'
 import store from '@/vuex/store.js'
-import VueBetterScroll from 'better-scroll'
 
 import Header from '@/components/Header/Header.vue'
 
