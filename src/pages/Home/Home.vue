@@ -4,11 +4,11 @@
    <open v-show="!isClose"></open>
   <div class="lyhNav">
     <div class="lyhNavigation">
-      <span class="BJ">北京</span>
+      <span class="BJ"  @click="$router.push('/city')">北京</span>
       <div class="lyhSj"></div>
       <span class="lyhRb " :class="{active:$route.path==='/home/now'}" @click="toNow">正在热播</span>
       <span class="lyhSy"  :class="{active:$route.path==='/home/will'}" @click="toWill">即将上映</span>
-      <div class="lyHiconfont"><i class="iconfont icon-search"></i></div>
+      <div class="lyHiconfont" @click="$router.push(`/search/${false}`)"><i class="iconfont icon-search"></i></div>
      </div>
   </div>
   <router-view></router-view>
