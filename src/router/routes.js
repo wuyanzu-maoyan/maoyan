@@ -48,7 +48,7 @@ export default [
     component:FindPassword,
   },
   {
-    path:'/seats',
+    path:'/seats/:id',
     component:Seats,
     meta:{
       title:'中影星美国际影城（温都水城店）',//传给header组件的title
@@ -75,28 +75,28 @@ export default [
     },
     children: [
       {
-        path: '/home/Now',
+        path: 'now',
         component: Now,
         meta:{
           isFooter:true //需要footer
         },
       },
       {
-        path: '/home/Will',
+        path: '/home/will',
         component: Will,
         meta:{
           isFooter:true //需要footer
         },
       },
       {
-        path:'',
-        redirect:'/home/Now'
+        path:'/',
+        redirect:'/home/now'
       }
     ]
      
   },
   {
-    path:"/Movie",
+    path:"/movie/:id",
     component: Movie,
     
   },
@@ -129,7 +129,8 @@ export default [
     component:Cou, //优惠券
     meta:{
       isBack:true,
-      title:'我的优惠券'
+      title:'我的优惠券',
+      noHeader:true
     }
   },
   {
@@ -157,7 +158,7 @@ export default [
     }
   },
   {
-    path:"/search",
+    path:"/search/:isCinema",
     component: Search,
     meta:{
       isFooter:false,//不需要footer
@@ -188,18 +189,24 @@ export default [
     name: 'detail',
     path:"/detail/:id",
     props: true,
-    component: Detail
+    component: Detail,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:"/app",
-    component: App
+    component: App,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:'/carddetail',
     component: CardDetail,
     meta:{
       isBack:true,
-      title:'会员卡详情'
+      noHeader:true
     }
   },
   {
