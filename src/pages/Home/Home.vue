@@ -4,7 +4,7 @@
    <open v-show="!isClose"></open>
   <div class="lyhNav">
     <div class="lyhNavigation">
-      <span class="BJ"  @click="$router.push('/city')">北京</span>
+      <span class="BJ"  @click="$router.push('/city')">{{recentlyCity[0].name}}</span>
       <div class="lyhSj"></div>
       <span class="lyhRb " :class="{active:$route.path==='/home/now'}" @click="toNow">正在热播</span>
       <span class="lyhSy"  :class="{active:$route.path==='/home/will'}" @click="toWill">即将上映</span>
@@ -18,6 +18,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+ import {mapState} from 'vuex'
  import open from '../../components/Openapp/OpenApp'
  import OpenApp from '../../components/Open/Open'
   export default {
@@ -31,6 +32,11 @@
       return {
         isClose:false
       }
+    },
+    computed: {
+      ...mapState({
+        recentlyCity: state => state.city.recentlyCity
+      })
     },
     components:{
       open,
