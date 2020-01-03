@@ -179,11 +179,17 @@ export default [
     name: 'detail',
     path:"/detail/:id",
     props: true,
-    component: Detail
+    component: Detail,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:"/app",
-    component: App
+    component: App,
+    meta: {
+      noHeader:true
+    }
   },
   {
     path:'/carddetail',
