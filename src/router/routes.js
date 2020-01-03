@@ -129,7 +129,8 @@ export default [
     component:Cou, //优惠券
     meta:{
       isBack:true,
-      title:'我的优惠券'
+      title:'我的优惠券',
+      noHeader:true
     }
   },
   {
