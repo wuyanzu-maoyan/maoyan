@@ -98,6 +98,9 @@ export default [
   {
     path:"/movie/:id",
     component: Movie,
+    meta:{
+      isBack:true
+    }
     
   },
   {

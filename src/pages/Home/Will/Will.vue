@@ -5,7 +5,7 @@
       <span class="lyhLabel">近期最受期待</span>
       <div class="nowContainer1" ref="nowContainer1">
         <div class="lyhHopeful"  >
-            <div class="lyhBox" v-for="(coming,index) in comingList" :key="index">
+            <div class="lyhBox" v-for="(coming,index) in comingList" :key="index" @click="$router.push(`/movie/${coming.id}`)">
               <img :src="coming.img">
               <h3 class="lyhTitle">{{coming.nm}}</h3>
               <p class="lyhTime">{{coming.rt}}</p>
@@ -15,6 +15,7 @@
     </div>
     <will/>
   </div>
+  <!-- <div class="lyhHeight"></div> -->
   </div>
 </template>
 
@@ -43,60 +44,68 @@ export default {
         click: true,
         scrollX: true
     });
-    new BScroll(this.$refs.nowContainer, {
+   this.scroll = new BScroll(this.$refs.nowContainer, {
         click: true,
+        probeType:2
     });
+    this.scroll.on('scroll',(event)=>{
+      let y = event.y
+      if(y <= -100){
+        this.$globalEventBus.$emit('close',true)
+      }else{
+        this.$globalEventBus.$emit('close',false)
+      }
+    })
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-.nowContainer{
-  width 100vw
-  height 100vh
-}
-.lyhBanner 
-  padding: 12px 0 12px 15px;
-  position: relative;
-  .lyhLabel 
-    font-size: 14px;
-    color: #333;
-    position: absolute;
-    top: 10px;
-  
+.nowContainer
+  width 100%
+  height calc(100vh - 200px)
+  .lyhBanner 
+    padding: 12px 0 12px 15px;
+    position: relative;
+    .lyhLabel 
+      font-size: 14px;
+      color: #333;
+      position: absolute;
+      top: 10px;
+    
 
-  .nowContainer1 
-    width 96%
-    overflow hidden
-    margin-top: 15px;
-    display: flex;
-    height 160px
-    .lyhHopeful 
+    .nowContainer1 
+      width 96%
+      overflow hidden
+      margin-top: 15px;
       display: flex;
+      height 160px
+      .lyhHopeful 
+        display: flex;
 
-      .lyhBox 
-        width: 85px;
-        height: 157px;
-        margin-right: 10px;
-
-        img 
+        .lyhBox 
           width: 85px;
-          height: 115px;
-        
+          height: 157px;
+          margin-right: 10px;
 
-        .lyhTitle 
-          width: 85px;
-          height 13px
-          font-size: 13px;
-          color: #222;
-          margin-top: 4px;
-          overflow: hidden;
-        
+          img 
+            width: 85px;
+            height: 115px;
+          
 
-        .lyhTime 
-          font-size: 12px;
-          color: #999;
-          margin-top: 8px;
+          .lyhTitle 
+            width: 85px;
+            height 13px
+            font-size: 13px;
+            color: #222;
+            margin-top: 4px;
+            overflow: hidden;
+          
+
+          .lyhTime 
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
 
 
 </style>
