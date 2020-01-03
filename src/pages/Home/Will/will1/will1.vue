@@ -1,7 +1,8 @@
 <template>
-  <div>
     <div>
       <div>
+        <div class="lyh" v-for="(coming,index) in comingList" :key="index">
+          <!-- <span class="lyhDate">{{coming.comingTitle}}</span> -->
         <span class="lyhDate" v-if="comingList.arr1[0]">{{comingList.arr1[0].comingTitle}}</span>
         <div class="lyh" v-for="(coming1,index1) in comingList.arr1" :key="coming1.id">
           <div class="lyhContent">
