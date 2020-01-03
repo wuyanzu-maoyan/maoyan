@@ -167,7 +167,7 @@
     },
     computed:{
       ...mapState({
-        cinemaDetail: state => state.cinemaDetail.cinemaDetail
+        cinemaDetail: state => state.cinemaDetail.cinemaDetail || {}
       }),
 
     },
