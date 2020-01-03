@@ -1,6 +1,6 @@
 //用户模块
 import {reqLoginByPhone} from '../../api/index';
-import {SAVE_TOKENZSS,SAVE_PHONEZSS} from '../mutation-types';
+import {SAVE_TOKENZSS,SAVE_PHONEZSS,REMOVE_USER_INFO} from '../mutation-types';
 import router from '../../router/index';
 export default {
   state:{
@@ -14,6 +14,10 @@ export default {
     },
     [SAVE_PHONEZSS](state,phone){
       state.phone = phone
+    },
+    [REMOVE_USER_INFO](state){
+      state.token = '',
+      state.phone = ''
     }
   },
   actions:{
@@ -27,6 +31,10 @@ export default {
         commit(SAVE_TOKENZSS,data.token);
         commit(SAVE_PHONEZSS,user.phone);
       }
+    },
+    removeUserInfo({commit}){
+      localStorage.removeItem('token');
+      commit(REMOVE_USER_INFO)
     }
   },
   getters:{

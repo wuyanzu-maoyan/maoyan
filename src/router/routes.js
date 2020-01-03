@@ -89,7 +89,7 @@ export default [
         },
       },
       {
-        path:'',
+        path:'/',
         redirect:'/home/now'
       }
     ]
@@ -98,6 +98,9 @@ export default [
   {
     path:"/movie/:id",
     component: Movie,
+    meta:{
+      isBack:true
+    }
     
   },
   {
@@ -146,7 +149,8 @@ export default [
     component:VipCard, //影院会员卡
     meta:{
       isBack:true,
-      title:'影院会员卡'
+      title:'影院会员卡',
+      noHeader:true
     }
   },
   {
@@ -158,7 +162,7 @@ export default [
     }
   },
   {
-    path:"/search",
+    path:"/search/:isCinema",
     component: Search,
     meta:{
       isFooter:false,//不需要footer

@@ -1,30 +1,30 @@
 <template>
-  <div class="wjVipCard">
-    <div class="wjShow">
-      <img src="../../static/images/wjShow.png" alt="">
-    </div>
-    <div class="wjCardList">
-      <div class="wjCardItem" @click="$router.push('/carddetail')">
-        <div class="kjcContent">
-          <div class="kjcInstruction">
-            <i>?</i>
-            <span>使用说明</span>
-            <span class="kjcCardMark"></span>
-          </div>
-          <div class="kjcCardContent">
-            <img src="http://p0.meituan.net/mmerchant/edff1f324ca98587bedcb47b17415c247610.jpg.webp" alt="">
-            <div class="kjcCardDetail">
-              <div class="kjcCardTitle">耀莱成龙国际影城</div>
-              <div class="kjcCardTime">有效期6个月</div>
+  <div class="wjContainer">
+    <div class="wjVipCard">
+      <Header title="影院会员卡"></Header>
+      <div class="wjShow">
+        <img src="../../static/images/wjShow.png" alt="">
+      </div>
+      <div class="wjCardList">
+        <div class="wjCardItem" @click="$router.push('/carddetail')" v-for="(item,index) in 15" :key="index">
+          <div class="kjcContent">
+            <div class="kjcInstruction">
+              <span class="kjcCardMark">折扣卡</span>
             </div>
-          </div>
-          <div class="kjcCardFooter">
-            <i>!</i>
-            <span>不可充值,不可退换</span>
-            <div class="kjcCardPrice">
-              <img src="http://s0.meituan.net/bs/?f=myfe/canary:/img/membercard/sale-tag.png" alt="">
-              <span class="kjcNewPrice">¥19.9</span>
-              <span class="kjcOldPrice">¥30.0</span>
+            <div class="kjcCardContent">
+              <img src="http://p0.meituan.net/mmerchant/edff1f324ca98587bedcb47b17415c247610.jpg.webp" alt="">
+              <div class="kjcCardDetail">
+                <div class="kjcCardTitle">耀莱成龙国际影城</div>
+                <div class="kjcCardTime">有效期6个月</div>
+              </div>
+            </div>
+            <div class="kjcCardFooter">
+              <i class="iconfont icon-gantanhao-quan"></i>
+              <span>不可充值,不可退换</span>
+              <div class="kjcCardPrice">
+                <span class="kjcNewPrice">促销价:</span>
+                <span class="kjcOldPrice">¥15.90</span>
+              </div>
             </div>
           </div>
         </div>
@@ -34,17 +34,38 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
   export default {
+    mounted() {
+      this.initScroll()
+    },
+    methods: {
+      initScroll(){
+        if (!this.scroll) {
+          this.scroll=new BScroll('.wjContainer',{
+            click:true,
+            bounce:{
+              top:false,
+              bottom:false
+            }
+            })
+          }else{
+          this.scroll.refresh();
+        }
+      }
+    },
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';
+.wjContainer
+  width 100%
+  height 100vh
+  background-color #F4F4F4
   .wjVipCard
-    width 348px
-    height calc(100vh - 50px)
-    background-color #F4F4F4
-    padding 0 13.5px 30px 13.5px
+    width 100%
+    padding-bottom 30px
     .wjShow
       height 200px
       margin 0 -13.5px
@@ -73,23 +94,16 @@
           height 24px
           display flex
           -webkit-tap-highlight-color: rgba(255,255,255,0)
-          i 
-            font-size 12px
-            margin 0 4px 0 0
-            padding 2.5px 0 0
-            width 12px
-            height 14.5
-          span 
-            padding 2.5px 0 0
-            font-size 12px
           .kjcCardMark
-            margin-left 315px
+            margin-left 280px
             background-color rgba(0,0,0,0.08)
-            width 10px
-            height 100%
-            padding 0 
+            width 35px
+            height 18px
+            padding 0 8px
             position absolute 
-            top -5px
+            top -3px
+            font-size 11px
+            color white
         .kjcCardContent
           width 100%
           height calc(100% - 75px)
@@ -133,14 +147,10 @@
             vertical-align middle
             margin-left 6px
           .kjcCardPrice
-            width 135px
+            width 100px
             height 100%
             line-height 38px
             display flex
-            margin-left 60px
-            img 
-              width 59px
-              height 21px
-              margin 9px 2px 0 0
+            padding-left 90px
  
 </style>

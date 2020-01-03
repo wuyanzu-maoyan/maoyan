@@ -5,7 +5,7 @@
         <span>北京</span>
         <i></i>
       </div>
-      <div class="kjcSearchCinema" @click="$router.push('/search')">
+      <div class="kjcSearchCinema" @click="$router.push(`/search/${true}`)">
         <i class="iconfont icon-search"></i>
         <span>搜影院</span>
       </div>
