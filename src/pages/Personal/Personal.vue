@@ -150,5 +150,5 @@
             float right
             margin-right 10px
         .wjDiscountCoupon
-          bottom-border-1px(rgb(204,204,204))   
+          bottom-border-1px(rgb(204,204,204))
 </style>

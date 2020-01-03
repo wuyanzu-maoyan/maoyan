@@ -24,6 +24,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from "better-scroll";
   import {reqDiscount} from '@/api';
   export default {
     async mounted() {
@@ -37,7 +38,7 @@
       return {
         couponList:[]
       }
-    }
+    },
   }
 </script>
 
