@@ -128,7 +128,7 @@
        
       },
     },
-    mounted(){
+    async mounted(){
       this.$globalEventBus.$on('getSearchCondition',(obj)=>{
 
             if(this.isShowType !== 2){
@@ -157,6 +157,11 @@
           this.isShowType = value
       })
       this.$store.dispatch('getFilterCinemas')
+      const result = await reqDetail();
+      console.log(result);
+      if(result.code===0){
+        this.movieInfo = result.data[0];
+      };
     },
     watch:{
       //监视电影院列表的值
@@ -174,13 +179,6 @@
         })
       }
     },
-     async mounted() {
-      const result = await reqDetail();
-      console.log(result);
-      if(result.code===0){
-        this.movieInfo = result.data[0];
-      };
-     }
   }
 </script>
 
