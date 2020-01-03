@@ -191,7 +191,7 @@ export default [
   },
   {
     path:'/',
-    redirect:'/home',
+    redirect:'/carddetail',
   }
   
 ]
