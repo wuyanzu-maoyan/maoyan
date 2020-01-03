@@ -203,6 +203,8 @@
     data(){
       return {
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
+        // smallArr: [],
+        bigArr: [],  //存放星星的数组
       }
     },
     mounted(){
@@ -225,7 +227,7 @@
 
       //计算星星个数
       starts(){
-        let bigArr = []
+        // let bigArr = []
         let smallArr = []
         this.detail.distributions.forEach(movieScore => {
           const score = movieScore.movieScoreLevel.slice(0,1) * 1
@@ -235,11 +237,11 @@
             smallArr.push('<img class="star" src="./images/star.png" alt="">')
           }
           console.log(smallArr);
-          bigArr.push(smallArr)
-          console.log(bigArr);
+          this.bigArr.push(smallArr)
+          console.log(this.bigArr);
           smallArr = []
         });
-        return bigArr
+        return this.bigArr
       }
     },
     methods:{

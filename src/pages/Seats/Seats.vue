@@ -102,6 +102,7 @@
 <script type="text/ecmascript-6">
   import {reqSeats} from '../../api/index';
   import { Toast,MessageBox } from 'mint-ui';
+  import {mapState} from 'vuex';
   export default {
     data() {
       return {
@@ -114,13 +115,20 @@
       }
     },
     async mounted() {
-      const result = await reqSeats({hall:'7号厅'});
+     
+
+      let hall = this.$route.params.id.substring(0,1);
+      console.log(hall);
+      const result = await reqSeats({hall});
       console.log(result);
       if(result.code===0){
         this.seat = result.data.seatData
       }
     },
     computed: {
+      ...mapState({
+        token:state => state.user.token
+      }),
       priceList(){
         let arr = Object.values(this.seat.price['0000000000000001'].seatsPriceDetail);
         arr.forEach((item,index) => {

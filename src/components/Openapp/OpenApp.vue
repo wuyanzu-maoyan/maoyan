@@ -14,13 +14,13 @@
       </div>
     </div>
     <!-- 右下方图标按钮 -->
-    <!-- <div class="open" :style="{display: zyhIsShow ? 'block' : 'none'}"> -->
-    <div class="open" @click="$router.push('/app')">
+    <!-- <div class="open" :style="{display: zyhIsShow ? 'block' : 'none'}">  -->
+     <!-- <div class="open" @click="$router.push('/app')">
       <div class="openBg">
         <img src="./images/logo.png" alt="">
       </div>
       <button>打开APP</button>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -23,7 +23,9 @@
           <i class="iconfont icon-arrow-right-ico"></i>
         </div>
       </div>
+       <mint-button @click="outlog" type="danger" :style="{width:'90%',marginLeft:'5%',marginTop:'5%'}">退出登录</mint-button>
     </div>
+   
   </div>
 </template>
 
@@ -56,6 +58,14 @@
       }),
       
     },
+    methods:{
+      outlog(){
+        MessageBox.confirm('确认退出登录?').then(async action => {
+               await this.$store.dispatch('removeUserInfo')
+                this.$router.replace('/login')
+          });
+      }
+    }
   }
 </script>
 

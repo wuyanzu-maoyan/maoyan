@@ -1,21 +1,40 @@
 <template>
-  <div>
     <div>
       <div>
         <div class="lyh" v-for="(coming,index) in comingList" :key="index">
           <!-- <span class="lyhDate">{{coming.comingTitle}}</span> -->
+        <span class="lyhDate" v-if="comingList.arr1[0]">{{comingList.arr1[0].comingTitle}}</span>
+        <div class="lyh" v-for="(coming1,index1) in comingList.arr1" :key="coming1.id">
           <div class="lyhContent">
-            <img :src="coming.img" alt />
+            <img :src="coming1.img" alt />
             <div class="content">
-              <h2>{{coming.nm}}</h2>
-              <h3>{{coming.wish}}</h3>
+              <h2>{{coming1.nm}}</h2>
+              <h3>{{coming1.wish}}</h3>
               <h4>人想看</h4>
-              <span>{{coming.star}}</span>
-              <p>{{coming.rt}}</p>
+              <span>{{coming1.star}}</span>
+              <p>{{coming1.rt}}</p>
             </div>
             <div class="lyhButton">
               <div class="btn normal">
-                <span class="fix">预售</span>
+                <span class="fix" @click="$router.push(`/movie/${coming1.id}`)">预售</span>
+              </div>
+            </div>
+          </div>
+        </div>
+         <span class="lyhDate" v-if="comingList.arr2[0]">{{comingList.arr2[0].comingTitle}}</span>
+        <div class="lyh" v-for="(coming2,index2) in comingList.arr2" :key="coming2.id">
+          <div class="lyhContent">
+            <img :src="coming2.img" alt />
+            <div class="content">
+              <h2>{{coming2.nm}}</h2>
+              <h3>{{coming2.wish}}</h3>
+              <h4>人想看</h4>
+              <span>{{coming2.star}}</span>
+              <p>{{coming2.rt}}</p>
+            </div>
+            <div class="lyhButton">
+              <div class="btn normal">
+                <span class="fix" @click="$router.push(`/movie/${coming2.id}`)">预售</span>
               </div>
             </div>
           </div>
@@ -31,14 +50,23 @@
     export default {
      data() {
     return {
-      comingList: []
+      comingList: {
+        arr1:[],
+        arr2:[]
+      }
     };
   },
   async mounted() {
     const result = await reqWillMovies();
     console.log(result);
     if (result.code === 0) {
-      this.comingList = result.data.coming;
+     // this.comingList = result.data.coming;
+   this.comingList.arr1 = result.data.coming.filter((item,index)=>{
+       return item.comingTitle.slice(3,5) == '28' 
+     })
+    this.comingList.arr2 = result.data.coming.filter((item,index)=>{
+      return item.comingTitle.slice(3,5) == '31' 
+     })
     }
      
   }

@@ -55,9 +55,18 @@
       };
       if(this.movieList.length>0){
         const wrap = this.$refs.nowContainer;
-        new BScroll(wrap,{
-          click:true
+     this.scroll = new BScroll(wrap,{
+          click:true,
+          probeType:2
         })
+    this.scroll.on('scroll',(event)=>{
+      let y = event.y
+      if(y <= -100){
+        this.$globalEventBus.$emit('close',true)
+      }else{
+        this.$globalEventBus.$emit('close',false)
+      }
+    })
       }
         
       
