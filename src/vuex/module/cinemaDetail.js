@@ -7,18 +7,19 @@ export default {
     cinemaDetail: {} //影院详情的对象
   },
   mutations:{
-    [RECEIVE_CINEMA_DETAIL] (state, cinemaDetail){
-      state.cinemaDetail = cinemaDetail
+    [RECEIVE_CINEMA_DETAIL] (state, obj){
+      state.cinemaDetail = obj
     }
   },
   actions:{
-    async getCinemaDetail({commit}){
+    async getCinemaDetail({commit}, id){
       
       let result = await reqCinemaDetail()
       console.log(result);
       if(result.code === 0){
         const cinemaDetail = result.data
-        commit(RECEIVE_CINEMA_DETAIL, cinemaDetail)
+        let obj = cinemaDetail.find(item => item.cinemaId == id)
+        commit(RECEIVE_CINEMA_DETAIL, obj)
       }
     }
   },

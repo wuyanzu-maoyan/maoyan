@@ -141,6 +141,8 @@
   import {reqCinemaDetail} from '@/api'
   
   export default {
+    name: 'CinemaDetail',
+    props:['id'],
     components:{
       OpenApp,
     },
@@ -152,7 +154,9 @@
       }
     },
     mounted(){
-      this.$store.dispatch('getCinemaDetail')
+      const id = this.id
+      this.$store.dispatch('getCinemaDetail', id)
+
       //竖向滑屏
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.cinema, {
@@ -225,10 +229,16 @@
         font-weight bold
         color #333
         line-height 24px
+        overflow hidden
+        text-overflow hidden 
+        white-space nowrap
       .cinemaAddress
         font-size 13px
         color #999
         line-height 21px
+        overflow hidden
+        text-overflow hidden 
+        white-space nowrap
     .cinameLocation
       width 71px
       height 30px
@@ -476,7 +486,7 @@
  
   .taocanList
     width 100%
-    height 989px
+    // height 989px
     margin-left 15px
     .title 
       height 45px
