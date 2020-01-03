@@ -6,7 +6,7 @@
     <div class="lyhNavigation">
       <span class="BJ">北京</span>
       <div class="lyhSj"></div>
-      <span class="lyhRb"  @click="$router.push('/home/Now')">正在热播</span>
+      <span class="lyhRb abs"  @click="$router.push('/home/Now')">正在热播</span>
       <span class="lyhSy" @click="$router.push('/home/Will')">即将上映</span>
       <div class="lyHiconfont"><i class="iconfont icon-search"></i></div>
      </div>
@@ -23,6 +23,7 @@
   export default {
     data() {
       return {
+        
       }
     },
     components:{
@@ -78,18 +79,14 @@
        font-weight: 700;
        
      }
-     .lyhNav .lyhSy:hover{
-       border-bottom: 1px solid red;
-       color: red;
-     }
      .lyhNav .lyhRb{
        position: absolute;
        right: 180px;
        font-weight: 700;
      }
-     .lyhNav .lyhRb:hover{
-       border-bottom: 1px solid red;
-       color: red;
+     .lyhNav .abs{
+        border-bottom: 1px solid red;
+        color: red;
      }
      /* 导航下的内容区 */
      

@@ -95,7 +95,7 @@ export default [
      
   },
   {
-    path:"/Movie",
+    path:"/Movie/:id",
     component: Movie,
     
   },
