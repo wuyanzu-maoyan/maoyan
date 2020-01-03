@@ -28,7 +28,7 @@
           
         </div>
         <!-- 影院列表 -->
-        <div class="zxResultWrapper">
+        <div class="zxResultWrapper" v-if="cutCinemaSearchList.length>0">
           <div class="zxResult">
             <h3>影院</h3>
             <CinemaItem v-for="(cinema,index) in cutCinemaSearchList" :key="index" :cinema="cinema"></CinemaItem>
@@ -111,8 +111,6 @@ import MovieItem from '../../components/MovieItem';
     computed:{
       ...mapState({
         cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
-      }),
-      ...mapState({
         movieList: state => state.search.movieList || [],
       })
     },

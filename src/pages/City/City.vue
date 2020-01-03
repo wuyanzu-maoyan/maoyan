@@ -164,6 +164,7 @@ import {mapState} from 'vuex'
       //点击城市,添加到最近访问
       checkedCity(item){
         this.$store.dispatch("saveRecentlyCity",item)
+        this.$router.back()
       }
     },
     watch:{ // 使用BScroll添加滑动

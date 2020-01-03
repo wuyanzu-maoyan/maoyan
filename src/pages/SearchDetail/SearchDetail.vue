@@ -1,5 +1,5 @@
 <template>
-  <div ref="zxDetailScroll">
+  <div class="zxSearchDetailWarp" ref="zxDetailScroll">
     <div v-if="$route.query.code == 1">
       <MovieItem :MovieList="movieList"></MovieItem>
     </div>
@@ -22,15 +22,21 @@ import MovieItem from '@/components/MovieItem';
     },
     mounted(){
       this.$store.dispatch('getCinemaListOrigin');
-      console.log(this.$route.query.keyword);
-      console.log(this.$route.query.code);
+      // console.log(this.$route.query.keyword);
+      // console.log(this.$route.query.code);
       this.$store.dispatch('getMovieList',this.$route.query.keyword);
+      if(!this.scroll){
+        this.scroll = new BScroll(this.$refs.zxDetailScroll, {
+          click: true,
+          // bounce: false
+        })
+      }else{
+        this.scroll.refresh()
+      }
     },
     computed:{
       ...mapState({
         cinemaListOrigin: state => state.cinema.cinemaListOrigin || [],
-      }),
-      ...mapState({
         movieList: state => state.search.movieList || [],
       })
     },
@@ -50,6 +56,8 @@ import MovieItem from '@/components/MovieItem';
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-
+.zxSearchDetailWarp
+  width 100%
+  height 617px
  
 </style>

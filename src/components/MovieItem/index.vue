@@ -1,6 +1,6 @@
 <template>
   <div class="zxList clearfix" >
-    <div class="zxMovie" v-for="(movie,index) in MovieList" :key="index">
+    <div class="zxMovie" v-for="(movie,index) in getMovieList" :key="index">
       <img class="zxMovieImg" :src="movie.img" alt="" >
       <div class="zxMovieInfo">
         <div class="zxNameScore">
@@ -13,7 +13,7 @@
             <p>{{movie.cat}}</p>
             <p>{{movie.rt}}</p>
           </div>
-          <div class="zxBuy">ddd</div>
+          <div class="zxBuy" :class="movie.class">{{movie.className}}</div>
         </div>
       </div>
     </div>
@@ -22,7 +22,39 @@
 
 <script type="text/ecmascript-6">
   export default {
-    props:["MovieList"]
+    props:["MovieList"],
+    data(){
+      return{
+        calssArray:['btn0','btn1','btn2','btn3']
+      }
+    },
+    computed:{
+      getMovieList(){
+        this.MovieList.forEach(item => {
+          console.log(item.rt,item.rt.includes('2020'))
+          if(item.rt.includes('2020')){
+            if(item.rt.includes('2020-01-')){
+              if(item.rt.includes('2020-01-01' || '2020-01-02' || '2020-01-03' || '2020-01-04')){
+                item.class = 'btn1' //购票
+                item.className = '购票'
+                return
+              }
+              item.class = 'btn3' //预售
+              item.className = '预售'
+              return
+            }
+            item.class = 'btn2' //想看
+            item.className = '想看'
+          }else if(item.rt.includes('2019-12-')){
+            item.class = 'btn1' //购票
+            item.className = '购票'
+          }else{
+            item.class = 'btn0'
+          }
+        });
+        return this.MovieList
+      }    
+    }
   }
 </script>
 
@@ -94,6 +126,12 @@
           text-align center
           height 27px
           line-height 27px
-
- 
+          &.btn1 //购票
+            background-color #ef4238 
+          &.btn2 //想看
+            background-color #faaf00 
+          &.btn3 //预售
+            background-color #3c9fe6
+          &.btn0 //无
+            display none
 </style>
