@@ -54,64 +54,60 @@ export default {
     }
     const wrap = this.$refs.nowContainer1;
      new BScroll(wrap, {
-       click: true,
-       scrollX:true
+        startX: 0, 
+        click: true,
+        scrollX: true
     });
 
-    this.scroll = new BScroll(this.$refs.nowContainer1)
+    //  this.scroll = new BScroll(this.$refs.nowContainer1)
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-.lyhBanner {
+.lyhBanner 
   padding: 12px 0 12px 15px;
   position: relative;
-
-  .lyhLabel {
+  .lyhLabel 
     font-size: 14px;
     color: #333;
     position: absolute;
     top: 10px;
-  }
+  
 
-  .nowContainer1 {
+  .nowContainer1 
+    width 96%
+    overflow hidden
     margin-top: 15px;
     display: flex;
-    width 100%
     height 160px
-    .lyhHopeful {
-      width: 96%;
-      display: inline-block;
-      overflow: hidden;
+    .lyhHopeful 
       display: flex;
 
-      .lyhBox {
-        width: 80px;
+      .lyhBox 
+        width: 85px;
         height: 157px;
-        margin-right: 15px;
+        margin-right: 10px;
 
-        img {
+        img 
           width: 85px;
           height: 115px;
-        }
+        
 
-        .lyhTitle {
+        .lyhTitle 
           width: 85px;
+          height 13px
           font-size: 13px;
           color: #222;
           margin-top: 4px;
           overflow: hidden;
-        }
+        
 
-        .lyhTime {
+        .lyhTime 
           font-size: 12px;
           color: #999;
           margin-top: 8px;
-        }
-      }
-    }
-  }
+    
 
   .nowContainer {
     width: 100vw;
@@ -122,7 +118,7 @@ export default {
     width: 100vw;
     height: 100vh;
   }
-}
+
 
 .lyhDate {
   padding: 12px 15px 12px;
