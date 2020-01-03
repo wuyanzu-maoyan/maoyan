@@ -2,7 +2,9 @@
   <div id="cinemaDetailContainer">
     <div ref="cinema" style="height: 667px">
       <div class="cinemaScroll">
-        <Header :title="'中影星美国际影城（温都水城店）'"/>
+        <div v-if='cinemaDetail.cinemaData'>
+          <Header :title="cinemaDetail.cinemaData.nm"/>
+        </div>
         <OpenApp/>
         <!-- 头部影院信息 -->
         <div class="cinemaInfo"  >
@@ -17,14 +19,13 @@
         <!-- 电影轮播图 -->
         <div class="moviesSwiper">
           <div class="swiperContainer" ref="movies" >
-            <transition name="fade">
-              <div class="swiperWrapper" v-if='cinemaDetail.showData' :style="`transform:translateX(${MovieX}px)`">
-                <div class="swiperSlide" :class="{selectMovie:MovieIndex===index}" @click="changeMovie(index)"
-                  v-for="(movie,index) in cinemaDetail.showData.movies" :key="index">
-                  <img :src="movie.img" alt="">
-                </div>
+            <div class="bg"></div>
+            <div class="swiperWrapper" v-if='cinemaDetail.showData' :style="`transform:translateX(${MovieX}px)`">
+              <div class="swiperSlide" :class="{selectMovie:MovieIndex===index}" @click="changeMovie(index)"
+                v-for="(movie,index) in cinemaDetail.showData.movies" :key="index">
+                <img :src="movie.img" alt="">
               </div>
-            </transition>
+            </div>
           </div>
           <div v-if='cinemaDetail.showData'>
             <div class="movieInfo" v-show="MovieIndex===index"
@@ -111,7 +112,7 @@
             <div class="taocanItem" v-for="(taocan,index) in cinemaDetail.dealList.dealList" :key="index">
               <div class="img">
                 <img :src="taocan.imageUrl" alt="">
-                <div class="hot" v-if="index===0">HOT</div>
+                <div class="hot" v-if="taocan.cardTag==='HOT'">HOT</div>
               </div>
               <div class="taocanInfo">
                 <div class="top">
@@ -230,14 +231,14 @@
         color #333
         line-height 24px
         overflow hidden
-        text-overflow hidden 
+        text-overflow ellipsis 
         white-space nowrap
       .cinemaAddress
         font-size 13px
         color #999
         line-height 21px
         overflow hidden
-        text-overflow hidden 
+        text-overflow ellipsis 
         white-space nowrap
     .cinameLocation
       width 71px
@@ -263,21 +264,22 @@
       background #8E9BA7
       padding 20px 15px 20px 5px
       box-sizing border-box
-      overflow hidden
+      .bg
+        position absolute
+        left 0
+        top 0
+        width 100%
+        height 100%
       .swiperWrapper
-        width 1670px
+        display flex
+        justify-content flex-start
+        // width 1015px
         height 95px
-        transform translateX(142px)
-        // transition transform .5s
-        &.fade-enter-active,&.fade-leave-active,
-          transition transform .5s
-        &.fade-enter,&.fade-leave-to
-          transform translateX(142px)
+        
         .swiperSlide  
           width 65px
           height 95px
           margin-left 15px
-          float left
           transition transform .5s
           &.selectMovie
             position absolute
@@ -395,7 +397,7 @@
             color #999
             margin-top 10px
         .info
-          width 96px
+          width 97px
           height 42px
           margin-left 17px
           .lang
@@ -422,17 +424,19 @@
               margin-left -5px
           .vipPrice
             display inline-block
-            width 54px
+            width 60px
             height 14px
             border 1px solid #ff9000
             border-radius 2px
             font-size 10px
             line-height 15px
             .vip
+              width 32px
               color #fff
               background #f90
               box-sizing border-box
             .num
+              width 28px
               color #f90
           .vipDesc
             font-size 11px
