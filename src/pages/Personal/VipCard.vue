@@ -4,7 +4,7 @@
       <img src="../../static/images/wjShow.png" alt="">
     </div>
     <div class="wjCardList">
-      <div class="wjCardItem">
+      <div class="wjCardItem" @click="$router.push('/carddetail')">
         <div class="kjcContent">
           <div class="kjcInstruction">
             <i>?</i>

@@ -27,37 +27,37 @@
   </div>
 </template>
 
-// <script type="text/ecmascript-6">
-//   import {reqAutoLogin} from '../../api/index';
-//   import {mapState} from 'vuex';
-//   import { Toast,MessageBox } from 'mint-ui';
-//   export default {
-//     async mounted() {
-//       //发送自动登录请求
-//       if(this.token){
-//         const result = await reqAutoLogin()
-//         console.log(result);
-//         if(result.code===1){
-//           console.log(result.msg);
-//           MessageBox('提示','请求失败请重新登录');
-//           this.$router.replace('/login');
+<script type="text/ecmascript-6">
+  import {reqAutoLogin} from '../../api/index';
+  import {mapState} from 'vuex';
+  import { Toast,MessageBox } from 'mint-ui';
+  export default {
+    async mounted() {
+      //发送自动登录请求
+      if(this.token){
+        const result = await reqAutoLogin()
+        console.log(result);
+        if(result.code===1){
+          console.log(result.msg);
+          MessageBox('提示','请求失败请重新登录');
+          this.$router.replace('/login');
           
-//         }
-//       }else{
-//         MessageBox('提示','没有token请重新登录');
-//         this.$router.replace('/login');
-//       }
+        }
+      }else{
+        MessageBox('提示','没有token请重新登录');
+        this.$router.replace('/login');
+      }
 
       
-//     },
-//     computed: {
-//       ...mapState({
-//         token:state => state.user.token
-//       }),
+    },
+    computed: {
+      ...mapState({
+        token:state => state.user.token
+      }),
       
-//     },
-//   }
-// </script>
+    },
+  }
+</script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';
