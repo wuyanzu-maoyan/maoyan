@@ -43,12 +43,12 @@
                 <img src="./images/logo.png" alt="">
                 <span>实时口碑</span>
               </div>
-              <div class="tRight">
+              <div class="tRight" v-if="detail.distributions.length==5">
                 <span>{{detail.wish}}人想看 </span>
                 <span> {{detail.watched}}人看过</span>
               </div>
             </div>
-            <div class="middle">
+            <div class="middle" v-if="detail.distributions.length==5">
               <div class="mLeft">
                 <span class="score">{{detail.sc}}</span>
                 <span class="peopleGrade">{{detail.snum}}人评</span>
@@ -67,9 +67,14 @@
                 </div>
               </div>
             </div>
-            <div class="bottom">
+            <div class="bottom"  v-if="detail.distributions.length==5">
               <span>NO.1热映口碑榜</span>
             </div>
+            <div v-else class="wish">
+              <span class="score">{{detail.wish}}</span>
+              <span class="want">人想看</span>
+            </div>
+            <p v-else class="bottom">想看人数超越96%的电影</p>
           </div>
           <!-- 活动 -->
           <div class="activity" @click="$router.push('/app')">
@@ -455,7 +460,16 @@
         padding-top 15px
         font-size 12px
         color #ffe4a2
-        
+      .wish
+        position absolute
+        left 50%
+        top 50%
+        transform translate(-50%,-50%)
+        .want
+          font-size 34px
+          color #fff
+          line-height 45px
+
     .activity
       display flex
       justify-content space-between
