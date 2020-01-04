@@ -146,10 +146,10 @@
       }
     },
    async mounted(){
-     this.$store.dispatch('getFilterCinemas')
+       this.$store.dispatch('getFilterCinemas')
     await this.$store.dispatch('getCinemaListOrigin');
        this.$nextTick(()=>{
-          this.initScroll()
+          this.$refs.CinemaSearchType.initScroll()
        })
       // if(this.cinemaListOrigin.length){
       //   this.initScroll()
@@ -201,7 +201,7 @@
       isShowType(value){
         if(value  ==  0 && this.district.name || this.subway.name){
           this.$nextTick(()=>{
-          this.initScroll()
+          this.$refs.CinemaSearchType.initScroll()
           })
         }
       }
