@@ -98,7 +98,7 @@ export default {
 
           .lyhTitle 
             width: 85px;
-            height 13px
+            height 11px
             font-size: 13px;
             color: #222;
             margin-top: 4px;
