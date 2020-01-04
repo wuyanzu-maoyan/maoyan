@@ -3,6 +3,7 @@
     <div ref="movie"  :style="{background:detail.backgroundColor,height: '607px'}">
       <div class="movieScroll">
         <OpenApp/>
+        <Open/>
         <!-- 电影基本信息 -->
         <div class="movieInfo">
           <!-- 返回按钮 -->
@@ -190,7 +191,7 @@
      <!-- 底部分享 购票 -->
     <div class="shareBuy">
       <img src="./images/share.png" alt="" @click="IsShare=true">
-      <button>特惠购票</button>
+      <button @click="$router.push(`/movie/${detail.id}`)">特惠购票</button>
     </div>
     <!-- 点击分享遮罩 -->
     <div class="mask" v-show="IsShare" @click="IsShare=false">
@@ -204,6 +205,7 @@
 
   import BScroll from 'better-scroll'
   import OpenApp from '../../components/Openapp/OpenApp'
+  import Open from '../../components/Open/Open'
   import {mapState} from 'vuex'
   import {reqDetail} from '@/api'
   
@@ -211,7 +213,8 @@
     name: 'm' ,
     props: ['id'],
     components:{
-      OpenApp
+      OpenApp,
+      Open
     },
     data(){
       return {

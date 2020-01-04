@@ -55,6 +55,7 @@
   import {mapState} from 'vuex'
   
   export default {
+    props:['id'],
     data(){
       return{
         isShowType:-1, //0全城 1品牌 2特色
