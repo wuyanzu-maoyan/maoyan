@@ -12,7 +12,7 @@
             <p class="cinemaName">{{cinemaDetail.cinemaData.nm}}</p>
             <p class="cinemaAddress">{{cinemaDetail.cinemaData.addr}}</p>
           </div>
-          <div class="cinameLocation">
+          <div class="cinameLocation" @click="$router.push(`/city`)">
             <img src="./images/addr.png" alt=""/>
           </div>
         </div>
