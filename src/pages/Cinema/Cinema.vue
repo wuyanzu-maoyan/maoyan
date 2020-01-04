@@ -199,15 +199,11 @@
         })
       },
       isShowType(value){
-       // this.$ref.CinemaSearchType
         if(value  ==  0 && this.district.name || this.subway.name){
           this.$nextTick(()=>{
-          this.$refs.CinemaSearchType.initScroll()
+          this.initScroll()
           })
         }
-        // if(value == -1){
-        //   this.$refs.CinemaSearchType.initScroll(true)
-        // }
       }
     },
   }
