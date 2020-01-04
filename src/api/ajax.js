@@ -6,7 +6,7 @@ import router from '../router/index';
 let instance = axios.create({
   baseURL:'/api',
   // baseURL:'http://kangjiachang.utools.club',
-  timeout:20000
+  timeout:60000
 }) 
 
 
