@@ -1,7 +1,7 @@
 <template>
  <div>
    <open v-show="!isClose"></open>
-  <div class="lyhNav" v-if="recentlyCity.length">
+  <div class="lyhNav" v-if="recentlyCity[0]">
     <div class="lyhNavigation" >
       <span class="BJ"  @click="$router.push('/city')">{{recentlyCity[0].name}}</span>
       <div class="lyhSj"></div>
@@ -34,7 +34,7 @@
     },
     computed: {
       ...mapState({
-        recentlyCity: state => state.city.recentlyCity || []
+        recentlyCity: state => state.city.recentlyCity
       })
     },
     components:{
