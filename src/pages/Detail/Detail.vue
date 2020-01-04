@@ -208,7 +208,7 @@
   import {reqDetail} from '@/api'
   
   export default {
-    name: 'Detail',
+    name: 'm' ,
     props: ['id'],
     components:{
       OpenApp
