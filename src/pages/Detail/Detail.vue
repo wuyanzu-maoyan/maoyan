@@ -15,7 +15,7 @@
             </div>
             <div class="movieDesc">
               <div class="movieDescTop">
-                <p class="movieCnName">{{detail.nm}}</p></p>
+                <p class="movieCnName">{{detail.nm}}</p>
                 <p class="movieEnName">{{detail.enm}}</p>
                 <div class="movieOtherInfo">
                   <div class="movieType">
@@ -48,6 +48,7 @@
                 <span> {{detail.watched}}人看过</span>
               </div>
             </div>
+            <!-- 已上映 -->
             <div class="middle" v-if="detail.distributions.length==5">
               <div class="mLeft">
                 <span class="score">{{detail.sc}}</span>
@@ -67,14 +68,18 @@
                 </div>
               </div>
             </div>
-            <div class="bottom"  v-if="detail.distributions.length==5">
-              <span>NO.1热映口碑榜</span>
-            </div>
-            <div v-else class="wish">
+            <!-- 未上映的情况 -->
+            <div class="wish" v-if="detail.distributions.length<5">
               <span class="score">{{detail.wish}}</span>
               <span class="want">人想看</span>
             </div>
-            <p v-else class="bottom">想看人数超越96%的电影</p>
+
+            <div class="bottom"  >
+              <span v-if="detail.distributions.length==5">NO.1热映口碑榜</span>
+              <span v-else>想看人数超越96%的电影</span>
+            </div>
+
+            
           </div>
           <!-- 活动 -->
           <div class="activity" @click="$router.push('/app')">
@@ -185,6 +190,7 @@
       <img src="./images/share.png" alt="" @click="IsShare=true">
       <button>特惠购票</button>
     </div>
+    <!-- 点击分享遮罩 -->
     <div class="mask" v-show="IsShare" @click="IsShare=false">
       <span>点击下方，分享给好友</span>
       <img src="./images/clickShare.png" alt="">
@@ -213,9 +219,9 @@
         bigArr: [],  //存放星星数组的大数组，二维数组，
       }
     },
-  async mounted(){
+    async mounted(){
       const id = this.id
-     await this.$store.dispatch('getDetail', id)
+      await this.$store.dispatch('getDetail', id)
       
       //全屏竖向滑屏
       if (!this.scroll) {
@@ -223,16 +229,10 @@
           click:true,
           bounce:false  //取消弹簧效果
         })
+      }else{
+        this.scroll.refresh()
       }
 
-      //对横向滑动实例化或刷新
-      if (!this.actorScroll || this.videoScroll) {
-        this._initScroll()
-      }else{
-        this.actorScroll.refresh()
-        this.videoScroll.refresh()
-      }
-      
     },
     computed:{
       ...mapState({
@@ -288,7 +288,7 @@
         this.$nextTick(()=>{
           this._initScroll()
         })
-      }
+      },
     }
   }
 </script>
@@ -334,6 +334,9 @@
           font-size 12px
           color rgba(255,255,255,.6)
           line-height 20px
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
           .movieCnName
             font-size 20px
             color #fff
@@ -454,21 +457,31 @@
               color #fff
               opacity .4
 
+      .wish
+        display flex
+        justify-content center
+        padding 20px 0
+        align-items center
+        border-bottom 1px solid rgba(255,255,255,.05)
+        width 319px
+        height 72px
+        margin auto
+        .score
+          font-size 30px
+          color #ffb400
+          line-height 45px
+        .want
+          font-size 26px
+          color #fff
+          line-height 45px
+
       .bottom
         display flex
         justify-content flex-start
         padding-top 15px
         font-size 12px
         color #ffe4a2
-      .wish
-        position absolute
-        left 50%
-        top 50%
-        transform translate(-50%,-50%)
-        .want
-          font-size 34px
-          color #fff
-          line-height 45px
+      
 
     .activity
       display flex
@@ -654,6 +667,7 @@
           width 34px
           height 34px
         .content
+          width 100%
           margin-left 11px
           .top
             .nameBox
