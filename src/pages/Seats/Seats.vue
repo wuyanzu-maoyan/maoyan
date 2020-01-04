@@ -167,6 +167,7 @@
         let hall = this.$route.params.id.substring(0,1)
         
         this.$store.commit('save_seatsnum',{hall,seatsNum:this.seatsNum});
+        Toast('加入订单成功');
       },
       selectSeat(row,colum,rowId,columId,seatType){
         rowId = Number(rowId);
