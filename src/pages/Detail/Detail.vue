@@ -177,8 +177,12 @@
     
      <!-- 底部分享 购票 -->
     <div class="shareBuy">
-      <img src="./images/share.png" alt="">
+      <img src="./images/share.png" alt="" @click="IsShare=true">
       <button>特惠购票</button>
+    </div>
+    <div class="mask" v-show="IsShare" @click="IsShare=false">
+      <span>点击下方，分享给好友</span>
+      <img src="./images/clickShare.png" alt="">
     </div>
   </div>
 </template>
@@ -199,6 +203,7 @@
     data(){
       return {
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
+        IsShare: false,  //标识是否是分享状态，默认false
         smallArr: [],  //存放星星的小数组
         bigArr: [],  //存放星星数组的大数组，二维数组，
       }
@@ -709,7 +714,6 @@
     width 100%
     height 60px
     background #fff
-    // padding 10px 
     box-sizing border-box
     border-top-left-radius 5px
     border-top-right-radius 5px
@@ -730,6 +734,29 @@
       text-align center
       line-height 44px
       margin 0 10px
+
+  .mask
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    background rgba(0,0,0,.8)
+    z-index 3
+    span
+      font-size 15px
+      color #ffffff
+      position fixed
+      left 140px
+      bottom 65px
+    img 
+      position fixed
+      left 185px
+      bottom 10px
+      width 28px
+      height 34px
+      transform rotate(180deg)
+
 
 
 
