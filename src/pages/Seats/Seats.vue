@@ -71,13 +71,6 @@
         <img src="../../static/images/seats/greenseat.png" alt="">
         <span>已选</span>
       </div>
-      <!-- <div class="recommendSeat">
-        <span>推荐座位</span>
-        <div>1人</div>
-        <div>2人</div>
-        <div>3人</div>
-        <div>4人</div>
-      </div> -->
       
       <div class='selectSeatButton'>
         <div class="selectedSeats" v-if="selectedNum>0">
@@ -90,7 +83,7 @@
             </li>
           </ul>
         </div>
-        <!-- <button>{{seat.price.0000000000000001.seatsPrice[selectedNum].totalPrice}}</button> -->
+        
         <button :class='{active:selectedNum>0}' :disabled='selectedNum===0' @click="submitOrder">{{selectedNum>0?`￥${totalPrice}确认选座`:'请先选座'}}</button>
       </div>
       
@@ -115,12 +108,7 @@
       }
     },
     async mounted() {
-      //console.log(this.seatsOrder);
-
       let hall = this.$route.params.id.substring(0,1);
-      
-      
-      
       console.log(hall);
       const result = await reqSeats({hall});
       console.log(result);
@@ -130,17 +118,11 @@
       if(this.seatsOrder[hall]){
         console.log(this.seatsOrder[hall]) ;
         this.seatsOrder[hall].forEach((item,index) => {
-          console.log(item.row,item.colum);
-          
-          if(item.seatType==='L' || item.seatType==='R' ){
-            this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
-            this.selectedNum++
-            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
-            this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
-            return;
-          }
-          this.selectSeat(item.row,item.colum,item.rowId,item.columId,item.seatType)
-          
+          this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
+          this.selectedNum++
+          this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+          this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
+             
         })
       }
       
