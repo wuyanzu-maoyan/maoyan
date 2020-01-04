@@ -1,7 +1,7 @@
 <template>
   <div>
     <open/>
-    <Particulars id=""/>
+    <Particulars/>
     
     <div class="kjcSearchType">
       <div class="kjcAllCity" @click="toggleShow(0)"> 

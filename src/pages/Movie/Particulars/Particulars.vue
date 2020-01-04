@@ -1,8 +1,8 @@
 <template>
   <div>
-      <div class="lyhParticulars">
+    <div class="lyhParticulars" v-if="movieInfo">
       <div class="lyhShade"></div>
-        <div class="backgroundImg"  :style="{backgroundImage:`url(${movieInfo.albumImg})`}"></div>
+        <div class="backgroundImg" :style="{backgroundImage:`url(${movieInfo.albumImg})`}"></div>
           <div class="lyhContentt" >
         <img :src="movieInfo.img">
         <div class="lyhDetails">
@@ -14,17 +14,33 @@
           <div class="riqi">{{movieInfo.pubDesc}}</div>
         </div>
         <span @click="toCinemaDetail">></span>
+      </div>
+  </div>
+  <!-- <div class="lyhParticulars" v-else>
+      <div class="lyhShade"></div>
+        <div class="backgroundImg"  :style="{backgroundImage:`url("http://p1.meituan.net/moviemachine/86cf790dc2e0a280c0c3fbf8f4502acc70103.gif")`}"></div>
+          <div class="lyhContentt" >
+        <img src="http://p1.meituan.net/moviemachine/86cf790dc2e0a280c0c3fbf8f4502acc70103.gif">
+        <div class="lyhDetails">
+          <h2>叶问4：完结篇</h2>
+          <div>葉問4</div>
+          <div class="lyhGrade">{{movieInfo.sc}}<p>(30.2万人ping)</p></div><br>
+          <span>动作/剧情/传记</span><br>
+          <div>中国大陆/107分钟</div>
+          <div class="riqi">2019-12-20大陆上映</div>
+        </div>
+        <span @click="toCinemaDetail">></span>
     </div>
    </div>
-  </div>
+   -->
+   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import { reqDetail } from "../../../api/index";
   import {mapState} from 'vuex'
   export default {
-    props:['id'],
-    data() {
+    data(){
       return {
         movieInfo:{ 
           albumImg: "http://p1.meituan.net/moviemachine/86cf790dc2e0a280c0c3fbf8f4502acc70103.gif",
@@ -86,17 +102,14 @@
           wish: 295118,
           wishst: 0,
           version: ""
-      }
+         }
       }
     },
      async mounted() {
       const result = await reqDetail();
-      console.log(result);
       if(result.code===0){
-        this.movieInfo = result.data['id'];
         let obj = result.data.find((item,index)=>{
-          console.log(item.id,this.$route.params.id)
-           return item.id == this.$route.params.id*1
+           return item.id == this.$route.params.id
         })
         if(obj){
           this.movieInfo = obj

@@ -1,6 +1,6 @@
 <template>
   <div id="detailContainer" >
-    <div ref="movie" style="height: 607px" :style="{background:detail.backgroundColor}">
+    <div ref="movie"  :style="{background:detail.backgroundColor,height: '607px'}">
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -60,7 +60,7 @@
                     <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
                   </div>
                   <div class="bar">
-                    <div class="percent" :style="`width: ${score.proportion}%`"></div>
+                    <div class="percent" :style="{width:score.proportion+'%'}"></div>
                   </div>
                   <div class="percentValue">
                     {{score.proportion}}%
@@ -223,7 +223,6 @@
       const id = this.id
       await this.$store.dispatch('getDetail', id)
       
-
       //全屏竖向滑屏
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.movie, {
