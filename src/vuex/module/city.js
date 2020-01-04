@@ -3,7 +3,7 @@ import {reqCityList} from '@/api'
 export default {
   state:{
     cityList: [], //a-z所有城市列表
-    recentlyCity:JSON.parse(localStorage.getItem('recentlyCity')) || [], //读取localStorage中存储的最近访问城市
+    recentlyCity:JSON.parse(localStorage.getItem('recentlyCity')) || [{code:'010',name:'北京'}], //读取localStorage中存储的最近访问城市
   },
   mutations:{
     [SAVE_CITY_LIST](state,cityList){

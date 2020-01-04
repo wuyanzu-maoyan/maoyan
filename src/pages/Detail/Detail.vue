@@ -1,6 +1,6 @@
 <template>
   <div id="detailContainer" >
-    <div ref="movie" style="height: 607px" :style="{background:detail.backgroundColor}">
+    <div ref="movie"  :style="{background:detail.backgroundColor,height: '607px'}">
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -15,7 +15,7 @@
             </div>
             <div class="movieDesc">
               <div class="movieDescTop">
-                <p class="movieCnName">{{detail.nm}}</p></p>
+                <p class="movieCnName">{{detail.nm}}</p>
                 <p class="movieEnName">{{detail.enm}}</p>
                 <div class="movieOtherInfo">
                   <div class="movieType">
@@ -37,38 +37,50 @@
             </div>
           </div>
           <!-- 中：实时口碑 -->
-          <div class="realTimeWord">
-            <div class="top">
-              <div class="tLeft">
-                <img src="./images/logo.png" alt="">
-                <span>实时口碑</span>
+          <div v-if="detail.distributions">
+            <div class="realTimeWord">
+              <div class="top">
+                <div class="tLeft">
+                  <img src="./images/logo.png" alt="">
+                  <span>实时口碑</span>
+                </div>
+                <div class="tRight" v-if="detail.distributions.length==5">
+                  <span>{{detail.wish}}人想看 </span>
+                  <span> {{detail.watched}}人看过</span>
+                </div>
               </div>
-              <div class="tRight">
-                <span>{{detail.wish}}人想看 </span>
-                <span> {{detail.watched}}人看过</span>
-              </div>
-            </div>
-            <div class="middle">
-              <div class="mLeft">
-                <span class="score">{{detail.sc}}</span>
-                <span class="peopleGrade">{{detail.snum}}人评</span>
-              </div>
-              <div class="mRight" v-if="detail.distributions">
-                <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  <div class="stars">
-                    <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
-                  </div>
-                  <div class="bar">
-                    <div class="percent" :style="`width: ${score.proportion}%`"></div>
-                  </div>
-                  <div class="percentValue">
-                    {{score.proportion}}%
+              <!-- 已上映 -->
+              <div class="middle" v-if="detail.distributions.length==5">
+                <div class="mLeft">
+                  <span class="score">{{detail.sc}}</span>
+                  <span class="peopleGrade">{{detail.snum}}人评</span>
+                </div>
+                <div class="mRight" v-if="detail.distributions">
+                  <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
+                    <div class="stars">
+                      <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
+                    </div>
+                    <div class="bar">
+                      <div class="percent" :style="{width:score.proportion+'%'}"></div>
+                    </div>
+                    <div class="percentValue">
+                      {{score.proportion}}%
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="bottom">
-              <span>NO.1热映口碑榜</span>
+              <!-- 未上映的情况 -->
+              <div class="wish" v-if="detail.distributions.length<5">
+                <span class="score">{{detail.wish}}</span>
+                <span class="want">人想看</span>
+              </div>
+
+              <div class="bottom"  >
+                <span v-if="detail.distributions.length==5">NO.1热映口碑榜</span>
+                <span v-else>想看人数超越96%的电影</span>
+              </div>
+
+              
             </div>
           </div>
           <!-- 活动 -->
@@ -100,16 +112,14 @@
               <span class="left">演职人员</span>
               <span class="right">全部 > </span> 
             </div>
-            <div class="actorList" ref="actor" style="width: 375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.actors">
-                  <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
-                    <img :src="actor.img" alt="">
-                    <span class="name">{{actor.name}}</span>
-                    <span class="role">{{actor.role}}</span>
-                  </li>
-                </ul>
-              </div>
+            <div class="actorList" ref="actor">
+              <ul class="swiperWrapper" v-if="detail.actors">
+                <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
+                  <img :src="actor.img" alt="">
+                  <span class="name">{{actor.name}}</span>
+                  <span class="role">{{actor.role}}</span>
+                </li>
+              </ul>
             </div>
           </div>
           <!-- 视频剧照 -->
@@ -118,18 +128,16 @@
               <span class="left">视频剧照</span>
               <span class="right">全部剧照 > </span> 
             </div>
-            <div class="videosList" ref="video" style="width:375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.photos">
-                  <li class="swiperSlide" @click="toVideo">
-                    <img class="photo" :src="detail.videoImg" alt="">
-                    <img class="videoStop" src="./images/videoStop.png" alt="">
-                  </li>
-                  <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
-                    <img  class="photo" :src="photo" alt="">
-                  </li>
-                </ul>
-              </div>
+            <div class="videosList" ref="video">
+              <ul class="swiperWrapper" v-if="detail.photos">
+                <li class="swiperSlide" @click="toVideo">
+                  <img class="photo" :src="detail.videoImg" alt="">
+                  <img class="videoStop" src="./images/videoStop.png" alt="">
+                </li>
+                <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
+                  <img  class="photo" :src="photo" alt="">
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -181,8 +189,13 @@
     
      <!-- 底部分享 购票 -->
     <div class="shareBuy">
-      <img src="./images/share.png" alt="">
+      <img src="./images/share.png" alt="" @click="IsShare=true">
       <button>特惠购票</button>
+    </div>
+    <!-- 点击分享遮罩 -->
+    <div class="mask" v-show="IsShare" @click="IsShare=false">
+      <span>点击下方，分享给好友</span>
+      <img src="./images/clickShare.png" alt="">
     </div>
   </div>
 </template>
@@ -195,7 +208,7 @@
   import {reqDetail} from '@/api'
   
   export default {
-    name: 'Detail',
+    name: 'm' ,
     props: ['id'],
     components:{
       OpenApp
@@ -203,14 +216,14 @@
     data(){
       return {
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
+        IsShare: false,  //标识是否是分享状态，默认false
         smallArr: [],  //存放星星的小数组
         bigArr: [],  //存放星星数组的大数组，二维数组，
       }
     },
-    mounted(){
+    async mounted(){
       const id = this.id
-      this.$store.dispatch('getDetail', id)
-      
+      await this.$store.dispatch('getDetail', id)
 
       //全屏竖向滑屏
       if (!this.scroll) {
@@ -218,16 +231,10 @@
           click:true,
           bounce:false  //取消弹簧效果
         })
+      }else{
+        this.scroll.refresh()
       }
 
-      //对横向滑动实例化或刷新
-      if (!this.actorScroll || this.videoScroll) {
-        this._initScroll()
-      }else{
-        this.actorScroll.refresh()
-        this.videoScroll.refresh()
-      }
-      
     },
     computed:{
       ...mapState({
@@ -283,7 +290,7 @@
         this.$nextTick(()=>{
           this._initScroll()
         })
-      }
+      },
     }
   }
 </script>
@@ -329,6 +336,9 @@
           font-size 12px
           color rgba(255,255,255,.6)
           line-height 20px
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
           .movieCnName
             font-size 20px
             color #fff
@@ -449,13 +459,32 @@
               color #fff
               opacity .4
 
+      .wish
+        display flex
+        justify-content center
+        padding 20px 0
+        align-items center
+        border-bottom 1px solid rgba(255,255,255,.05)
+        width 319px
+        height 72px
+        margin auto
+        .score
+          font-size 30px
+          color #ffb400
+          line-height 45px
+        .want
+          font-size 26px
+          color #fff
+          line-height 45px
+
       .bottom
         display flex
         justify-content flex-start
         padding-top 15px
         font-size 12px
         color #ffe4a2
-        
+      
+
     .activity
       display flex
       justify-content space-between
@@ -540,12 +569,11 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          // width 2220px
+          width 1230px
           height 147px
           display flex
           justify-content flex-start
           align-items flex-start
-          // overflow-x scroll
           .swiperSlide
             display flex
             flex-shrink 0
@@ -591,7 +619,7 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          // width 3130px
+          width 3100px
           height 98px
           display flex
           justify-content flex-start
@@ -620,7 +648,7 @@
 
   .discussion
     width 100%
-    height 700px
+    // height 700px
     background #fff
     border-top-left-radius 10px
     border-top-right-radius 10px
@@ -641,6 +669,7 @@
           width 34px
           height 34px
         .content
+          width 100%
           margin-left 11px
           .top
             .nameBox
@@ -714,7 +743,6 @@
     width 100%
     height 60px
     background #fff
-    // padding 10px 
     box-sizing border-box
     border-top-left-radius 5px
     border-top-right-radius 5px
@@ -735,6 +763,29 @@
       text-align center
       line-height 44px
       margin 0 10px
+
+  .mask
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    background rgba(0,0,0,.8)
+    z-index 3
+    span
+      font-size 15px
+      color #ffffff
+      position fixed
+      left 140px
+      bottom 65px
+    img 
+      position fixed
+      left 185px
+      bottom 10px
+      width 28px
+      height 34px
+      transform rotate(180deg)
+
 
 
 

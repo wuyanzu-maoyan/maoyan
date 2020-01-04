@@ -82,7 +82,7 @@ export default [
         },
       },
       {
-        path: '/home/will',
+        path: 'will',
         component: Will,
         meta:{
           isFooter:true //需要footer
@@ -97,6 +97,7 @@ export default [
   },
   {
     path:"/movie/:id",
+    name:'movie',
     component: Movie,
     meta:{
       isBack:true

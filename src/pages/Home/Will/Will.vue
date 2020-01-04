@@ -4,12 +4,12 @@
     <div class="lyhBanner">
       <span class="lyhLabel">近期最受期待</span>
       <div class="nowContainer1" ref="nowContainer1">
-        <div class="lyhHopeful"  >
-            <div class="lyhBox" v-for="(coming,index) in comingList" :key="index" @click="$router.push(`/movie/1190122`)">
+        <div class="lyhHopeful" >
+          <router-link class="lyhBox" v-for="(coming,index) in comingList" :key="index" :to="{name:'movie',params:{id: coming.id}}">
               <img :src="coming.img">
               <h3 class="lyhTitle">{{coming.nm}}</h3>
               <p class="lyhTime">{{coming.rt}}</p>
-            </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -39,14 +39,15 @@ export default {
     if (result.code === 0) {
       this.comingList = result.data.coming;
     }
-    const wrap = this.$refs.nowContainer1;
-     new BScroll(wrap, {
+    // const wrap = this.$refs.nowContainer1;
+     new BScroll('.nowContainer1', {
         startX: 0, 
         click: true,
         scrollX: true,
         scrollY: false,
     });
-   this.scroll = new BScroll(this.$refs.nowContainer, {
+    this.$refs.nowContainer
+   this.scroll = new BScroll('.nowContainer', {
         click: true,
         probeType:2
     });

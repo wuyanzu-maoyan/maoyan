@@ -1,9 +1,8 @@
-
 <template>
  <div>
    <open v-show="!isClose"></open>
-  <div class="lyhNav">
-    <div class="lyhNavigation">
+  <div class="lyhNav" v-if="recentlyCity[0]">
+    <div class="lyhNavigation" >
       <span class="BJ"  @click="$router.push('/city')">{{recentlyCity[0].name}}</span>
       <div class="lyhSj"></div>
       <span class="lyhRb " :class="{active:$route.path==='/home/now'}" @click="toNow">正在热播</span>
