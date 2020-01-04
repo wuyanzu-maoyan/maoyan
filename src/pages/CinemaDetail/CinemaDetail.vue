@@ -18,8 +18,7 @@
         </div>
         <!-- 电影轮播图 -->
         <div class="moviesSwiper">
-          <div class="swiperContainer" ref="movies" >
-            <div class="bg"></div>
+          <div class="swiperContainer" ref="movies">
             <div class="swiperWrapper" v-if='cinemaDetail.showData' :style="`transform:translateX(${MovieX}px)`">
               <div class="swiperSlide" :class="{selectMovie:MovieIndex===index}" @click="changeMovie(index)"
                 v-for="(movie,index) in cinemaDetail.showData.movies" :key="index">
@@ -45,16 +44,11 @@
         </div>
         <!-- 电影播出时间导航 -->
         <div class="movieDateNav" v-if="cinemaDetail.showData">
+          <!-- 如果是未上映的电影，默认加‘今天’的时间导航 -->
           <div class="movieDateNavItem" :class="{active:zyhIsActive===0 }" @click="changeActive(0)"
             v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased">
             今天12月28日
           </div>
-          <!-- <div v-if="!cinemaDetail.showData.movies[MovieIndex].globalReleased && cinemaDetail.showData.movies[MovieIndex].shows.length==1">
-            <div class="movieDateNavItem" :class="{active: zyhIsActive===index+1}" @click="changeActive(1)"
-              v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
-              {{date.dateShow}}
-            </div>
-          </div> -->
          
           <div class="movieDateNavItem" :class="{active: zyhIsActive===index}" @click="changeActive(index)"
             v-for="(date,index) in cinemaDetail.showData.movies[MovieIndex].shows" :key="index">
@@ -76,7 +70,7 @@
               v-for="(show,index) in cinemaDetail.showData.movies[MovieIndex].shows[this.zyhIsActive].plist" :key="index">
               <div class="time">
                 <div class="begin">{{show.tm}}</div>
-                <div class="end">{{show.tm}} 散场</div>
+                <div class="end">{{EndTime[index] || show.tm}} 散场</div>
               </div>
               <div class="info">
                 <div class="lang">{{show.lang}} {{show.tp}}</div>
@@ -100,8 +94,9 @@
           <!-- 影片未上映的情况 -->
           <div class="noSeat" v-if="cinemaDetail.showData && !cinemaDetail.showData.movies[MovieIndex].globalReleased">
             <img src="./images/noSeat.png" alt="">
-            <div class="text">影片未上映</div>
-            <div class="dateBtn">点击查看{{cinemaDetail.showData.movies[MovieIndex].shows[0].dateShow}}场次</div>
+            <div class="text">影片未上映  </div>
+            <div class="dateBtn">点击查看{{cinemaDetail.showData.movies[MovieIndex].shows[0].dateShow}}场次
+            </div>
           </div>
         </div>
 
@@ -153,6 +148,7 @@
         zyhIsActive: 0,  //时间导航的切换：默认为0：12月28日  ||  1：12月29日  ||  2：12月30日
         MovieIndex: 0,  //轮播图中当前选中的电影的index，初始为0，默认选中第一个
         MovieX: 0,  //电影轮播图的偏移量
+        EndTime: [] , //包含电影结束时间的数组
       }
     },
     mounted(){
@@ -171,6 +167,29 @@
       ...mapState({
         cinemaDetail: state => state.cinemaDetail.cinemaDetail || {}
       }),
+
+     //电影结束时间的计算
+      endTime(){
+        this.cinemaDetail.showData.movies[this.MovieIndex].shows[this.zyhIsActive].plist.forEach(show=>{
+          let startTimeArr = show.tm.split(':')    //将电影开始时间分割成【小时，分钟】小数组
+          let startTime = startTimeArr[0]*60 + startTimeArr[1]*1   //将时间计算成分钟
+          //求电影结束时间的小数组=电影开始时间+电影时长
+          let EndTimeItem = startTime + this.cinemaDetail.showData.movies[this.MovieIndex].dur    
+          //结束时间拼成数组
+          let EndTimeArr = [Math.floor(EndTimeItem/60)%24, EndTimeItem%60]
+          // console.log(EndTimeArr);
+          //判断时间，
+          if (EndTimeArr[0] <= 9) {
+            EndTimeArr[0] = `0${EndTimeArr[0]}`
+          }
+          if (EndTimeArr[1] < 10) {
+            EndTimeArr[1] = `0${EndTimeArr[1]}`
+          }
+
+          this.EndTime.push(`${EndTimeArr[0]}:${EndTimeArr[1]}`)
+          // console.log(this.EndTime);
+        })
+      },
 
     },
     methods:{
@@ -191,7 +210,6 @@
           this.moviesScroll = new BScroll(this.$refs.movies, {
             click:true,
             scrollX: true,  //允许横向滑屏
-            // bounce:true,  //弹簧效果
           })
         }
       },
@@ -203,7 +221,7 @@
           //电影轮播图的横向滑屏
           this._initMovieScroll()
         })
-      }
+      },
     }
   }
 </script>
@@ -265,16 +283,11 @@
       background #8E9BA7
       padding 20px 15px 20px 5px
       box-sizing border-box
-      .bg
-        position absolute
-        left 0
-        top 0
-        width 100%
-        height 100%
+      overflow hidden
       .swiperWrapper
         display flex
         justify-content flex-start
-        // width 1015px
+        width 880px
         height 95px
         
         .swiperSlide  
@@ -295,7 +308,6 @@
               left 50%
               transform translateX(-50%)
               content ""
-              // border 5px solid #f00
               border 5px solid transparent
               border-top 5px solid #fff
           img 

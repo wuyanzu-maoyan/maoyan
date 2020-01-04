@@ -15,3 +15,4 @@ export const SAVE_CITY_LIST = "save_city_list" //设置保存城市列表
 export const RECEIVE_RECENTLY_CITY = "receive_recently_city" //设置保存最近访问城市列表
 export const SAVE_MOVIE_LIST = "save_movie_list" //设置保存符合搜索条件的电影
 export const REMOVE_USER_INFO = 'remove_user_info' //删除登录信息
+export const SAVE_SEATSNUM = 'save_seatsnum' //删除登录信息

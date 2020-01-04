@@ -1,6 +1,6 @@
 <template>
   <div id="detailContainer" >
-    <div ref="movie" style="height: 607px" >
+    <div ref="movie" style="height: 607px" :style="{background:detail.backgroundColor}">
       <div class="movieScroll">
         <OpenApp/>
         <!-- 电影基本信息 -->
@@ -55,8 +55,8 @@
               </div>
               <div class="mRight" v-if="detail.distributions">
                 <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  <div class="stars" >
-                    <img class="star" src="./images/star.png" alt="" v-for="(star,index) in starts" :key="index">
+                  <div class="stars">
+                    <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
                   </div>
                   <div class="bar">
                     <div class="percent" :style="`width: ${score.proportion}%`"></div>
@@ -100,16 +100,14 @@
               <span class="left">演职人员</span>
               <span class="right">全部 > </span> 
             </div>
-            <div class="actorList" ref="actor" style="width: 375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.actors">
-                  <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
-                    <img :src="actor.img" alt="">
-                    <span class="name">{{actor.name}}</span>
-                    <span class="role">{{actor.role}}</span>
-                  </li>
-                </ul>
-              </div>
+            <div class="actorList" ref="actor">
+              <ul class="swiperWrapper" v-if="detail.actors">
+                <li class="swiperSlide" v-for="(actor,index) in detail.actors" :key="index">
+                  <img :src="actor.img" alt="">
+                  <span class="name">{{actor.name}}</span>
+                  <span class="role">{{actor.role}}</span>
+                </li>
+              </ul>
             </div>
           </div>
           <!-- 视频剧照 -->
@@ -118,18 +116,16 @@
               <span class="left">视频剧照</span>
               <span class="right">全部剧照 > </span> 
             </div>
-            <div class="videosList" ref="video" style="width:375px">
-              <div>
-                <ul class="swiperWrapper" v-if="detail.photos">
-                  <li class="swiperSlide" @click="toVideo">
-                    <img class="photo" :src="detail.videoImg" alt="">
-                    <img class="videoStop" src="./images/videoStop.png" alt="">
-                  </li>
-                  <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
-                    <img  class="photo" :src="photo" alt="">
-                  </li>
-                </ul>
-              </div>
+            <div class="videosList" ref="video">
+              <ul class="swiperWrapper" v-if="detail.photos">
+                <li class="swiperSlide" @click="toVideo">
+                  <img class="photo" :src="detail.videoImg" alt="">
+                  <img class="videoStop" src="./images/videoStop.png" alt="">
+                </li>
+                <li class="swiperSlide" v-for="(photo,index) in detail.photos" :key="index">
+                  <img  class="photo" :src="photo" alt="">
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -181,8 +177,12 @@
     
      <!-- 底部分享 购票 -->
     <div class="shareBuy">
-      <img src="./images/share.png" alt="">
+      <img src="./images/share.png" alt="" @click="IsShare=true">
       <button>特惠购票</button>
+    </div>
+    <div class="mask" v-show="IsShare" @click="IsShare=false">
+      <span>点击下方，分享给好友</span>
+      <img src="./images/clickShare.png" alt="">
     </div>
   </div>
 </template>
@@ -203,8 +203,9 @@
     data(){
       return {
         zyhIsOpen: true, //标识简介内容是否要展开，默认为true，此时是收起状态
-        // smallArr: [],
-        bigArr: [],  //存放星星的数组
+        IsShare: false,  //标识是否是分享状态，默认false
+        smallArr: [],  //存放星星的小数组
+        bigArr: [],  //存放星星数组的大数组，二维数组，
       }
     },
     mounted(){
@@ -219,6 +220,15 @@
           bounce:false  //取消弹簧效果
         })
       }
+
+      //对横向滑动实例化或刷新
+      if (!this.actorScroll || this.videoScroll) {
+        this._initScroll()
+      }else{
+        this.actorScroll.refresh()
+        this.videoScroll.refresh()
+      }
+      
     },
     computed:{
       ...mapState({
@@ -227,19 +237,13 @@
 
       //计算星星个数
       starts(){
-        // let bigArr = []
-        let smallArr = []
         this.detail.distributions.forEach(movieScore => {
           const score = movieScore.movieScoreLevel.slice(0,1) * 1
-          console.log(score);
           for (let index = 0; index < Math.floor(score/2) + 1; index++) {
-            // arr.push('star')
-            smallArr.push('<img class="star" src="./images/star.png" alt="">')
+            this.smallArr.push('star')
           }
-          console.log(smallArr);
-          this.bigArr.push(smallArr)
-          console.log(this.bigArr);
-          smallArr = []
+          this.bigArr.push(this.smallArr)
+          this.smallArr = []
         });
         return this.bigArr
       }
@@ -537,12 +541,11 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          width 2220px
+          width 1230px
           height 147px
           display flex
           justify-content flex-start
           align-items flex-start
-          // overflow-x scroll
           .swiperSlide
             display flex
             flex-shrink 0
@@ -588,7 +591,7 @@
         margin-top 11px
         overflow hidden
         .swiperWrapper
-          width 3130px
+          width 3100px
           height 98px
           display flex
           justify-content flex-start
@@ -617,7 +620,7 @@
 
   .discussion
     width 100%
-    height 700px
+    // height 700px
     background #fff
     border-top-left-radius 10px
     border-top-right-radius 10px
@@ -711,7 +714,6 @@
     width 100%
     height 60px
     background #fff
-    // padding 10px 
     box-sizing border-box
     border-top-left-radius 5px
     border-top-right-radius 5px
@@ -732,6 +734,29 @@
       text-align center
       line-height 44px
       margin 0 10px
+
+  .mask
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    background rgba(0,0,0,.8)
+    z-index 3
+    span
+      font-size 15px
+      color #ffffff
+      position fixed
+      left 140px
+      bottom 65px
+    img 
+      position fixed
+      left 185px
+      bottom 10px
+      width 28px
+      height 34px
+      transform rotate(180deg)
+
 
 
 

@@ -91,7 +91,7 @@
           </ul>
         </div>
         <!-- <button>{{seat.price.0000000000000001.seatsPrice[selectedNum].totalPrice}}</button> -->
-        <button :class='{active:selectedNum>0}'>{{selectedNum>0?`￥${totalPrice}确认选座`:'请先选座'}}</button>
+        <button :class='{active:selectedNum>0}' :disabled='selectedNum===0' @click="submitOrder">{{selectedNum>0?`￥${totalPrice}确认选座`:'请先选座'}}</button>
       </div>
       
     </div>
@@ -110,14 +110,13 @@
         seatType:['empty','optional','optioned','noOption'],//没有座位，可以选的座位（白），自己选的（绿），不能选的（红）
         selectedNum:0,
         totalPrice:0,
-        seatsNum:[],
+        seatsNum:[]
         
       }
     },
     async mounted() {
-     
-
       let hall = this.$route.params.id.substring(0,1);
+      
       console.log(hall);
       const result = await reqSeats({hall});
       console.log(result);
@@ -127,7 +126,8 @@
     },
     computed: {
       ...mapState({
-        token:state => state.user.token
+        token:state => state.user.token,
+        // seatsNum:state => state.order.seatsNumList[this.$route.params.id.substring(0,1)] || []
       }),
       priceList(){
         let arr = Object.values(this.seat.price['0000000000000001'].seatsPriceDetail);
@@ -140,6 +140,13 @@
      
     },
     methods: {
+      submitOrder(){
+        //提交订单时将
+        console.log('111');
+        let hall = this.$route.params.id.substring(0,1)
+        
+        this.$store.commit('save_seatsnum',{hall,seatsNum:this.seatsNum});
+      },
       selectSeat(row,colum,rowId,columId,seatType){
         rowId = Number(rowId);
         columId = Number(columId);

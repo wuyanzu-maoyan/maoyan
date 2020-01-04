@@ -9,6 +9,7 @@ import detail from '@/vuex/module/detail.js'
 import user from '@/vuex/module/user.js'
 import city from '@/vuex/module/city.js'
 import search from '@/vuex/module/search.js'
+import order from '@/vuex/module/order.js'
 
 
 Vue.use(Vuex);
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     detail,
     user,
     city,
-    search
+    search,
+    order
   }
 
 })
