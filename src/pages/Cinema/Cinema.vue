@@ -1,7 +1,7 @@
 <template>
   <div class="kjcCinemaContainer">
       <div class="kjcTopbar">
-      <div class="kjcLocation" v-if="recentlyCity.length" @click="$router.push('/city')">
+      <div class="kjcLocation" v-if="recently0City.length" @click="$router.push('/city')">
         <span>{{recentlyCity[0].name || 北京}}</span>
         <i></i>
       </div>
