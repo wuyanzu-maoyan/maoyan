@@ -5,7 +5,7 @@
           <!-- <span class="lyhDate">{{coming.comingTitle}}</span> -->
         <span class="lyhDate" v-if="comingList.arr1[0]">{{comingList.arr1[0].comingTitle}}</span>
         <div class="lyh" v-for="(coming1,index1) in comingList.arr1" :key="coming1.id">
-          <div class="lyhContent">
+          <div class="lyhContent"  @click="$router.push(`/movie/1190122`)">
             <img :src="coming1.img" alt />
             <div class="content">
               <h2>{{coming1.nm}}</h2>
@@ -16,14 +16,14 @@
             </div>
             <div class="lyhButton">
               <div class="btn normal">
-                <span class="fix" @click="$router.push(`/movie/${coming1.id}`)">预售</span>
+                <span class="fix">预售</span>
               </div>
             </div>
           </div>
         </div>
          <span class="lyhDate" v-if="comingList.arr2[0]">{{comingList.arr2[0].comingTitle}}</span>
         <div class="lyh" v-for="(coming2,index2) in comingList.arr2" :key="coming2.id">
-          <div class="lyhContent">
+          <div class="lyhContent"  @click="$router.push(`/movie/${coming2.id}`)">
             <img :src="coming2.img" alt />
             <div class="content">
               <h2>{{coming2.nm}}</h2>
@@ -34,7 +34,7 @@
             </div>
             <div class="lyhButton">
               <div class="btn normal">
-                <span class="fix" @click="$router.push(`/movie/${coming2.id}`)">预售</span>
+                <span class="fix">预售</span>
               </div>
             </div>
           </div>
@@ -52,8 +52,10 @@
     return {
       comingList: {
         arr1:[],
-        arr2:[]
-      }
+        arr2:[],
+        
+      },
+      id:'1'
     };
   },
   async mounted() {

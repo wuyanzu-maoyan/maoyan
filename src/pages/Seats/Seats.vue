@@ -71,13 +71,6 @@
         <img src="../../static/images/seats/greenseat.png" alt="">
         <span>已选</span>
       </div>
-      <!-- <div class="recommendSeat">
-        <span>推荐座位</span>
-        <div>1人</div>
-        <div>2人</div>
-        <div>3人</div>
-        <div>4人</div>
-      </div> -->
       
       <div class='selectSeatButton'>
         <div class="selectedSeats" v-if="selectedNum>0">
@@ -85,12 +78,12 @@
           <ul>
             <li v-for="(item,index) in priceList" :key="index">
               <!-- {{`${item.seatNum.row}排${item.seatNum.colum}座`}} -->
-              <div class='seatNum'>{{`${item.seatNum.row}排${item.seatNum.colum}座`}}</div>
+              <div class='seatNum'>{{`${item.seatNum.rowId}排${item.seatNum.columId}座`}}</div>
               <div class='price' >{{`￥${item.originPrice}`}}</div>
             </li>
           </ul>
         </div>
-        <!-- <button>{{seat.price.0000000000000001.seatsPrice[selectedNum].totalPrice}}</button> -->
+        
         <button :class='{active:selectedNum>0}' :disabled='selectedNum===0' @click="submitOrder">{{selectedNum>0?`￥${totalPrice}确认选座`:'请先选座'}}</button>
       </div>
       
@@ -110,24 +103,38 @@
         seatType:['empty','optional','optioned','noOption'],//没有座位，可以选的座位（白），自己选的（绿），不能选的（红）
         selectedNum:0,
         totalPrice:0,
-        seatsNum:[]
+        seatsNum:[],
         
       }
     },
     async mounted() {
       let hall = this.$route.params.id.substring(0,1);
-      
       console.log(hall);
       const result = await reqSeats({hall});
       console.log(result);
       if(result.code===0){
         this.seat = result.data.seatData
       }
+      if(this.seatsOrder[hall]){
+        console.log(this.seatsOrder[hall]) ;
+        this.seatsOrder[hall].forEach((item,index) => {
+          this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
+          this.selectedNum++
+          this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+          this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
+             
+        })
+      }
+      
     },
     computed: {
       ...mapState({
         token:state => state.user.token,
-        // seatsNum:state => state.order.seatsNumList[this.$route.params.id.substring(0,1)] || []
+        seatsOrder:state => {
+          //console.log(this.$route.params.id.substring(0,1));
+          return state.order.seatsNumList || {}
+        }
+
       }),
       priceList(){
         let arr = Object.values(this.seat.price['0000000000000001'].seatsPriceDetail);
@@ -146,10 +153,13 @@
         let hall = this.$route.params.id.substring(0,1)
         
         this.$store.commit('save_seatsnum',{hall,seatsNum:this.seatsNum});
+        Toast('加入订单成功');
       },
       selectSeat(row,colum,rowId,columId,seatType){
         rowId = Number(rowId);
         columId = Number(columId);
+        row = Number(row);
+        colum = Number(colum);
         const seatStatus = this.seat.seat.regions[0].rows[row].seats[colum].seatStatus;
         let num = this.selectedNum;
         if(seatStatus === 1){
@@ -165,45 +175,50 @@
             return
           }
           if(seatType==='L'){
+            
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 2;
-            this.addSeat(rowId,columId);
-            this.addSeat(rowId,columId-1);
+            this.addSeat(row,colum,rowId,columId,seatType);
+            this.addSeat(row,colum+1,rowId,columId+1,'R');
+          
+
+            
 
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
           }else if(seatType==='R'){
+            
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 2;
-            this.addSeat(rowId,columId+1);
-            this.addSeat(rowId,columId);
+            this.addSeat(row,colum-1,rowId,columId-1,'L');
+            this.addSeat(row,colum,rowId,columId,seatType);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
           }else{
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 2;
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * num;
-            this.addSeat(rowId,columId);
+            this.addSeat(row,colum,rowId,columId,seatType);
           }
           this.selectedNum = num;
           
         }else if(seatStatus === 2){
-          
+          //取消选座
           if(seatType==='L'){
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.seat.seat.regions[0].rows[row].seats[colum+1].seatStatus = 1;
             this.selectedNum = this.selectedNum-2;
-            this.deleteSeat(rowId,columId);
-            this.deleteSeat(rowId,columId-1);
+            this.deleteSeat(rowId,columId,rowId,columId);
+            this.deleteSeat(rowId,columId-1,rowId,columId);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }else if(seatType==='R'){
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.seat.seat.regions[0].rows[row].seats[colum-1].seatStatus = 1;
             this.selectedNum = this.selectedNum-2;
-            this.deleteSeat(rowId,columId);
-            this.deleteSeat(rowId,columId+1);
+            this.deleteSeat(row,colum,rowId,columId,seatType);
+            this.deleteSeat(row,colum+1,rowId,columId,seatType);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }else{
             this.seat.seat.regions[0].rows[row].seats[colum].seatStatus = 1;
             this.selectedNum--;
-            this.deleteSeat(rowId,columId);
+            this.deleteSeat(row,colum,rowId,columId,seatType);
             this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
           }
           
@@ -211,15 +226,15 @@
         
         
       },
-      addSeat(row,colum){
+      addSeat(row,colum,rowId,columId,seatType){
         
-        this.seatsNum.push({row,colum});
+        this.seatsNum.push({row,colum,rowId,columId,seatType});
       },
-      deleteSeat(row,colum){
+      deleteSeat(row,colum,rowId,columId,seatType){
         
         
         let seatId = this.seatsNum.findIndex(item => {
-          return item.row === row && item.colum === colum;
+          return item.row === row && item.colum === colum ;
         })
         
         

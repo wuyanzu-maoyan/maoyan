@@ -26,7 +26,8 @@ import will from './will1/will1'
 export default {
   data() {
     return {
-      comingList: []
+      comingList: [],
+      
     };
   },
   components:{
@@ -97,7 +98,7 @@ export default {
 
           .lyhTitle 
             width: 85px;
-            height 13px
+            height 11px
             font-size: 13px;
             color: #222;
             margin-top: 4px;

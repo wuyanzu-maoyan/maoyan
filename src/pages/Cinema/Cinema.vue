@@ -1,8 +1,8 @@
 <template>
   <div class="kjcCinemaContainer">
       <div class="kjcTopbar">
-      <div class="kjcLocation" @click="$router.push('/city')">
-        <span>北京</span>
+      <div class="kjcLocation" v-if="recentlyCity.length" @click="$router.push('/city')">
+        <span>{{recentlyCity[0].name || 北京}}</span>
         <i></i>
       </div>
       <div class="kjcSearchCinema" @click="$router.push(`/search/${true}`)">
@@ -91,7 +91,8 @@
         isSubway: state => state.cinema.isSubway,
         district: state => state.cinema.filterCinemas.district || {},
         subway: state => state.cinema.filterCinemas.subway || {},
-        isFirst: state => state.cinema.isFirst
+        isFirst: state => state.cinema.isFirst,
+        recentlyCity:state => state.city.recentlyCity
       }),
       isRed(){
         //计算特色什么时候是红色

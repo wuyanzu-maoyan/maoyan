@@ -6,7 +6,7 @@ import router from '../router/index';
 let instance = axios.create({
   baseURL:'/api',
   // baseURL:'http://kangjiachang.utools.club',
-  timeout:20000
+  timeout:60000
 }) 
 
 
@@ -22,7 +22,7 @@ instance.interceptors.request.use((config)=>{
       //没有token但又需要token的请求
       //此时就不会发请求
    
-      throw new Error('需要token但没有token，请重新登录')
+      throw new Error('请先登录,再执行后续操作')
     }
   }
   // console.log(token);
@@ -53,7 +53,7 @@ instance.interceptors.response.use(
         console.log();
       }
     }else{
-      router.push('/login')
+      router.repalce('/login')
       MessageBox('提示',error.message);
     }
     
