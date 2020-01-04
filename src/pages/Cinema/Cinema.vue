@@ -106,6 +106,9 @@
       }
 
     },
+    beforeDestroy(){
+     
+    },
     methods:{
       initScroll(){
         if(!this.cinemaScroll){
@@ -146,11 +149,12 @@
       }
     },
    async mounted(){
-       this.$store.dispatch('getFilterCinemas')
     await this.$store.dispatch('getCinemaListOrigin');
+    await this.$store.dispatch('getFilterCinemas')
        this.$nextTick(()=>{
           this.$refs.CinemaSearchType.initScroll()
        })
+    
       // if(this.cinemaListOrigin.length){
       //   this.initScroll()
       // }
@@ -202,6 +206,7 @@
         if(value  ==  0 && this.district.name || this.subway.name){
           this.$nextTick(()=>{
           this.$refs.CinemaSearchType.initScroll()
+          this.initScroll()
           })
         }
       }
