@@ -131,11 +131,15 @@
         console.log(this.seatsOrder[hall]) ;
         this.seatsOrder[hall].forEach((item,index) => {
           console.log(item.row,item.colum);
-          this.selectSeat(item.row,item.colum,item.rowId,item.columId,item.seatType)
-          if(item.seatType==='L' || item.seatType==='R' ){
-            index++;
-          }
           
+          if(item.seatType==='L' || item.seatType==='R' ){
+            this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
+            this.selectedNum++
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+            this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
+            return;
+          }
+          this.selectSeat(item.row,item.colum,item.rowId,item.columId,item.seatType)
           
         })
       }
