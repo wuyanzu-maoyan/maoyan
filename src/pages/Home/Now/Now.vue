@@ -82,7 +82,7 @@
 <style scoped>
   .nowContainer{
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 200px);
   }
 
   .lyhContent{
@@ -128,6 +128,8 @@
       
       }
     .lyhContent .content span{
+      width: 100px;
+      overflow: hidden;
       font-size: 13px;
       color: #666;
     }
