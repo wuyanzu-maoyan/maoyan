@@ -16,7 +16,7 @@
             </div>
             <div class="lyhButton">
               <div class="btn normal">
-                <span class="fix" @click="$router.push(`/movie/${coming1.id}`)">预售</span>
+                <span class="fix" @click="$router.push(`/movie/1190122`)">预售</span>
               </div>
             </div>
           </div>
@@ -52,8 +52,10 @@
     return {
       comingList: {
         arr1:[],
-        arr2:[]
-      }
+        arr2:[],
+        
+      },
+      id:'1'
     };
   },
   async mounted() {

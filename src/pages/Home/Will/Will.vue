@@ -5,7 +5,7 @@
       <span class="lyhLabel">近期最受期待</span>
       <div class="nowContainer1" ref="nowContainer1">
         <div class="lyhHopeful"  >
-            <div class="lyhBox" v-for="(coming,index) in comingList" :key="index" @click="$router.push(`/movie/${coming.id}`)">
+            <div class="lyhBox" v-for="(coming,index) in comingList" :key="index" @click="$router.push(`/movie/1190122`)">
               <img :src="coming.img">
               <h3 class="lyhTitle">{{coming.nm}}</h3>
               <p class="lyhTime">{{coming.rt}}</p>
@@ -26,7 +26,8 @@ import will from './will1/will1'
 export default {
   data() {
     return {
-      comingList: []
+      comingList: [],
+      
     };
   },
   components:{
