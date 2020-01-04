@@ -37,49 +37,51 @@
             </div>
           </div>
           <!-- 中：实时口碑 -->
-          <div class="realTimeWord">
-            <div class="top">
-              <div class="tLeft">
-                <img src="./images/logo.png" alt="">
-                <span>实时口碑</span>
+          <div v-if="detail.distributions">
+            <div class="realTimeWord">
+              <div class="top">
+                <div class="tLeft">
+                  <img src="./images/logo.png" alt="">
+                  <span>实时口碑</span>
+                </div>
+                <div class="tRight" v-if="detail.distributions.length==5">
+                  <span>{{detail.wish}}人想看 </span>
+                  <span> {{detail.watched}}人看过</span>
+                </div>
               </div>
-              <div class="tRight" v-if="detail.distributions.length==5">
-                <span>{{detail.wish}}人想看 </span>
-                <span> {{detail.watched}}人看过</span>
-              </div>
-            </div>
-            <!-- 已上映 -->
-            <div class="middle" v-if="detail.distributions.length==5">
-              <div class="mLeft">
-                <span class="score">{{detail.sc}}</span>
-                <span class="peopleGrade">{{detail.snum}}人评</span>
-              </div>
-              <div class="mRight" v-if="detail.distributions">
-                <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
-                  <div class="stars">
-                    <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
-                  </div>
-                  <div class="bar">
-                    <div class="percent" :style="{width:score.proportion+'%'}"></div>
-                  </div>
-                  <div class="percentValue">
-                    {{score.proportion}}%
+              <!-- 已上映 -->
+              <div class="middle" v-if="detail.distributions.length==5">
+                <div class="mLeft">
+                  <span class="score">{{detail.sc}}</span>
+                  <span class="peopleGrade">{{detail.snum}}人评</span>
+                </div>
+                <div class="mRight" v-if="detail.distributions">
+                  <div class="starsPercent" v-for="(score,index) in detail.distributions" :key="index">
+                    <div class="stars">
+                      <img class="star" src="./images/star.png" alt=""  v-for="(item,index) in bigArr[index]" :key="index">
+                    </div>
+                    <div class="bar">
+                      <div class="percent" :style="{width:score.proportion+'%'}"></div>
+                    </div>
+                    <div class="percentValue">
+                      {{score.proportion}}%
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- 未上映的情况 -->
-            <div class="wish" v-if="detail.distributions.length<5">
-              <span class="score">{{detail.wish}}</span>
-              <span class="want">人想看</span>
-            </div>
+              <!-- 未上映的情况 -->
+              <div class="wish" v-if="detail.distributions.length<5">
+                <span class="score">{{detail.wish}}</span>
+                <span class="want">人想看</span>
+              </div>
 
-            <div class="bottom"  >
-              <span v-if="detail.distributions.length==5">NO.1热映口碑榜</span>
-              <span v-else>想看人数超越96%的电影</span>
-            </div>
+              <div class="bottom"  >
+                <span v-if="detail.distributions.length==5">NO.1热映口碑榜</span>
+                <span v-else>想看人数超越96%的电影</span>
+              </div>
 
-            
+              
+            </div>
           </div>
           <!-- 活动 -->
           <div class="activity" @click="$router.push('/app')">
@@ -222,7 +224,7 @@
     async mounted(){
       const id = this.id
       await this.$store.dispatch('getDetail', id)
-      
+
       //全屏竖向滑屏
       if (!this.scroll) {
         this.scroll = new BScroll(this.$refs.movie, {

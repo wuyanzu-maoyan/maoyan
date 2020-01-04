@@ -152,9 +152,9 @@
         EndTime: [] , //包含电影结束时间的数组
       }
     },
-    mounted(){
+    async mounted(){
       const id = this.id
-      this.$store.dispatch('getCinemaDetail', id)
+      await this.$store.dispatch('getCinemaDetail', id)
 
       //竖向滑屏
       if (!this.scroll) {
