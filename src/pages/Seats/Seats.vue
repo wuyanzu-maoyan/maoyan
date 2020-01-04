@@ -108,23 +108,30 @@
       }
     },
     async mounted() {
+      
+      
       let hall = this.$route.params.id.substring(0,1);
       console.log(hall);
       const result = await reqSeats({hall});
       console.log(result);
       if(result.code===0){
-        this.seat = result.data.seatData
+        this.seat = result.data.seatData;
+        if(this.seat.reminder.defaultReminder){
+          Toast(this.seat.reminder.defaultReminder);
+        }
+        
+        if(this.seatsOrder[hall]){
+          console.log(this.seatsOrder[hall]) ;
+          this.seatsOrder[hall].forEach((item,index) => {
+            this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
+            this.selectedNum++
+            this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
+            this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
+              
+          })
+        }
       }
-      if(this.seatsOrder[hall]){
-        console.log(this.seatsOrder[hall]) ;
-        this.seatsOrder[hall].forEach((item,index) => {
-          this.seat.seat.regions[0].rows[item.row].seats[item.colum].seatStatus = 2;
-          this.selectedNum++
-          this.totalPrice = this.seat.price['0000000000000001'].seatsPriceDetail[1].originPrice * this.selectedNum;
-          this.addSeat(item.row,item.colum,item.rowId,item.columId,item.seatType);
-             
-        })
-      }
+      
       
     },
     computed: {
