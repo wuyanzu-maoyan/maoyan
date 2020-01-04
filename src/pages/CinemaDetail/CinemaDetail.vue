@@ -70,6 +70,7 @@
               v-for="(show,index) in cinemaDetail.showData.movies[MovieIndex].shows[this.zyhIsActive].plist" :key="index">
               <div class="time">
                 <div class="begin">{{show.tm}}</div>
+                <!-- <div class="end">{{EndTime[index]}} 散场</div> -->
                 <div class="end">{{EndTime[index] || show.tm}} 散场</div>
               </div>
               <div class="info">
@@ -162,6 +163,10 @@
           bounce:false,  //取消弹簧效果
         })
       }
+      this.endTime
+    },
+    updated(){
+      this.endTime
     },
     computed:{
       ...mapState({
@@ -170,8 +175,9 @@
 
      //电影结束时间的计算
       endTime(){
-        this.cinemaDetail.showData.movies[this.MovieIndex].shows[this.zyhIsActive].plist.forEach(show=>{
-          let startTimeArr = show.tm.split(':')    //将电影开始时间分割成【小时，分钟】小数组
+        this.EndTime = []
+        this.cinemaDetail.showData.movies[this.MovieIndex].shows[this.zyhIsActive].plist.forEach(movie => {
+          let startTimeArr = movie.tm.split(':')    //将电影开始时间分割成【小时，分钟】小数组
           let startTime = startTimeArr[0]*60 + startTimeArr[1]*1   //将时间计算成分钟
           //求电影结束时间的小数组=电影开始时间+电影时长
           let EndTimeItem = startTime + this.cinemaDetail.showData.movies[this.MovieIndex].dur    
@@ -189,6 +195,8 @@
           this.EndTime.push(`${EndTimeArr[0]}:${EndTimeArr[1]}`)
           // console.log(this.EndTime);
         })
+          
+        return this.EndTime
       },
 
     },
@@ -352,7 +360,8 @@
     justify-content flex-start
     .movieDateNavItem
       width 33%
-      max-width 95px
+      max-width 90px
+      // min-width 33%
       height 100%
       margin 0 15px
       font-size 14px 
