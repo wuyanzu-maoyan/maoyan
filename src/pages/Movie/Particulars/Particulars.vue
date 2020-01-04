@@ -155,10 +155,7 @@
       height 100%
       z-index -2
       overflow hidden
-      background-size cover
-      background-repeat no-repeat
       background-image url("../img/1.jpg")
-      opacity .55
     .lyhContentt
       height 150px
       padding 19px 30px 19px 15px
