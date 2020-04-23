@@ -7,8 +7,7 @@
     <div class="zssLoginInner">
       <!-- 错误提示 -->
       <div class='zssErrorTip' v-show="zssErrorTip">
-        <span >{{zssErrorTip}}<a href="" @click.prevent="$router.push('/findpassword')">找回密码</a>？
-        </span>
+        <span>{{zssErrorTip}}</span>
       </div>
       <!-- 登录的头部：登录方式切换 -->
       <div class="zssLoginHeader">
@@ -88,7 +87,7 @@
 
 <script type="text/ecmascript-6">
   import { Toast,MessageBox } from 'mint-ui';
-  import {reqPhoneCode,reqLoginByPhone,reqAutoLogin} from '../../api/index';
+  import {reqPhoneCode,reqLoginByPhone,reqAutoLogin,reqLoginByUsername} from '../../api/index';
   import {mapState} from 'vuex';
   export default {
     async mounted() {
@@ -133,21 +132,21 @@
         }, 1000);  
         //发送登录请求
         const {usernameZss,pwdZss} = this;
-        const result = await reqLogin({phone:usernameZss,password:pwdZss});
+        const result = await reqLoginByUsername({phone:usernameZss,password:pwdZss});
         console.log(result);
         const {code,msg,data} = result;
-        
         if(code===0 ){
           //登录成功，跳转个人中心
-          console.log('123');
-          this.$router.replace('/personal');
-          
+          this.$store.dispatch('getTokenZss',data)
+          this.$router.replace('/personal');  
+        }else{
+          this.zssErrorTip = msg;
         }
       },
       //用户名密码登录
       async loginByUsernameZss(){
 
-        const {usernameZss,pwdZss,errorsZss} = this;
+        const {usernameZss,pwdZss} = this;
         
         if(!usernameZss){
           Toast({
@@ -168,7 +167,7 @@
         const success = await this.$validator.validateAll(['usernameZss','pwdZss']);
         
         if(!success){
-          this.zssErrorTip = '账号或密码错误，是否';
+          this.zssErrorTip = '账号或密码错误';
           return
         }
         this.isShowSilderZss = true;
@@ -190,19 +189,19 @@
           });
           return
         }
-        // 
         //发登录的请求
-        await this.$store.dispatch('getTokenZss',{phone:phoneZss,code:codeZss})
-        this.time = 0;
-        
-         
-        
+        const result = await reqLoginByPhone({phone:phoneZss,code:codeZss});
+        let {code,data,msg} = result;
+        if(code===0){
+          this.$router.replace('/personal');
+          await this.$store.dispatch('getTokenZss',data)
+        }else{
+          this.zssErrorTip = msg;
+        }
+        this.time = 0; 
       },
       //发送验证码
-      async sendCodeZss(){
-        
-        
-        
+      async sendCodeZss(){  
         this.time = 60;
         this.timeId = setInterval(() => {
           if(this.time<=0){
@@ -211,7 +210,6 @@
           this.time--;
         }, 1000);
         const success = await this.$validator.validateAll(['phoneZss','codeZss']);
-        
         if(!success){
           MessageBox('提示','手机号不正确');
         }
@@ -227,7 +225,7 @@
           });
         }else{
           this.time = 0;
-          MessageBox('提示','验证码发送失败');
+          this.zssErrorTip = msg;
           
         }
       }

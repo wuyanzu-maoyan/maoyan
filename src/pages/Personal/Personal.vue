@@ -38,15 +38,16 @@
       //发送自动登录请求
       if(this.token){
         const result = await reqAutoLogin()
-        console.log(result);
         if(result.code===1){
-          console.log(result.msg);
-          MessageBox('提示','请求失败请重新登录');
+          MessageBox('提示','请重新登录');
+          // MessageBox(result.msg);//token过期
           this.$router.replace('/login');
-          
+        }else{
+          this.$store.dispatch('getTokenZss',result.data)
         }
       }else{
-        MessageBox('提示','没有token请重新登录');
+        MessageBox('提示','请重新登录');
+        // MessageBox('提示','没有token请重新登录');
         this.$router.replace('/login');
       }
 

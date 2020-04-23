@@ -1,12 +1,10 @@
 //用户模块
-import {reqLoginByPhone} from '../../api/index';
+import Cookies from 'js-cookie'
 import {SAVE_TOKENZSS,SAVE_PHONEZSS,REMOVE_USER_INFO} from '../mutation-types';
-import router from '../../router/index';
 export default {
   state:{
-    token:localStorage.getItem('token') || '',
+    token:document.cookie.split('=')[1] || '',
     phone:'',
-
   },
   mutations:{
     [SAVE_TOKENZSS](state,token){
@@ -22,18 +20,12 @@ export default {
   },
   actions:{
     async getTokenZss({commit},user){
-      const result = await reqLoginByPhone(user);
-      const {code,data,msg} = result;
-      console.log(result);
-      if(code===0){
-        router.replace('/personal');
-        localStorage.setItem('token',data.token);
-        commit(SAVE_TOKENZSS,data.token);
-        commit(SAVE_PHONEZSS,user.phone);
-      }
+      let token = Cookies.get('zss_token')
+      commit(SAVE_TOKENZSS,token);
+      commit(SAVE_PHONEZSS,user.phone);
     },
     removeUserInfo({commit}){
-      localStorage.removeItem('token');
+      Cookies.remove('zss_token')
       commit(REMOVE_USER_INFO)
     }
   },

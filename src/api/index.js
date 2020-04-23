@@ -27,13 +27,22 @@ export const reqCinemaDetail = ()=>ajax.get('/getCinemaDetail')
 export const reqDetail = ()=>ajax.get('/getDetail')
 
 //获取验证码
-export const reqPhoneCode = (phone) => ajax.get('/sendcode',{params:{phone}})
+export const reqPhoneCode = (phone) => ajax.post('/send_code',{phone})
 
 //用户名密码请求登录
-export const reqLoginByUsername = (data) =>ajax.post('/login_maoyan',data)
+export const reqLoginByUsername = (data) =>ajax.post('/login_pwd',data)
 
 //手机号验证码登录
-export const reqLoginByPhone = (data) => ajax.post('/login_sms',data)
+export const reqLoginByPhone = (data) => ajax.post('/login_code',data)
+
+//注册发送验证码
+export const reqRegister = (phone) => ajax.post('/register',{phone})
+
+//校验验证码
+export const reqCheckCode = (phone,code) => ajax.post('/checkout',{phone,code})
+
+//注册设置密码
+export const setPassword = (phone,password) => ajax.post("/set_password",{phone,password})
 
 //自动登录
 export const reqAutoLogin = () => ajax.get('/auto_login')

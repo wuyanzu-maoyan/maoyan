@@ -53,7 +53,7 @@ instance.interceptors.response.use(
         console.log();
       }
     }else{
-      router.repalce('/login')
+      router.replace('/login')
       MessageBox('提示',error.message);
     }
     

@@ -1,7 +1,10 @@
 <template>
   <div class="app">
     <Header :title="$route.meta.title || '猫眼电影'" v-if="!$route.meta.noHeader"></Header>
-    <router-view></router-view>
+    <keep-alive include="CinemaDetail">
+      <router-view></router-view>
+    </keep-alive>
+    
     <FooterNav></FooterNav>
   </div>
 </template>
