@@ -15,7 +15,7 @@
     "date-fns": "^2.8.1",
     "js-cookie": "^2.2.1",
     "lib-flexible": "^0.3.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mint-ui": "^2.2.13",
     "path": "^0.12.7",
     "postcss-px2rem": "^0.3.0",
